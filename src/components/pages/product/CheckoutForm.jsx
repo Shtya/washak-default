@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Title from '../../atoms/Title';
 
 export const CheckoutForm = ({ checkoutFields, register, errors, className, title }) => {
-  console.log(title)
+
   return (
     <motion.form
       initial={{ opacity: 0, height: 0 }}

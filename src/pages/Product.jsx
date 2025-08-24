@@ -16,6 +16,7 @@ import { CheckoutForm } from '../components/pages/product/CheckoutForm';
 import { BuyNowSection } from '../components/pages/product/BuyNowSection';
 import { FrequentlyBoughtTogether } from '../components/pages/product/FrequentlyBoughtTogether';
 import { useProduct } from '../hooks/Product/useProduct';
+import { getFullPath } from '../helper/getFullPath';
 
 export default function Product() {
   const { breadcrumbRoutes,
@@ -126,7 +127,7 @@ export default function Product() {
               const selectedOptions = getValues('options') || [];
               // Remove any existing option for this variant
               const newOptions = selectedOptions.filter(opt => !opt.startsWith(`${variantId}_`));
-              console.log("newOptions", newOptions)
+
               // Add the new one if valid
               if (optionId !== null && optionId !== undefined && optionId !== '') {
                 newOptions.push(`${variantId}_${optionId}`);
@@ -184,7 +185,7 @@ export const Categories = ({ categories }) =>
   categories?.length > 0 && (
     <div className='flex flex-wrap gap-2 items-center' data-aos='fade-up' data-aos-delay='100'>
       {categories.map(category => (
-        <Link to={`/${category.slug}`} key={category.id} className='bg-[var(--second)] text-white text-xs  px-3 py-1 rounded-full shadow-sm hover:opacity-90 transition'>
+        <Link to={getFullPath("category/", category.slug)} key={category.id} className='bg-[var(--second)] text-white text-xs  px-3 py-1 rounded-full shadow-sm hover:opacity-90 transition'>
           {category.name}
         </Link>
       ))}
@@ -221,6 +222,7 @@ export const LiveVariantPrice = ({ loading, price, comparePrice, quantity = 1 })
     return (
       <div
         aria-live="polite"
+        data-aos='fade-up'
         className="mt-3 flex items-center gap-2 bg-amber-50 text-amber-800 px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm"
       >
         <span className="animate-spin border-2 border-amber-400 border-t-transparent rounded-full w-4 h-4" />
@@ -273,6 +275,7 @@ export const LiveVariantPrice = ({ loading, price, comparePrice, quantity = 1 })
 ====================== */
 export const ProductHeader = ({ isEnabled, text }) => (
   isEnabled ? <div
+    data-aos='fade-up'
     className="text-green-600 text-sm font-medium my-2"
     dangerouslySetInnerHTML={{ __html: text }}
   /> : null
