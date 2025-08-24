@@ -70,7 +70,7 @@ export function useProductsWithCategories() {
     return result;
   }, [categoriesData]);
 
-  console.log(storedProducts?.data?.data)
+  
   // products
   const products = useMemo(() => {
     
