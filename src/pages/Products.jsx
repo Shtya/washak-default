@@ -26,10 +26,9 @@ export default function Products() {
     currentPage,
     currentCategory,
     categories,
-    products,
     productsError,
     refetchProducts,
-    filteredData,
+    products,
     pageCount,
     productsLoading,
     categoriesLoading,
@@ -38,8 +37,13 @@ export default function Products() {
     setPage,
     setCategory,
   } = useProductsWithCategories();
+
+
+
+  const PproductsStatusCode = productsError?.statusCode;
   const currentCategoryLabel = categories.find(cat => cat.slug === currentCategory)?.label;
-  if (productsError || categoriesError) {
+
+  if ((productsError && PproductsStatusCode != 404) || categoriesError) {
     return <ErrorDisplay
       error={productsError}
       onRetry={refetchProducts}
@@ -96,11 +100,11 @@ export default function Products() {
               ? Array(12)
                 .fill(0)
                 .map((_, i) => <ProductSkeleton key={i} />)
-              : filteredData.map((p, index) => (
+              : products?.map((p, index) => (
                 <PaginatedProductCard key={p.id} index={index} product={p} />
               ))}
 
-            {filteredData.length === 0 && !productsLoading && !productsError && <EmptyState className='mx-auto col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4' />}
+            {products?.length === 0 && !productsLoading && <EmptyState className='mx-auto col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4' />}
           </div>
 
           <Pagination

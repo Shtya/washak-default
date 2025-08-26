@@ -11,6 +11,12 @@ export const BaseUrl =
 export const baseImage =
   process.env.REACT_APP_BASE_IMAGE || 'https://cdn.washak.net/';
 
+export const pullZoneUrl =
+  process.env.REACT_APP_BUNNY_PULL_ZONE_NAME || 'https://cdn.washak.net/';
+
+export const storageUrl =
+  process.env.REACT_APP_BUNNY_STORAGE_URL || 'https://cdn.washak.net/';
+
 
 const getStoreDomain = () => {
   const isLocal = window.location.hostname === 'localhost';
@@ -41,7 +47,10 @@ export async function BaseFetch(
     
         const data = await response.json();
         if (data.status_code >= 400 && data.status_code < 600) {
-          throw new Error(data?.message);
+          const err = new Error(data.message || `Error ${data.status_code}`);
+          (err).statusCode = data.status_code;
+          (err).payload    = data;
+          throw err;
         }
         
         return data;

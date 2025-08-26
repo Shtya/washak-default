@@ -25,7 +25,6 @@ export default function Home() {
   const { storeOptions } = useAppContext();
   const { homepage_style_status } = storeOptions ?? {};
   const sortedSections = data?.data?.sections?.sort((a, b) => a.sort_order - b.sort_order) || [];
-
   // Show general skeleton when main data is loading
   if (loading) {
     return <HomeSkeleton />;
@@ -45,7 +44,7 @@ export default function Home() {
 
 
   return (
-    <div className="pt-[30px] max-sm:!pt-[10px] flex flex-col min-h-screen">
+    <div className="pt-[30px] max-sm:!pt-[10px] flex flex-col min-h-screen ">
       {sortedSections.map((section) => {
         switch (section.section) {
           case 'Slider_Section':
