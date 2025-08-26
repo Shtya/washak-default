@@ -24,11 +24,32 @@ export function useProductsWithCategories() {
 
   // read query params
   const currentPage = Number(searchParams.get("page")) || 1;
-  const currentCategory = searchParams.get("category") || "all";
+  const currentCategorySlug  = searchParams.get("category") || "all";
 
-  // API calls
-  const { data: storedProducts, loading: productsLoading, error: productsError, refetch: refetchProducts } = useStoreProducts(currentPage);
+  //Categories API call
   const { data: categoriesData, loading: categoriesLoading, error: categoriesError, refetch: refetchCategories  } = useStoreCategories();
+
+    // categories
+    const categories = useMemo(() => {
+      const result = [{ key: "all", label: "جميع المنتجات", slug: null }];
+      if (categoriesData?.data) {
+        categoriesData.data.forEach((category) => {
+          result.push({
+            key: category.id.toString(),
+            slug: category.slug,
+            label: category.name,
+          });
+        });
+      }
+      return result;
+    }, [categoriesData]);
+  
+    // resolve category_id from slug
+    const selectedCategory = categories.find((cat) => cat.slug === currentCategorySlug);
+    const categoryId = selectedCategory?.key || '';
+
+  //Products APi call
+  const { data: storedProducts, loading: productsLoading, error: productsError, refetch: refetchProducts } = useStoreProducts(currentPage, categoryId);
 
   // breadcrumb
   const breadcrumbRoutes = useMemo(
@@ -54,21 +75,6 @@ export function useProductsWithCategories() {
     params.set("page", 1);
     setSearchParams(params);
   };
-
-  // categories
-  const categories = useMemo(() => {
-    const result = [{ key: "all", label: "جميع المنتجات", slug: null }];
-    if (categoriesData?.data) {
-      categoriesData.data.forEach((category) => {
-        result.push({
-          key: category.id.toString(),
-          slug: category.slug,
-          label: category.name,
-        });
-      });
-    }
-    return result;
-  }, [categoriesData]);
 
   
   // products
@@ -107,25 +113,21 @@ export function useProductsWithCategories() {
     );
   }, [storedProducts]);
 
-  const isAll = currentCategory === "all";
-  // filter by category
-  const filteredData =
-      isAll
-      ? products
-      : products.filter((p) => p.type === currentCategory);
 
   // pagination (this logic og get total is temperary)
+  // pagination
   const pageCount =
-    Math.ceil((isAll ? storedProducts?.data?.total : filteredData?.length) / storedProducts?.data?.per_page) || 1;
+    Math.ceil((storedProducts?.data?.total || 0) / (storedProducts?.data?.per_page || 1)) || 1;
 
+    
+    
   return {
     breadcrumbRoutes,
     currentPage,
-    currentCategory,
+    currentCategory: currentCategorySlug,
     categories,
     categoriesLoading,
     products,
-    filteredData,
     pageCount,
     productsLoading,
     productsError,

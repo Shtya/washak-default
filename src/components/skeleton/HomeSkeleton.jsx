@@ -2,10 +2,12 @@ import SkeletonCard from "./SkeletonCard";
 
 // General Skeleton Component
 export function HomeSkeleton() {
+
+
     return (
-        <div className="pt-[30px] max-sm:!pt-[10px] flex flex-col min-h-screen">
+        <div className="pt-[30px] max-sm:!pt-[10px] flex flex-col min-h-screen ">
             {/* Hero/Banner Skeleton */}
-            <div className="py-8 md:py-16 bg-white">
+            <div className="py-8 md:py-16 ">
                 <div className="container max-sm:!px-[10px]">
                     <div className="w-full max-md:!h-[230px] !h-[400px] skeleton rounded-[20px]" />
                 </div>

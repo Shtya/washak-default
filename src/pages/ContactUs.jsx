@@ -79,7 +79,14 @@ export default function ContactUsPage() {
 
   return (
     <div>
-      <main className='bg-white'>
+      <style>
+        {`
+        :root {
+  --header-main: blue, var(--main);
+}
+`}
+      </style>
+      <main className='bg-[var(--header-main)]'>
         {/* Header */}
         <section className='bg-gradient-to-b from-[var(--main)] to-[var(--hover-main)] text-white !py-12 px-4 text-center'>
           {loading ? (

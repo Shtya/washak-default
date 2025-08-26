@@ -7,6 +7,7 @@ import MenuItem from '../atoms/MenuItem';
 import { getFullPath } from '../../helper/getFullPath';
 import useMenuNavigation from '../../hooks/useMenuNavigation';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
+import { pullZoneUrl } from '../../config/Api';
 
 export default function Navbar() {
   const { menu, loadingMenu, menuSetting, storeOptions } = useAppContext();
@@ -71,7 +72,7 @@ export default function Navbar() {
             {site_logo_enable === '1' && (
               <Link to="/">
                 <img
-                  src="/logo.png"
+                  src='/logo.png'
                   alt={shopNameStatus == 1 ? shopName : "Logo"}
                   width={126}
                   height={50}
