@@ -199,7 +199,7 @@ export const Categories = ({ categories }) =>
 ====================== */
 export const PriceDisplay = ({ price }) => (
   <div className='flex items-center gap-2' data-aos='fade-up' >
-    <span className='text-[#123770] font-bold text-lg'>
+    <span className='text-[#123770] '>
       <PriceCurrency currency={'ج.م'} price={price?.special_price} />
     </span>
     {price?.regular_price && (
@@ -277,7 +277,6 @@ export const LiveVariantPrice = ({ loading, price, comparePrice, productPrice, q
 export const ProductHeader = ({ isEnabled, text }) => (
   isEnabled ? <div
     data-aos='fade-up'
-    className="text-green-600 text-sm font-medium my-2"
     dangerouslySetInnerHTML={{ __html: text }}
   /> : null
 );
@@ -304,7 +303,7 @@ export const Reviews = ({ reviewEnable, noOfReviews }) =>
         {Array(5)
           .fill(0)
           .map((_, i) => (
-            <Star key={i} className='!fill-[#FFC62A]' />
+            <Star key={i} className='!fill-[#FFC62A] w-4 h-4' />
           ))}
       </span>
       ({noOfReviews}) تقييمات

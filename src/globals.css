@@ -251,6 +251,19 @@ html {
  .custom-prev , .custom-next{
   transition: .5s;
  }
+
+/* Apply right: 10px when screen width ≥ 1640px */
+@media (min-width: 1640px) {
+
+  .custom-next {
+    right: -3.5rem;
+  }
+  .custom-prev {
+    left: -3.5rem;
+  }
+}
+
+
 /* 🔘🔘🔘🔘🔘🔘🔘🔘🔘🔘 Switcher Images 🔘🔘🔘🔘🔘🔘🔘🔘🔘🔘 */
 
 .img-switcher-2 {

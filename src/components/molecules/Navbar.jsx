@@ -98,7 +98,7 @@ export default function Navbar() {
             {/* Icons - show bar icon only on mobile */}
             <div className={`flex items-center flex-1 lg:flex-none gap-[15px] ${site_logo_enable ? "justify-end" : "justify-between"} lg:justify-normal `}>
               <div className='flex items-center gap-[15px]'>
-                {search_enable === '1' && <SearchIcon />}
+
                 {cart_enable === '1' && (
                   <Link
                     id="cart-icon"
@@ -119,6 +119,7 @@ export default function Navbar() {
                     )}
                   </Link>
                 )}
+                {search_enable === '1' && <SearchIcon />}
               </div>
 
               <MobileMenuToggle bar_icon={bar_icon} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
