@@ -14,6 +14,7 @@ import { useAddToCart } from '../../hooks/cart/useAddToCart';
 import { NotFoundImage } from './NotFoundImage';
 import { getProductImageId } from '../../helper/getProductImageId';
 import ProductImageSwitcher from './ProductImageSwitcher';
+import { CustomButtonsNavigate } from './CustomButtonsNavigate';
 
 export default function ProductCarouselRelated({ btnName = 'شراء الان', order, btnIcon = '/icons/buy.png', loading, bg, cn, arrowTop, products, title, subTitle, delay = 5000 }) {
   const [count, setCount] = useState(4);
@@ -40,8 +41,8 @@ export default function ProductCarouselRelated({ btnName = 'شراء الان', 
     slideToClickedSlide: false,
     modules: [Navigation, Autoplay, Pagination],
     navigation: {
-      prevEl: '.custom-prev',
-      nextEl: '.custom-next',
+      prevEl: '.iso-related-prev',
+      nextEl: '.iso-related-next',
     },
     pagination: {
       clickable: true,
@@ -91,16 +92,7 @@ export default function ProductCarouselRelated({ btnName = 'شراء الان', 
 
               {showArrows && (
                 <>
-                  <button className='max-sm:hidden bg-[var(--main)] hover:bg-[var(--hover-main)] hover:scale-[1.1] custom-prev w-[35px] h-[35px] rounded-full flex items-center justify-center absolute left-2 top-1/2 transform -translate-y-1/2 z-10 transition-colors'>
-                    <svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                      <path d='M4.71592 0.920471L1.13637 4.50002M1.13637 4.50002L4.71592 8.07956M1.13637 4.50002H13.8636' stroke='#fff' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
-                    </svg>
-                  </button>
-                  <button className='max-sm:hidden bg-[var(--main)] hover:bg-[var(--hover-main)] hover:scale-[1.1] custom-next w-[35px] h-[35px] rounded-full flex items-center justify-center absolute right-2 top-1/2 transform -translate-y-1/2 z-10 transition-colors'>
-                    <svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                      <path d='M10.284 0.920471L13.8635 4.50002M13.8635 4.50002L10.284 8.07956M13.8635 4.50002H1.13623' stroke='white' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
-                    </svg>
-                  </button>
+                  <CustomButtonsNavigate swiperPrevClass='iso-related-prev' swiperNextClass='iso-related-next' />
                 </>
               )}
             </>

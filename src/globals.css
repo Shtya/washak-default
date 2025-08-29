@@ -248,17 +248,20 @@ html {
     border-radius: 10px !important ;
     background: var(--main) !important ;
 }
- .custom-prev , .custom-next{
+ .custom-prev , .custom-next,
+ .frequently-bought-prev , .frequently-bought-next
+ .related-products-prev , .related-products-next{
   transition: .5s;
  }
 
 /* Apply right: 10px when screen width ≥ 1640px */
-@media (min-width: 1640px) {
+@media (min-width: 1600px) {
 
-  .custom-next {
+  .custom-next , .frequently-bought-next , .related-products-next
+  {
     right: -3.5rem;
   }
-  .custom-prev {
+  .custom-prev, .frequently-bought-prev, .related-products-prev  {
     left: -3.5rem;
   }
 }
