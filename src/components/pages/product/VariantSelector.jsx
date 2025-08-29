@@ -65,7 +65,7 @@ export const VariantSelector = ({
     const selectedOptionName = variant.options.find(opt => opt.id == selectedOptionId)?.variant_option_name;
 
     return (
-      <div className='relative max-w-[200px] w-full ' data-aos='fade-up'>
+      <div className='relative max-w-[200px] w-full '>
         <button
           type='button'
           className={`w-full px-3 py-2 text-sm border-[1px] rounded-lg flex justify-between items-center transition-all duration-200 
@@ -177,7 +177,6 @@ export const VariantSelector = ({
       </div>
     );
   };
-
 
   const VariantOptions = ({ variant }) => {
     switch (variant.type) {

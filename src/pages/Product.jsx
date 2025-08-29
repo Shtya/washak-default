@@ -234,7 +234,6 @@ export const LiveVariantPrice = ({ loading, price, comparePrice, productPrice, q
     <div data-aos='fade-up'>
       {loading ? <div
         aria-live="polite"
-        data-aos='fade-up'
         className="mt-3 flex items-center gap-2 bg-amber-50 text-amber-800 px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm"
       >
         <span className="animate-spin border-2 border-amber-400 border-t-transparent rounded-full w-4 h-4" />
