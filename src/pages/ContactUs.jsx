@@ -79,15 +79,8 @@ export default function ContactUsPage() {
 
   return (
     <>
-      <style>
-        {`
-     :root {
-        --footer_font_color: red
-     }
-    `}
-      </style>
       <div>
-        <main style={{ backgroundColor: 'var(--footer_font_color, var(--main))' }}>
+        <main >
           {/* Header */}
           <section className='bg-gradient-to-b from-[var(--main)] to-[var(--hover-main)] text-white !py-12 px-4 text-center'>
             {loading ? (

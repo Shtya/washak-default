@@ -306,9 +306,9 @@ function ProductSection({ sectionData, loading = false, buyText }) {
 
                   {products.length > slidesPerView && (
                     <>
-                      <button className='max-sm:hidden bg-[#F0F2F3] hover:bg-[#d3d4d4] hover:scale-[1.1] custom-prev w-[35px] h-[35px] rounded-full flex items-center justify-center absolute left-2 top-1/2 transform -translate-y-1/2 z-10 transition-colors'>
-                        <svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg' >
-                          <path d='M4.71592 0.920471L1.13637 4.50002M1.13637 4.50002L4.71592 8.07956M1.13637 4.50002H13.8636' stroke='var(--main)' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
+                      <button className='max-sm:hidden bg-[var(--main)] hover:bg-[var(--hover-main)] hover:scale-[1.1] custom-prev w-[35px] h-[35px] rounded-full flex items-center justify-center absolute left-2 top-1/2 transform -translate-y-1/2 z-10 transition-colors'>
+                        <svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                          <path d='M4.71592 0.920471L1.13637 4.50002M1.13637 4.50002L4.71592 8.07956M1.13637 4.50002H13.8636' stroke='#fff' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
                         </svg>
                       </button>
                       <button className='max-sm:hidden bg-[var(--main)] hover:bg-[var(--hover-main)] hover:scale-[1.1] custom-next w-[35px] h-[35px] rounded-full flex items-center justify-center absolute  right-2 top-1/2 transform -translate-y-1/2 z-10 transition-colors'>
