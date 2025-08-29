@@ -66,7 +66,7 @@ export const CountdownTimer = ({ countdownData, text, productId, aosDelay = '300
 
   return (
     <div ref={timerRef} className='flex flex-col justify-start w-fit mt-6 mb-4' data-aos='fade-up' data-aos-delay={aosDelay}>
-      <div className='text-lg font-medium text-[var(--main)]'>{text || 'الوقت المتبقي على نهاية العرض'} :</div>
+      <div className='text-base font-medium text-[var(--main)]'>{text || 'الوقت المتبقي على نهاية العرض'} :</div>
       <div className='flex gap-2 rtl:flex-row-reverse rtl:justify-end mt-2'>
         <TimeBox value={String(timeLeft.day).padStart(2, '0')} label='يوم' />
         <TimeBox value={String(timeLeft.hour).padStart(2, '0')} label='ساعة' />
@@ -79,9 +79,9 @@ export const CountdownTimer = ({ countdownData, text, productId, aosDelay = '300
 
 const TimeBox = ({ value, label, highlighted = false }) => (
   <div className='flex flex-col items-center gap-1'>
-    <div className={`w-[65px] h-[65px] flex items-center justify-center rounded-[6px] text-2xl shadow border ${highlighted ? 'bg-[#0a2a5c] text-white' : 'bg-[#f8fafb] border-[#f0f1f1] text-gray-700'}`} style={{ fontFamily: 'Numbers' }}>
+    <div className={`w-[44px] h-[36px] flex items-center justify-center rounded-[6px] text-base shadow border ${highlighted ? 'bg-[#0a2a5c] text-white' : 'bg-[#f8fafb] border-[#f0f1f1] text-[#93979C]'}`} style={{ fontFamily: 'Numbers' }}>
       {value}
     </div>
-    <div className='text-sm text-[#0a2a5c] font-bold'>{label}</div>
+    <div className='text-sm text-[#0a2a5c] '>{label}</div>
   </div>
 );

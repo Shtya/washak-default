@@ -49,13 +49,59 @@ export const CartItem = ({
                 />
             </Link>
 
-            <div className="flex-1 flex flex-col justify-between w-full gap-3">
+            <div className="flex-1 self-stretch flex flex-col justify-between w-full gap-3">
+
+                <div className="flex flex-col h-full md:flex-row md:items-center justify-between gap-3">
+                    <div className="flex flex-col gap-3 items-start">
+
+                        <Link to={`/product/${product.slug}`}>
+                            <p className="font-semibold text-[15px] text-[#333] hover:underline">
+                                {product.title}
+                            </p>
+                        </Link>
+
+                        <PriceBlock
+                            salePrice={price}
+                            originalPrice={hasDiscount ? regularPrice : undefined}
+                            size="sm"
+                        />
+                    </div>
+
+                    <div className="flex items-center gap-14">
+
+                        <div className="flex items-center gap-2 bg-[#F8F7F8] rounded-full p-[2px]">
+                            <button
+                                onClick={() => increaseQuantity({ id: item.id })}
+                                className="rounded-full bg-[var(--main)] hover:bg-[var(--hover-main)] text-white w-[28px] h-[28px] flex items-center justify-center"
+                                title="زيادة الكمية"
+                            >
+                                <Plus size={16} />
+                            </button>
+                            <span className="text-sm font-medium text-[#333] min-w-[20px] text-center">
+                                {item.quantity}
+                            </span>
+                            <button
+                                onClick={() => decreaseQuantity({ id: item.id })}
+                                className="rounded-full bg-gray-200 hover:bg-gray-300 text-black w-[28px] h-[28px] flex items-center justify-center"
+                                title="نقص الكمية"
+                                disabled={item.quantity <= 1}
+                            >
+                                <Minus size={16} />
+                            </button>
+                        </div>
+
+                        <button
+                            onClick={() => removeItem({ id: item.id })}
+                            className="text-red-500 hover:text-red-700 transition"
+                            title="حذف المنتج"
+                        >
+                            <Trash2 size={20} />
+                        </button>
+                    </div>
+
+                </div>
+
                 <div className="space-y-2">
-                    <Link to={`/product/${product.slug}`}>
-                        <p className="font-semibold text-[15px] text-[#333] hover:underline">
-                            {product.title}
-                        </p>
-                    </Link>
 
                     {hasVariants && (
                         <div className="mt-2">
@@ -126,45 +172,6 @@ export const CartItem = ({
                             </AnimatePresence>
                         </div>
                     )}
-                </div>
-
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                    <PriceBlock
-                        salePrice={price}
-                        originalPrice={hasDiscount ? regularPrice : undefined}
-                        size="sm"
-                    />
-
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={() => increaseQuantity({ id: item.id })}
-                                className="bg-gray-200 hover:bg-gray-300 text-black w-[28px] h-[28px] rounded flex items-center justify-center"
-                                title="زيادة الكمية"
-                            >
-                                <Plus size={16} />
-                            </button>
-                            <span className="text-sm font-medium text-[#333] min-w-[20px] text-center">
-                                {item.quantity}
-                            </span>
-                            <button
-                                onClick={() => decreaseQuantity({ id: item.id })}
-                                className="bg-gray-200 hover:bg-gray-300 text-black w-[28px] h-[28px] rounded flex items-center justify-center"
-                                title="نقص الكمية"
-                                disabled={item.quantity <= 1}
-                            >
-                                <Minus size={16} />
-                            </button>
-                        </div>
-
-                        <button
-                            onClick={() => removeItem({ id: item.id })}
-                            className="text-red-500 hover:text-red-700 transition"
-                            title="حذف المنتج"
-                        >
-                            <Trash2 size={20} />
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
