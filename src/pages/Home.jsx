@@ -18,6 +18,7 @@ import { useStoreHomeSections } from '../hooks/useStoreHomeSections.js';
 import { HomeSkeleton } from '../components/skeleton/HomeSkeleton.jsx';
 import ErrorDisplay from '../components/atoms/ErrorDisplay.jsx';
 import { useAppContext } from '../contexts/AppContext.js';
+import { CustomButtonsNavigate } from '../components/atoms/CustomButtonsNavigate.jsx';
 
 
 export default function Home() {
@@ -244,6 +245,8 @@ function ProductSection({ sectionData, loading = false, buyText }) {
     return () => window.removeEventListener('resize', updateSlidesPerView);
   }, []);
 
+  const order = sectionData.sort_order;
+  console.log(order)
   const sliderConfig = useMemo(() => ({
     spaceBetween: 10,
     loop: true,
@@ -252,8 +255,8 @@ function ProductSection({ sectionData, loading = false, buyText }) {
     slidesPerView,
     modules: [Navigation, Autoplay, Pagination],
     navigation: {
-      prevEl: '.custom-prev',
-      nextEl: '.custom-next',
+      prevEl: `.prev-${order}`,
+      nextEl: `.next-${order}`,
     },
     pagination: {
       clickable: true,
@@ -305,18 +308,7 @@ function ProductSection({ sectionData, loading = false, buyText }) {
                   </Swiper>
 
                   {products.length > slidesPerView && (
-                    <>
-                      <button className='max-sm:hidden bg-[var(--main)] hover:bg-[var(--hover-main)] hover:scale-[1.1] custom-prev w-[35px] h-[35px] rounded-full flex items-center justify-center absolute left-2 top-1/2 transform -translate-y-1/2 z-10 transition-colors'>
-                        <svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                          <path d='M4.71592 0.920471L1.13637 4.50002M1.13637 4.50002L4.71592 8.07956M1.13637 4.50002H13.8636' stroke='#fff' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
-                        </svg>
-                      </button>
-                      <button className='max-sm:hidden bg-[var(--main)] hover:bg-[var(--hover-main)] hover:scale-[1.1] custom-next w-[35px] h-[35px] rounded-full flex items-center justify-center absolute  right-2 top-1/2 transform -translate-y-1/2 z-10 transition-colors'>
-                        <svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                          <path d='M10.284 0.920471L13.8635 4.50002M13.8635 4.50002L10.284 8.07956M13.8635 4.50002H1.13623' stroke='white' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
-                        </svg>
-                      </button>
-                    </>
+                    <CustomButtonsNavigate swiperPrevClass={`prev-${order}`} swiperNextClass={`next-${order}`} />
                   )}
                 </div>
               ) :
@@ -482,7 +474,7 @@ function FeatureList({ order, data, loading = false }) {
         <div className='container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
           {data.icons.map((feature, idx) => (
             <div key={idx} className='flex flex-col items-center text-center p-4'>
-              <i className={`fas ${feature.icon_name} text-4xl text-[var(--main)] mb-[20px]`}></i>
+              <i className={`fas ${feature.icon_name} text - 4xl text - [var(--main)]mb - [20px]`}></i>
               <h3 className='text-lg font-semibold text-[#252A50] mb-1'>{feature.title}</h3>
               <p className='text-[#77839D] text-sm'>{feature.sub_title || 'وصف'}</p>
             </div>
@@ -518,13 +510,14 @@ function MapSection({ order, data, loading = false }) {
                   {/* <iframe width='100%' height='100%' style={{ border: 0 }} loading='lazy' allowFullScreen referrerPolicy='no-referrer-when-downgrade' src={`https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&zoom=14&q=${data.map_latitude},${data.map_longitude}`} onError={() => setMapError(true)}></iframe> */}
 
                   <iframe width='100%' height='100%' style={{ border: 0 }} className='w-full h-full rounded-lg border-0' src={`https://maps.google.com/maps?q=${data.map_latitude},${data.map_longitude}&z=15&output=embed`} onError={() => setMapError(true)} allowFullScreen loading='lazy' />
-                </div>
-              )}
-            </div>
-          </div>
+                </div >
+              )
+              }
+            </div >
+          </div >
         ) : null}
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
 

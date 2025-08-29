@@ -11,6 +11,7 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { CustomButtonsNavigate } from "../../atoms/CustomButtonsNavigate";
 
 export const FrequentlyBoughtTogether = ({
   frequently_bought_products,
@@ -25,15 +26,40 @@ export const FrequentlyBoughtTogether = ({
   delay = 5000
 }) => {
 
-  const config = {
+  const frequentlyBoughtConfig = {
     spaceBetween: 10,
     loop: true,
     speed: process.env.REACT_APP_RELATED_SWIPER_SPEED || 2000,
     slideToClickedSlide: false,
     modules: [Navigation, Autoplay, Pagination],
     navigation: {
-      prevEl: '.custom-prev',
-      nextEl: '.custom-next',
+      prevEl: '.bought-prev',
+      nextEl: '.bought-next',
+    },
+    pagination: {
+      clickable: true,
+    },
+    autoplay: {
+      delay: delay,
+      disableOnInteraction: false,
+    },
+    breakpoints: {
+      1400: { slidesPerView: 4 },
+      950: { slidesPerView: 3 },
+      650: { slidesPerView: 2 },
+      0: { slidesPerView: 1 },
+    },
+  };
+
+  const relatedProductsConfig = {
+    spaceBetween: 10,
+    loop: true,
+    speed: process.env.REACT_APP_RELATED_SWIPER_SPEED || 2000,
+    slideToClickedSlide: false,
+    modules: [Navigation, Autoplay, Pagination],
+    navigation: {
+      prevEl: '.related-prev',
+      nextEl: '.related-next',
     },
     pagination: {
       clickable: true,
@@ -65,7 +91,7 @@ export const FrequentlyBoughtTogether = ({
 
         <div className="mt-12">
           <HeadTitle title="منتجات غالبًا ما يتم شراؤها مع هذا المنتج" />
-          <Swiper {...config} className={`!py-[50px] items-stretch md:!px-[5px]`}>
+          <Swiper {...frequentlyBoughtConfig} className={`!py-[50px] items-stretch md:!px-[5px]`}>
             <SwiperSlide key={product.id}>
               <ProductCard key={product.id ?? product.slug} product={product} />
             </SwiperSlide>
@@ -78,18 +104,10 @@ export const FrequentlyBoughtTogether = ({
             <div className='swiper-pagination !mt-6' />
           </Swiper>
 
-          <>
-            <button className='max-sm:hidden bg-[var(--main)] hover:bg-[var(--hover-main)] hover:scale-[1.1] custom-prev w-[35px] h-[35px] rounded-full flex items-center justify-center absolute left-2 top-1/2 transform -translate-y-1/2 z-10 transition-colors'>
-              <svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M4.71592 0.920471L1.13637 4.50002M1.13637 4.50002L4.71592 8.07956M1.13637 4.50002H13.8636' stroke='#fff' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
-              </svg>
-            </button>
-            <button className='max-sm:hidden bg-[var(--main)] hover:bg-[var(--hover-main)] hover:scale-[1.1] custom-next w-[35px] h-[35px] rounded-full flex items-center justify-center absolute right-2 top-1/2 transform -translate-y-1/2 z-10 transition-colors'>
-              <svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M10.284 0.920471L13.8635 4.50002M13.8635 4.50002L10.284 8.07956M13.8635 4.50002H1.13623' stroke='white' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
-              </svg>
-            </button>
-          </>
+          {frequently_bought_products.length > 3 && (
+            <CustomButtonsNavigate swiperPrevClass="bought-prev" swiperNextClass="bought-next" />
+          )}
+
         </div>
 
 
@@ -119,9 +137,9 @@ export const FrequentlyBoughtTogether = ({
           />
         </div>
 
-        {related_products.length > 0 && <div className="mt-12">
+        {related_products.length > 0 && <div className="mt-12 relative">
           <HeadTitle title="منتجات ذات صلة" />
-          <Swiper {...config} className={`!py-[50px] items-stretch md:!px-[5px]`}>
+          <Swiper {...relatedProductsConfig} className={`!py-[50px] items-stretch md:!px-[5px]`}>
             {related_products?.map(p => (
               <SwiperSlide key={p.id}>
                 <ProductCard product={p} />
@@ -131,22 +149,15 @@ export const FrequentlyBoughtTogether = ({
             <div className='swiper-pagination !mt-6' />
           </Swiper>
 
-          <>
-            <button className='max-sm:hidden bg-[var(--main)] hover:bg-[var(--hover-main)] hover:scale-[1.1] custom-prev w-[35px] h-[35px] rounded-full flex items-center justify-center absolute left-2 top-1/2 transform -translate-y-1/2 z-10 transition-colors'>
-              <svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M4.71592 0.920471L1.13637 4.50002M1.13637 4.50002L4.71592 8.07956M1.13637 4.50002H13.8636' stroke='#fff' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
-              </svg>
-            </button>
-            <button className='max-sm:hidden bg-[var(--main)] hover:bg-[var(--hover-main)] hover:scale-[1.1] custom-next w-[35px] h-[35px] rounded-full flex items-center justify-center absolute right-2 top-1/2 transform -translate-y-1/2 z-10 transition-colors'>
-              <svg width='15' height='9' viewBox='0 0 15 9' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M10.284 0.920471L13.8635 4.50002M13.8635 4.50002L10.284 8.07956M13.8635 4.50002H1.13623' stroke='white' strokeWidth='1.5' strokeLinecap='round' strokeLinejoin='round' />
-              </svg>
-            </button>
-          </>
+          {related_products.length > 4 && (
+            <>
+              <CustomButtonsNavigate swiperPrevClass="related-prev" swiperNextClass="related-next" />
+            </>
+          )}
         </div>}
 
       </div>
-    </div>
+    </div >
   ) : null
 }
 

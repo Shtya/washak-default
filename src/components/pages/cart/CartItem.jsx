@@ -67,7 +67,7 @@ export const CartItem = ({
                         />
                     </div>
 
-                    <div className="flex items-center gap-14">
+                    <div className="flex items-center justify-between md:justify-normal gap-14">
 
                         <div className="flex items-center gap-2 bg-[#F8F7F8] rounded-full p-[2px]">
                             <button
