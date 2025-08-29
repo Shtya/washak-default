@@ -348,7 +348,7 @@ function ShippingSummary({
         </>
       )}
 
-      <div className='!mt-[20px] text-base text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='500'>
+      <div className='!mt-[20px] text-base text-[var(--second)] flex justify-between' data-aos='fade-left' data-aos-delay='500'>
         <span>المبلغ الاجمالى</span>
         <span className='text-[var(--second)] text-sm'>{totals.toFixed(2)} {currency}</span>
       </div>

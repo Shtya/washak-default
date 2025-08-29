@@ -248,7 +248,7 @@ export const LiveVariantPrice = ({ loading, price, comparePrice, productPrice, q
           <span>🎯 السعر حسب اختيارك:</span>
 
           {/* السعر الحالي */}
-          <span className="text-base font-bold text-green-700 transition-all duration-700 ease-out transform scale-95">
+          <span className="text-base font-bold text-[#0a2a5c] transition-all duration-700 ease-out transform scale-95">
             <PriceCurrency currency={'ج.م'} price={totalPrice || productPrice?.special_price} />
           </span>
 
@@ -261,7 +261,7 @@ export const LiveVariantPrice = ({ loading, price, comparePrice, productPrice, q
 
           {/* التوفير */}
           {savings > 0 && (
-            <span className="flex gap-2 bg-green-100 text-green-800 text-[11px] px-2 py-0.5 rounded-full transition-all duration-700 ease-out transform scale-95">
+            <span className="flex gap-2 bg-[#0a2a5c] text-white text-[11px] px-2 py-0.5 rounded-full transition-all duration-700 ease-out transform scale-95">
               <span>هتوفر</span> <PriceCurrency currency={'ج.م'} price={savings} />
             </span>
           )}

@@ -33,7 +33,6 @@ export default function Products() {
     productsLoading,
     categoriesLoading,
     categoriesError,
-    refetchCategories,
     setPage,
     setCategory,
   } = useProductsWithCategories();
