@@ -78,58 +78,60 @@ export default function ContactUsPage() {
   const showMap = contactus_page_map_status === 'yes' && contactus_page_map_latitude && contactus_page_map_longitude;
 
   return (
-    <div>
+    <>
       <style>
         {`
-        :root {
-  --header-main: blue, var(--main);
-}
-`}
+     :root {
+        --footer_font_color: red
+     }
+    `}
       </style>
-      <main className='bg-[var(--header-main)]'>
-        {/* Header */}
-        <section className='bg-gradient-to-b from-[var(--main)] to-[var(--hover-main)] text-white !py-12 px-4 text-center'>
-          {loading ? (
-            <div className='max-w-2xl mx-auto space-y-4'>
-              <div className='h-8 bg-white/20 rounded-full w-1/2 mx-auto animate-pulse'></div>
-              <div className='h-4 bg-white/20 rounded-full w-3/4 mx-auto animate-pulse'></div>
+      <div>
+        <main style={{ backgroundColor: 'var(--footer_font_color, var(--main))' }}>
+          {/* Header */}
+          <section className='bg-gradient-to-b from-[var(--main)] to-[var(--hover-main)] text-white !py-12 px-4 text-center'>
+            {loading ? (
+              <div className='max-w-2xl mx-auto space-y-4'>
+                <div className='h-8 bg-white/20 rounded-full w-1/2 mx-auto animate-pulse'></div>
+                <div className='h-4 bg-white/20 rounded-full w-3/4 mx-auto animate-pulse'></div>
+              </div>
+            ) : (
+              <>
+                <h1 className='text-3xl font-bold mb-3'>{contactus_page_title}</h1>
+                <div className='max-w-2xl mx-auto text-white/90' dangerouslySetInnerHTML={{ __html: contactus_page_content }} />
+              </>
+            )}
+          </section>
+
+          {/* Content */}
+          <div className={`max-w-6xl mx-auto p-4 grid gap-8 my-10 ${showForm ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
+            {showForm && (
+              <ContactForm
+                loading={loading}
+                register={register}
+                errors={errors}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmit}
+                isSubmitting={isSubmitting}
+              />
+            )}
+
+            <div className='space-y-6'>
+              <ContactInfo loading={loading || loadingSetting} phone={footer_phone_number} email={footer_email} />
+              <ContactMap
+                loading={loading}
+                showMap={showMap}
+                title={contactus_page_map_title}
+                subTitle={contactus_page_map_sub_title}
+                lat={contactus_page_map_latitude}
+                lng={contactus_page_map_longitude}
+              />
             </div>
-          ) : (
-            <>
-              <h1 className='text-3xl font-bold mb-3'>{contactus_page_title}</h1>
-              <div className='max-w-2xl mx-auto text-white/90' dangerouslySetInnerHTML={{ __html: contactus_page_content }} />
-            </>
-          )}
-        </section>
-
-        {/* Content */}
-        <div className={`max-w-6xl mx-auto p-4 grid gap-8 my-10 ${showForm ? 'md:grid-cols-2' : 'grid-cols-1'}`}>
-          {showForm && (
-            <ContactForm
-              loading={loading}
-              register={register}
-              errors={errors}
-              handleSubmit={handleSubmit}
-              onSubmit={onSubmit}
-              isSubmitting={isSubmitting}
-            />
-          )}
-
-          <div className='space-y-6'>
-            <ContactInfo loading={loading || loadingSetting} phone={footer_phone_number} email={footer_email} />
-            <ContactMap
-              loading={loading}
-              showMap={showMap}
-              title={contactus_page_map_title}
-              subTitle={contactus_page_map_sub_title}
-              lat={contactus_page_map_latitude}
-              lng={contactus_page_map_longitude}
-            />
           </div>
-        </div>
-      </main>
-      <FeatureList />
-    </div>
+        </main>
+        <FeatureList />
+      </div>
+    </>
   );
 }
 

@@ -53,12 +53,12 @@ export const useProduct = () => {
     const quantity = watch('qty');
     const options = watch('options');
     
+    
     const modifiedOptions = useMemo(
       () => options?.map(opt => opt.split('_')[1]) ?? [],
       [options]
     );
 
-    
     const { data: variantData, loading:loadingLiveVariantPrice } = useVariantCombinations(product?.id, modifiedOptions)
     // Normalize the top match
     const variant = variantData?.data?.[0] ?? null;

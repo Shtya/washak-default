@@ -107,15 +107,17 @@ export default function Product() {
           <Reviews reviewEnable={product?.review_enable} noOfReviews={product?.no_of_reviews} />
           <Description content={product?.product_content} shortDescription={product?.product_short_description} isShortEnabled={product_style_settings?.product_short_description_status === 'yes'} isDescriptionEnabled={productOptions?.description_switch} />
 
-          <CountdownTimer countdownData={countdownData} text={productOptions?.text_above_counter} />
+          <CountdownTimer countdownData={countdownData} text={productOptions?.text_above_counter} aosDelay='' />
           <HurryUpAlert text={hurryUpOptions?.hurryUpText} />
           <LiveVariantPrice
             loading={loadingLiveVariantPrice}
             price={variant?.price}
+            productPrice={product?.price}
             comparePrice={variant?.compare_at_price}
             quantity={quantity}
           />
           <VariantSelector
+            dataAos='fade-up'
             key={product.id}
             variants={product_variants}
             isVariantSelected={(variant) => {
@@ -183,7 +185,7 @@ export const ProductTitle = ({ title }) => (
 
 export const Categories = ({ categories }) =>
   categories?.length > 0 && (
-    <div className='flex flex-wrap gap-2 items-center' data-aos='fade-up' data-aos-delay='100'>
+    <div className='flex flex-wrap gap-2 items-center' data-aos='fade-up' >
       {categories.map(category => (
         <Link to={getFullPath("category/", category.slug)} key={category.id} className='bg-[var(--second)] text-white text-xs  px-3 py-1 rounded-full shadow-sm hover:opacity-90 transition'>
           {category.name}
@@ -196,7 +198,7 @@ export const Categories = ({ categories }) =>
    Price Section
 ====================== */
 export const PriceDisplay = ({ price }) => (
-  <div className='flex items-center gap-2' data-aos='fade-up' data-aos-delay='200'>
+  <div className='flex items-center gap-2' data-aos='fade-up' >
     <span className='text-[#123770] font-bold text-lg'>
       <PriceCurrency currency={'ج.م'} price={price?.special_price} />
     </span>
@@ -217,55 +219,55 @@ export const PriceDisplay = ({ price }) => (
    Variant Collection Price
 ====================== */
 
-export const LiveVariantPrice = ({ loading, price, comparePrice, quantity = 1 }) => {
-  if (loading) {
-    return (
-      <div
+export const LiveVariantPrice = ({ loading, price, comparePrice, productPrice, quantity = 1 }) => {
+
+  // Calculate totals based on quantity
+  const totalPrice = price ? price * quantity : productPrice?.special_price ? productPrice?.special_price * quantity : 0;
+  const totalCompare = comparePrice != null ? comparePrice * quantity : productPrice?.regular_price ? productPrice?.regular_price * quantity : null;
+
+  // Savings is totalCompare - totalPrice
+  const savings =
+    totalCompare && totalCompare > totalPrice ? totalCompare - totalPrice : productPrice?.regular_price ? productPrice?.regular_price - productPrice?.special_price : 0;
+
+
+  return (
+    <div data-aos='fade-up'>
+      {loading ? <div
         aria-live="polite"
         data-aos='fade-up'
         className="mt-3 flex items-center gap-2 bg-amber-50 text-amber-800 px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm"
       >
         <span className="animate-spin border-2 border-amber-400 border-t-transparent rounded-full w-4 h-4" />
         <span>جارٍ تحديث السعر...</span>
-      </div>
-    );
-  }
+      </div> :
 
-  if (price == null) return null;
 
-  // Calculate totals based on quantity
-  const totalPrice = price * quantity;
-  const totalCompare = comparePrice != null ? comparePrice * quantity : null;
+        <div
+          aria-live="polite"
+          className="mt-3 flex flex-wrap items-center gap-3 bg-amber-50 text-amber-800 px-3 py-1 rounded-lg text-sm font-semibold shadow-sm animate-fadeIn"
+        >
+          <span>🎯 السعر حسب اختيارك:</span>
 
-  // Savings is totalCompare - totalPrice
-  const savings =
-    totalCompare && totalCompare > totalPrice ? totalCompare - totalPrice : 0;
+          {/* السعر الحالي */}
+          <span className="text-base font-bold text-green-700 transition-all duration-700 ease-out transform scale-95">
+            <PriceCurrency currency={'ج.م'} price={totalPrice || productPrice?.special_price} />
+          </span>
 
-  return (
-    <div
-      aria-live="polite"
-      className="mt-3 flex flex-wrap items-center gap-3 bg-amber-50 text-amber-800 px-3 py-1 rounded-lg text-sm font-semibold shadow-sm animate-fadeIn"
-    >
-      <span>🎯 السعر حسب اختيارك:</span>
+          {/* السعر قبل الخصم */}
+          {totalCompare && totalCompare > totalPrice && (
+            <span className="line-through text-gray-500 text-xs transition-all duration-700 ease-out transform scale-95">
+              <PriceCurrency currency={'ج.م'} price={totalCompare} />
+            </span>
+          )}
 
-      {/* السعر الحالي */}
-      <span className="text-base font-bold text-green-700 transition-all duration-700 ease-out transform scale-95">
-        <PriceCurrency currency={'ج.م'} price={totalPrice} />
-      </span>
-
-      {/* السعر قبل الخصم */}
-      {totalCompare && totalCompare > totalPrice && (
-        <span className="line-through text-gray-500 text-xs transition-all duration-700 ease-out transform scale-95">
-          <PriceCurrency currency={'ج.م'} price={totalCompare} />
-        </span>
-      )}
-
-      {/* التوفير */}
-      {savings > 0 && (
-        <span className="bg-green-100 text-green-800 text-[11px] px-2 py-0.5 rounded-full transition-all duration-700 ease-out transform scale-95">
-          هتوفر <PriceCurrency currency={'ج.م'} price={savings} />
-        </span>
-      )}
+          {/* التوفير */}
+          {savings > 0 && (
+            <span className="flex gap-2 bg-green-100 text-green-800 text-[11px] px-2 py-0.5 rounded-full transition-all duration-700 ease-out transform scale-95">
+              <span>هتوفر</span> <PriceCurrency currency={'ج.م'} price={savings} />
+            </span>
+          )}
+        </div>
+      }
     </div>
   );
 };
@@ -287,7 +289,7 @@ export const ProductHeader = ({ isEnabled, text }) => (
 
 export const HurryUpAlert = ({ text }) =>
   text && (
-    <div className='bg-red-50 text-red-800 border border-red-200 px-4 py-3 rounded-lg flex items-center gap-3 animate-pulse shadow-sm' data-aos='fade-up' data-aos-delay='400'>
+    <div className='bg-red-50 text-red-800 border border-red-200 px-4 py-3 rounded-lg flex items-center gap-3 animate-pulse shadow-sm' data-aos='fade-up' >
       <AlertTriangleIcon className='w-5 h-5 text-red-500' />
       <span className='text-sm font-medium'>{text}</span>
     </div>
@@ -298,7 +300,7 @@ export const HurryUpAlert = ({ text }) =>
 ====================== */
 export const Reviews = ({ reviewEnable, noOfReviews }) =>
   reviewEnable != 0 && (
-    <div className='flex items-center gap-[10px] text-sm text-[#666666]' data-aos='fade-up' data-aos-delay='500'>
+    <div className='flex items-center gap-[10px] text-sm text-[#666666]' data-aos='fade-up' >
       <span className='flex items-center text-[#FFC62A]'>
         {Array(5)
           .fill(0)
@@ -331,7 +333,7 @@ export const Description = ({
   // Case 1: Both short + full exist
   if (hasShort && hasFull) {
     return (
-      <div data-aos="fade-up" data-aos-delay="600">
+      <div data-aos="fade-up" >
         {!expanded ? (
           <div
             className="text-[#959FBC] text-base leading-relaxed mb-2"
@@ -360,7 +362,6 @@ export const Description = ({
     return (
       <div
         data-aos="fade-up"
-        data-aos-delay="600"
         className="text-[#959FBC] text-base leading-relaxed"
         dangerouslySetInnerHTML={{ __html: shortDescription }}
       />
@@ -372,7 +373,6 @@ export const Description = ({
     return (
       <div
         data-aos="fade-up"
-        data-aos-delay="600"
         className="text-[#959FBC] text-base leading-relaxed"
         dangerouslySetInnerHTML={{ __html: content }}
       />

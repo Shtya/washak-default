@@ -6,6 +6,9 @@ import { useAppContext } from '../../contexts/AppContext';
 import { getFullPath } from '../../helper/getFullPath';
 import { useIsActiveLink } from '../../hooks/useIsActiveLink';
 import { useEffect, useState } from 'react';
+import { useStoreLogos } from '../../hooks/useStoreLogos';
+
+import Logo from '../atoms/Logo';
 
 export default function Footer() {
   const { menu, loadingMenu, menuSetting, loadingSetting, storeOptions } = useAppContext();
@@ -119,6 +122,7 @@ function FooterBrand({
   shopName,
   shopDesc
 }) {
+  const { footerLogo, defaultStoreLogo, storeDomainLoading } = useStoreLogos();
 
   return (
     <div
@@ -126,11 +130,11 @@ function FooterBrand({
     >
       {footer_logo_switch === '1' && (
         <Link to="/" className="group">
-          <img
-            src="/logo-white.png"
+          <Logo
+            sources={[footerLogo, defaultStoreLogo, '/logo-white.png']}
+            storeDomainLoading={storeDomainLoading}
             alt={shopName || "Logo"}
             className="w-32 sm:w-40 h-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200"
-            loading="lazy"
           />
         </Link>
       )}

@@ -7,7 +7,7 @@ import MenuItem from '../atoms/MenuItem';
 import { getFullPath } from '../../helper/getFullPath';
 import useMenuNavigation from '../../hooks/useMenuNavigation';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
-import { pullZoneUrl } from '../../config/Api';
+import Logo from '../atoms/Logo.jsx';
 
 export default function Navbar() {
   const { menu, loadingMenu, menuSetting, storeOptions } = useAppContext();
@@ -25,16 +25,20 @@ export default function Navbar() {
     menuOpen,
     setMenuOpen,
     history,
-    count
+    count,
+    imageSources,
+    storeDomainLoading
   } = useMenuNavigation(menuItems, menuSetting);
+
 
   const {
     value: shopName = '',
     status: shopNameStatus = 0
   } = storeOptions?.shop_name || {};
 
-  const { header_text = '', header_enable_switch = '1', site_logo_enable = '1', search_enable = '1', cart_enable = '1', cart_icon = '', navbar_enable = '1', bar_icon = 'fa-bars' } = settings;
+  const { header_text = '', header_enable_switch = '1', site_logo_enable = '1', search_enable = '0', cart_enable = '1', cart_icon = '', navbar_enable = '1', bar_icon = 'fa-bars' } = settings;
   const onlyDesktopLinks = site_logo_enable !== '1' && search_enable !== '1' && cart_enable !== '1' && menuItems.length > 0;
+
 
   if (!menu?.header && !loadingMenu) {
     return <FallbackHeader />
@@ -67,16 +71,15 @@ export default function Navbar() {
           className="navbar bg-white"
           style={{ boxShadow: '0px 4px 4px 0px #CFCFCF40' }}
         >
-          <nav className={`container !h-[80px] mx-auto flex items-center py-4 !px-4 lg:px-0 ${onlyDesktopLinks ? 'lg:justify-center' : 'lg:justify-between'
+          <nav className={`container !h-[80px] mx-auto flex items-center py-4 !px-4 lg:px-0 gap-3 ${onlyDesktopLinks ? 'lg:justify-center' : 'lg:justify-between'
             }`}>
             {site_logo_enable === '1' && (
-              <Link to="/">
-                <img
-                  src='/logo.png'
-                  alt={shopNameStatus == 1 ? shopName : "Logo"}
-                  width={126}
-                  height={50}
-                  className="logo object-contain duration-500"
+              <Link to="/" >
+                <Logo
+                  sources={imageSources}
+                  storeDomainLoading={storeDomainLoading}
+                  alt={shopNameStatus === 1 ? shopName : "Logo"}
+                  className="logo object-contain duration-500 max-h-20"
                 />
               </Link>
             )}
@@ -308,6 +311,7 @@ function FallbackHeader() {
     }
   });
 
+
   return (
     <div className={`main-header sticky top-0 z-50 ${menuOpen ? "menu-open" : ""}`}>
       {/* Header Bar */}
@@ -336,7 +340,7 @@ function FallbackHeader() {
           {/* Logo */}
           <Link to="/">
             <img
-              src="/logo.png"
+              src={process.env.REACT_APP_DEFAULT_STORE_LOGO || '/logo.png'}
               alt="Logo"
               width={126}
               height={50}
