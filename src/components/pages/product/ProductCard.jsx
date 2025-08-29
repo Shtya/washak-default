@@ -17,7 +17,7 @@ export default function ProductCard({ product, buyText = 'شراء الان' }) 
 
     const getImageId = () => {
         const hasImages = product?.images?.length > 0;
-        return getProductImageId({ hasImages, productMainImage: product?.images?.[1]?.cdn_url, productId: product?.id, isHovered, uniqueValue: uniqueRef.current })
+        return getProductImageId({ hasImages, productHoverImage: product?.images?.[1]?.cdn_url, productId: product?.id, isHovered, uniqueValue: uniqueRef.current })
     };
 
 

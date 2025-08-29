@@ -4,9 +4,11 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useAppContext } from "../../contexts/AppContext";
 import Meta from "../atoms/Meta";
+import { useStoreLogos } from '../../hooks/useStoreLogos';
 
 export function AppLayout() {
-    const { storeOptions } = useAppContext();
+    const { storeOptions, } = useAppContext();
+    const { faviconLogo, defaultFaviconLogo, storeDomainLoading } = useStoreLogos()
     const seoData = storeOptions?.seo?.value || {};
 
     // pull out your addon CSS/JS
@@ -25,6 +27,9 @@ export function AppLayout() {
                     description={seoData.description}
                     canonical={seoData.canonical}
                     keywords={seoData.tags}
+                    faviconIco={faviconLogo}
+                    storeDomainLoading={storeDomainLoading}
+                    defaultFaviconIco={defaultFaviconLogo}
                     appName={appName}
                 />
             )}

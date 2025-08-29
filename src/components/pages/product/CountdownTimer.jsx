@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 
-export const CountdownTimer = ({ countdownData, text, productId }) => {
+export const CountdownTimer = ({ countdownData, text, productId, aosDelay = '300' }) => {
   const [timeLeft, setTimeLeft] = useState({ ...countdownData });
   const timerRef = useRef(null);
 
@@ -65,7 +65,7 @@ export const CountdownTimer = ({ countdownData, text, productId }) => {
   if (!countdownData?.status) return null;
 
   return (
-    <div ref={timerRef} className='flex flex-col justify-start w-fit mt-6 mb-4' data-aos='fade-up' data-aos-delay='300'>
+    <div ref={timerRef} className='flex flex-col justify-start w-fit mt-6 mb-4' data-aos='fade-up' data-aos-delay={aosDelay}>
       <div className='text-lg font-medium text-[var(--main)]'>{text || 'الوقت المتبقي على نهاية العرض'} :</div>
       <div className='flex gap-2 rtl:flex-row-reverse rtl:justify-end mt-2'>
         <TimeBox value={String(timeLeft.day).padStart(2, '0')} label='يوم' />

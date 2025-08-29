@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import useJsonParser from "./useJsonParser";
 import { useCartContext } from "../contexts/cartContext";
+import { useStoreLogos } from "./useStoreLogos";
 
 export default function useMenuNavigation(menuItems = [], menuSetting) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -11,6 +12,10 @@ export default function useMenuNavigation(menuItems = [], menuSetting) {
       title: "MAIN MENU"
     });
   
+    const { storelogoPng: png, storelogoSvg: svg, defaultStoreLogo: defaultImg, storeDomainLoading } = useStoreLogos()
+    // order of preference
+    const imageSources = [  svg, png, defaultImg, '/logo.png'];
+
     // Update currentMenu when menuItems changes
     useEffect(() => {
       if (menuItems && menuItems.length > 0) {
@@ -120,6 +125,8 @@ export default function useMenuNavigation(menuItems = [], menuSetting) {
         goBack,
         resetMenu,
         menuOpen, 
-        setMenuOpen
+        setMenuOpen,
+        imageSources,
+        storeDomainLoading
       };
 }

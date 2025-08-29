@@ -1,7 +1,6 @@
 import { ChevronDown, Check, AlertCircle } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion'; // Import motion from framer-motion
-import { useDebounce } from '../../../hooks/useDebounce';
 
 
 export const VariantSelector = ({
@@ -15,7 +14,8 @@ export const VariantSelector = ({
   showValidation,
   setShowValidation,
   defaultVariantCombinations = [], // e.g. [1549,1552]
-  showVariantDetails = true
+  showVariantDetails = true,
+  dataAos = ''
 }) => {
   const [openSelectId, setOpenSelectId] = useState(null);
   const [touchedVariants, setTouchedVariants] = useState({});
@@ -216,7 +216,7 @@ export const VariantSelector = ({
 
   return (
     variants?.length > 0 && showVariantDetails && (
-      <div className='space-y-4 !mt-12 '>
+      <div className='space-y-4 !mt-12 ' data-aos={dataAos}>
         {variants.map((variant, index) => (
           <div key={variant.id} className={`${cn} bg-white  pb-4  space-y-4`}>
             <div className={`${innerCn} grid grid-cols-[auto,1fr] items-center gap-4`}>

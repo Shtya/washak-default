@@ -128,9 +128,11 @@ function RelatedProductCard({ product, btnName = "شراء الان", baseImage 
       ? JSON.parse(product?.price?.fake_product_stock)
       : product?.price?.fake_product_stock;
 
+  const mainImage = product?.medias?.[0]?.url ? baseImage + product?.medias?.[0]?.url : null;
+  const hoverImage = product?.medias?.[1]?.url ? baseImage + product?.medias?.[1]?.url : null;
   const getImageId = () => {
     const hasImages = product?.medias?.length > 0;
-    return getProductImageId({ hasImages, productMainImage: product?.medias?.[1]?.url, productId: product?.id, isHovered, uniqueValue: uniqueRef.current })
+    return getProductImageId({ hasImages, productHoverImage: hoverImage, productId: product?.id, isHovered, uniqueValue: uniqueRef.current })
   };
 
   return (
@@ -153,8 +155,8 @@ function RelatedProductCard({ product, btnName = "شراء الان", baseImage 
         )}
 
         <ProductImageSwitcher
-          mainImage={product?.medias?.[0]?.url ? baseImage + product?.medias?.[0]?.url : null}
-          hoverImage={product?.medias?.[1]?.url ? baseImage + product?.medias?.[1]?.url : null}
+          mainImage={mainImage}
+          hoverImage={hoverImage}
           title={product?.title}
           productId={product?.id}
           unique={uniqueRef.current}

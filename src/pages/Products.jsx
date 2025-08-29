@@ -126,9 +126,10 @@ const PaginatedProductCard = ({ product, index }) => {
   // stable random suffix for unique IDs
   const uniqueRef = useRef(Math.random().toString(36).substring(2, 9));
 
-  const hasImages = product?.image && product?.secondImage;
+  const hasImages = product?.image || product?.secondImage;
   const getImageId = () => {
-    return getProductImageId({ hasImages, productMainImage: product?.image, productId: product?.id, isHovered, uniqueValue: uniqueRef.current })
+
+    return getProductImageId({ hasImages, productHoverImage: product?.secondImage, productId: product?.id, isHovered, uniqueValue: uniqueRef.current })
   };
 
   return (

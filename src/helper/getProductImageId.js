@@ -1,12 +1,12 @@
 export function getProductImageId({
-    productMainImage,
+    productHoverImage,
     productId,
     isHovered,
     hasImages,
     uniqueValue,
   }){
     if (hasImages) {
-        return isHovered && productMainImage
+        return isHovered && productHoverImage
           ? `hoverImage-${productId}-${uniqueValue}`
           : `mainImage-${productId}-${uniqueValue}`;
       } else {

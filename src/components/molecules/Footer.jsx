@@ -6,6 +6,9 @@ import { useAppContext } from '../../contexts/AppContext';
 import { getFullPath } from '../../helper/getFullPath';
 import { useIsActiveLink } from '../../hooks/useIsActiveLink';
 import { useEffect, useState } from 'react';
+import { useStoreLogos } from '../../hooks/useStoreLogos';
+
+import Logo from '../atoms/Logo';
 
 export default function Footer() {
   const { menu, loadingMenu, menuSetting, loadingSetting, storeOptions } = useAppContext();
@@ -119,18 +122,19 @@ function FooterBrand({
   shopName,
   shopDesc
 }) {
-  console.log(shopName || "Logo")
+  const { footerLogo, defaultStoreLogo, storeDomainLoading } = useStoreLogos();
+
   return (
     <div
       className={`flex flex-col gap-4 sm:gap-6 ${footer_alignment === 'vertical' ? 'items-center text-center ' : 'items-center lg:items-start'} ${!isLogoSideEnabled && "hidden"} `}
     >
       {footer_logo_switch === '1' && (
         <Link to="/" className="group">
-          <img
-            src="/logo-white.png"
+          <Logo
+            sources={[footerLogo, defaultStoreLogo, '/logo-white.png']}
+            storeDomainLoading={storeDomainLoading}
             alt={shopName || "Logo"}
             className="w-32 sm:w-40 h-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200"
-            loading="lazy"
           />
         </Link>
       )}
