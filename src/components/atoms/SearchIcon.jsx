@@ -51,7 +51,7 @@ export default function SearchIcon() {
             <li className='px-4 py-2'>جاري التحميل...</li>
           ) : products.length ? (
             products.map(item => (
-              <Link to={`/product/${item.slug}`} key={item.id} className='px-4 py-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2 block' onClick={handleItemClick}>
+              <Link to={`/product/${item.slug}`} key={item.id} className='px-4 py-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2' onClick={handleItemClick}>
                 {/* Use the first media image if available */}
                 {item.medias?.length ? <Img src={baseImage + item.medias[0].url} alt={item.title} className='w-10 h-10 rounded object-cover' /> : <div className='w-10 h-10 rounded bg-gray-300'></div>}
                 <span className='text-xs truncate'>{item.title}</span>
