@@ -24,7 +24,7 @@ export default function useProductsByIds(ids = [], { onSuccess } = {}) {
         if (typeof onSuccess === 'function') onSuccess(items || []);
       },
       onError: err => {
-        console.error('useProductsByIds query error', err);
+        console.error('Get products error', err);
       },
     });
   

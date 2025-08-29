@@ -75,6 +75,7 @@ export function useProductsWithCategories() {
     params.set("page", 1);
     setSearchParams(params);
   };
+
   
   // products
   const products = useMemo(() => {
