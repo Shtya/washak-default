@@ -92,7 +92,7 @@ export default function Cart() {
                   </div>
                 ))}
               </div>
-            ) : cartItems.length > 0 ? (
+            ) : cartItems.length > 0 && products.length > 0 ? (
               <div className='grid gap-2'>
                 {cartItems.map(item => {
                   return (
@@ -139,6 +139,7 @@ export default function Cart() {
                     shipping={shipping}
                     total={total}
                     loadingVariantPrices={loadingVariantPrices}
+                    productsLoading={productsLoading}
                   />
 
 

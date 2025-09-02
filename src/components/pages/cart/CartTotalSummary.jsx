@@ -13,12 +13,15 @@ export default function CartTotalSummary({
     shipping,
     total,
     loadingVariantPrices,
+    productsLoading,
 }) {
+    const isloading = loadingVariantPrices || productsLoading;
+
     return (
         <div className="space-y-4 !mt-8 border-t pt-4">
             <div className="flex justify-between text-base text-[#838BA1]">
                 <span>المجموع الفرعي</span>
-                {loadingVariantPrices ? (
+                {isloading ? (
                     <Skeleton />
                 ) : (
                     <span className="text-[var(--main)]">{oldSubtotal.toFixed(2)} ر.س</span>
@@ -28,7 +31,7 @@ export default function CartTotalSummary({
             {discount > 0 && (
                 <div className="flex justify-between text-base text-[#838BA1]">
                     <span>الخصم</span>
-                    {loadingVariantPrices ? (
+                    {isloading ? (
                         <Skeleton />
                     ) : (
                         <span className="text-green-500">-{discount.toFixed(2)} ر.س</span>
@@ -38,7 +41,7 @@ export default function CartTotalSummary({
 
             <div className="flex justify-between text-base text-[#838BA1]">
                 <span>الضريبة</span>
-                {loadingVariantPrices ? (
+                {isloading ? (
                     <Skeleton />
                 ) : (
                     <span className="text-[var(--main)]">{tax.toFixed(2)} ر.س</span>
@@ -47,7 +50,7 @@ export default function CartTotalSummary({
 
             <div className="flex justify-between text-base text-[#838BA1]">
                 <span>تكلفة الشحن</span>
-                {loadingVariantPrices ? (
+                {isloading ? (
                     <Skeleton />
                 ) : (
                     <span className="text-[var(--main)]">{shipping.toFixed(2)} ر.س</span>
