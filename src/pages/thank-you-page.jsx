@@ -171,8 +171,8 @@ function ProductDetails({
       />
 
       {isCartPurchase
-        ? cart?.details.map((item, index) => {
-          const cartProduct = cart.products.find(p => p.id === item.product_id)
+        ? cart?.details?.map((item, index) => {
+          const cartProduct = cart?.products?.find(p => p.id === item.product_id)
           const productVariants = cartProduct?.product_variants || []
 
           return (
@@ -194,15 +194,15 @@ function ProductDetails({
                   <Link to={`/product/${cartProduct?.slug}`}>
                     <p className='font-medium text-[#333333]'>{cartProduct?.title}</p>
                   </Link>
-                  <p className='text-base text-[#BFC2D4]'>عدد القطع : {item.quantity}</p>
-                  {item.options?.map((opt, i) => (
+                  <p className='text-base text-[#BFC2D4]'>عدد القطع : {item?.quantity}</p>
+                  {item?.options?.map((opt, i) => (
                     <p key={i} className='text-sm inline-block mx-1 text-gray-500'>
                       {getOptionName(productVariants, opt)}
                     </p>
                   ))}
                 </div>
                 <p className='text-base text-[#123770] text-nowrap'>
-                  {item.total_price.toFixed(2)} {currency}
+                  {item?.total_price.toFixed(2)} {currency}
                 </p>
               </div>
             </div>
@@ -226,15 +226,15 @@ function ProductDetails({
                 <Link to={`/product/${product?.slug}`}>
                   <p className='font-medium text-[#333333]'>{product?.title}</p>
                 </Link>
-                <p className='text-base text-[#BFC2D4]'>عدد القطع : {orderSummary.qty}</p>
-                {selectedOptions.map((opt, i) => (
+                <p className='text-base text-[#BFC2D4]'>عدد القطع : {orderSummary?.qty}</p>
+                {selectedOptions?.map((opt, i) => (
                   <p key={i} className='text-sm inline-block mx-1 text-gray-500'>
                     {getOptionName(variants, opt)}
                   </p>
                 ))}
               </div>
               <p className='text-base text-[#123770] text-nowrap'>
-                {res.total.toFixed(2)} {res.currency}
+                {res?.total.toFixed(2)} {res?.currency}
               </p>
             </div>
           </div>
@@ -259,31 +259,31 @@ function OrderSummary({ orderSummary }) {
         title2='التوصيل'
       />
 
-      {orderSummary.name && (
+      {orderSummary?.name && (
         <div className='text-base text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='450'>
           <span>اسم العميل</span>
-          <span className='text-[#A6AFB9] text-sm'>{orderSummary.name}</span>
+          <span className='text-[#A6AFB9] text-sm'>{orderSummary?.name}</span>
         </div>
       )}
 
-      {orderSummary.phone && (
+      {orderSummary?.phone && (
         <div className='text-base text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='500'>
           <span>رقم الجوال</span>
-          <span className='text-[#A6AFB9] text-sm'>{orderSummary.phone}</span>
+          <span className='text-[#A6AFB9] text-sm'>{orderSummary?.phone}</span>
         </div>
       )}
 
-      {orderSummary.delivery_address && (
+      {orderSummary?.delivery_address && (
         <div className='text-base text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='550'>
           <span>العنوان</span>
-          <span className='text-[#A6AFB9] text-sm'>{orderSummary.delivery_address}</span>
+          <span className='text-[#A6AFB9] text-sm'>{orderSummary?.delivery_address}</span>
         </div>
       )}
 
-      {orderSummary.zip_code && (
+      {orderSummary?.zip_code && (
         <div className='text-base text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='600'>
           <span>الرمز البريدي</span>
-          <span className='text-[#A6AFB9] text-sm'>{orderSummary.zip_code}</span>
+          <span className='text-[#A6AFB9] text-sm'>{orderSummary?.zip_code}</span>
         </div>
       )}
 
@@ -333,24 +333,24 @@ function ShippingSummary({
         <>
           <div className='!mt-[20px] text-base text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='450'>
             <span>المبلغ المستحق</span>
-            <span className='text-[var(--main)] text-sm'>{subTotal.toFixed(2)} {currency}</span>
+            <span className='text-[var(--main)] text-sm'>{subTotal?.toFixed(2)} {currency}</span>
           </div>
 
           <div className='!mt-[20px] text-base text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='500'>
             <span>الضريبة</span>
-            <span className='text-[var(--second)] text-sm'>{tax.toFixed(2)} {currency}</span>
+            <span className='text-[var(--second)] text-sm'>{tax?.toFixed(2)} {currency}</span>
           </div>
 
           <div className='!mt-[20px] text-base text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='500'>
             <span>تكلفة الشحن</span>
-            <span className='text-[var(--second)] text-sm'>{shipping.toFixed(2)} {currency}</span>
+            <span className='text-[var(--second)] text-sm'>{shipping?.toFixed(2)} {currency}</span>
           </div>
         </>
       )}
 
       <div className='!mt-[20px] text-base text-[var(--second)] flex justify-between' data-aos='fade-left' data-aos-delay='500'>
         <span>المبلغ الاجمالى</span>
-        <span className='text-[var(--second)] text-sm'>{totals.toFixed(2)} {currency}</span>
+        <span className='text-[var(--second)] text-sm'>{totals?.toFixed(2)} {currency}</span>
       </div>
     </div>
   )

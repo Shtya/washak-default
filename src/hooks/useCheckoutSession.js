@@ -5,12 +5,19 @@ import { useAppContext } from '../contexts/AppContext'
 
 export function useCheckoutSession() {
   const navigate = useNavigate()
-  const {storeOptions} = useAppContext()
-  const {thankyou_content: {value: thankyou_content_value = '', status : thankyou_content_status = 0} } = storeOptions;
-  //thank you css and js
-  const addon = storeOptions?.addon_content;
-  const { thankyou_css, thankyou_js } = addon?.value || {};
-  const shouldInject = addon?.status === 1;
+  const { storeOptions = {} } = useAppContext();
+
+  const {
+    thankyou_content: {
+      value: thankyou_content_value = '',
+      status: thankyou_content_status = 0
+    } = {},
+    addon_content: addon = {}
+  } = storeOptions;
+
+  const { thankyou_css, thankyou_js } = addon.value || {};
+  const shouldInject = addon.status === 1;
+
 
   // 1. Breadcrumbs never change
   
@@ -39,8 +46,14 @@ export function useCheckoutSession() {
   const [showAnimation, setShowAnimation] = useState(true)
 
   // 6. Destructure for convenience
-  const { cart, orderSummary, res, productData, currency } =
-    orderData
+  const {
+    cart = null,
+    orderSummary = null,
+    res = null,
+    productData = null,
+    currency = ''
+  } = orderData ?? {};
+  
 
   const isCartPurchase = Boolean(cart)
 
@@ -52,7 +65,7 @@ export function useCheckoutSession() {
   const getOptionName = useCallback(
     (variantOptions, optionId) => {
       for (const variant of variantOptions || []) {
-        const opt = variant.options.find((o) => o.id == optionId)
+        const opt = variant?.options?.find((o) => o.id == optionId)
         if (opt) return opt?.variant_option_name
       }
       return ''
@@ -65,7 +78,7 @@ export function useCheckoutSession() {
     () =>
       isCartPurchase
         ? cart?.details?.reduce((sum, i) => sum + i.quantity, 0)
-        : orderSummary.qty,
+        : orderSummary?.qty,
     [isCartPurchase, cart, orderSummary]
   )
 
@@ -78,7 +91,7 @@ export function useCheckoutSession() {
   const subTotal = cart?.subtotal
   const shipping = cart?.shipping
   const tax = cart?.tax
-  const totals = isCartPurchase ? cart?.total : res.total
+  const totals = isCartPurchase ? cart?.total : res?.total
 
   
   return {

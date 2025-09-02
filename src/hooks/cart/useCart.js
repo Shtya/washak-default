@@ -8,6 +8,7 @@ import useProductsByIds from "./useProductsByIds";
 import useVariantQueries from "./useVariantQueries";
 import { useForm } from "react-hook-form";
 import { Notification } from "../../config/Notification";
+import { useRelatedProducts } from "../Product/useRelatedProducts";
 
 export const useCart = () => {
   const navigate = useNavigate();
@@ -43,9 +44,16 @@ export const useCart = () => {
     // force refetch when ids change
     useEffect(() => {
 
-
       if (productIdsKey.length > 0) refetch();
     }, [productIdsKey?.join(",")]);
+
+    //clear cart wehn no products founds with status code 200 to mintain ux
+    useEffect(() => {
+      if (contextCartItems.length > 0 && !productsLoading && products?.length === 0) {
+        clearCart();
+      }
+    }, [contextCartItems.length, products, productsLoading, clearCart]);
+    
     // local UI state kept here
     const [submitError, setSubmitError] = useState(null);
     const [isBuyNowLoading, setIsBuyNowLoading] = useState(false);
@@ -54,9 +62,7 @@ export const useCart = () => {
     const checkoutFields = useMemo(() => checkoutSettings?.data || [], [checkoutSettings]);
 
     // related products hook 
-    const { data: relatedProducts, loading: loadingRelatedProducts } = useApiGet(
-      contextCartItems.length > 0 ? `/get-related-products/${contextCartItems[0]?.slug}` : null
-    );
+    const { data: relatedProducts, loading: loadingRelatedProducts } = useRelatedProducts(contextCartItems[0]?.slug);
     // Cache to avoid re-requesting the same variant combos
     const variantFetchCache = useRef(new Map());
 
@@ -251,8 +257,8 @@ export const useCart = () => {
           subtotal: totals.subtotal,
           tax: totals.tax,
           shipping: totals.shipping,
-          discount: totals.discount,
-          total: totals.total - totals.discount,
+          discount: 0,
+          total: totals.total,
           weight: 0,
         },
         customer_info: {
