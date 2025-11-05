@@ -1,26 +1,24 @@
 // src/hooks/useCheckoutSession.ts
-import { useEffect, useMemo, useRef, useState, useCallback, useContext } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../contexts/AppContext'
 
 export function useCheckoutSession() {
   const navigate = useNavigate()
-  const { storeOptions = {} } = useAppContext();
+  const appContext = useAppContext();
+  let storeOptions = appContext?.storeOptions ?? {};
 
-  const {
-    thankyou_content: {
-      value: thankyou_content_value = '',
-      status: thankyou_content_status = 0
-    } = {},
-    addon_content: addon = {}
-  } = storeOptions;
+  const { thankyou_content, addon_content: addon = {} } = storeOptions;
+  const thankyou_content_value = thankyou_content?.value ?? '';
+  const thankyou_content_status = thankyou_content?.status ?? 0;
 
-  const { thankyou_css, thankyou_js } = addon.value || {};
-  const shouldInject = addon.status === 1;
+
+  const { thankyou_css, thankyou_js } = addon?.value || {};
+  const shouldInject = addon?.status === 1;
 
 
   // 1. Breadcrumbs never change
-  
+
   const breadcrumbRoutes = useMemo(
     () => [
       { label: 'الرئيسية', href: '/' },
@@ -53,7 +51,7 @@ export function useCheckoutSession() {
     productData = null,
     currency = ''
   } = orderData ?? {};
-  
+
 
   const isCartPurchase = Boolean(cart)
 
@@ -93,7 +91,7 @@ export function useCheckoutSession() {
   const tax = cart?.tax
   const totals = isCartPurchase ? cart?.total : res?.total
 
-  
+
   return {
     breadcrumbRoutes,
     orderData: orderData,
@@ -112,11 +110,11 @@ export function useCheckoutSession() {
     showAnimation,
     orderSummary,
     isCartPurchase,
-    cart, 
+    cart,
     res,
     setShowAnimation,
     shouldInject,
-    thankyou_css, 
+    thankyou_css,
     thankyou_js,
     thankyou_content_status,
     thankyou_content_value

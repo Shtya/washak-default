@@ -5,8 +5,8 @@ import { useCartContext } from "../../contexts/cartContext";
 export const useAddToCart = () => {
   const { addItem } = useCartContext();
 
-  const handleAddToCart = useCallback((product, imageId) => {
-    
+  const handleAddToCart = useCallback((product, imageId, quantity = 1) => {
+
     const mainImage = document.getElementById(imageId);
     const cartIcon = document.getElementById("cart-icon");
     if (!cartIcon) return;
@@ -19,12 +19,12 @@ export const useAddToCart = () => {
 
       addItem({
         id: product.id,
-        quantity: 1,
+        quantity: quantity,
         selectedOptions: product.selectedOptions || [],
       });
       return;
     }
-    
+
     // 1) clone and style
     const rectImg = mainImage.getBoundingClientRect();
     const rectCart = cartIcon.getBoundingClientRect();
@@ -70,11 +70,11 @@ export const useAddToCart = () => {
       // finally, add to cart
       addItem({
         id: product.id,
-        quantity: 1,
+        quantity: quantity,
         selectedOptions: product.selectedOptions || [],
       });
     }, 1000);
   }, [addItem]);
 
-  return {handleAddToCart};
+  return { handleAddToCart };
 };

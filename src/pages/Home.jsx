@@ -115,7 +115,7 @@ const SectionWrapper = ({
 }) => {
   return (
     <div
-      className={`py-8 md:py-16 ${className}`}
+      className={`py-8 md:py-14 ${className}`}
       style={{
         // background: order % 2 === 0 ? '#fff' : '#f9fafb',
         background: "#fff",
@@ -246,7 +246,7 @@ function ProductSection({ sectionData, loading = false, buyText }) {
   }, []);
 
   const order = sectionData.sort_order;
-  console.log(order)
+
   const sliderConfig = useMemo(() => ({
     spaceBetween: 10,
     loop: true,
@@ -353,7 +353,7 @@ const CategoryList = ({ data, order, loading = false }) => {
       640: { slidesPerView: 3 },  // larger phones
       768: { slidesPerView: 4 },  // tablet
       1024: { slidesPerView: 6 },  // small desktop
-      1280: { slidesPerView: 8 },  // large desktop
+      // 1280: { slidesPerView: 8 },  // large desktop
     },
     centeredSlides: false,
     pagination: { el: '.category-pagination', clickable: true },
@@ -384,11 +384,11 @@ const CategoryList = ({ data, order, loading = false }) => {
       }
     });
 
-    if (slidesCount < perView) {
-      wrapper.classList.add("justify-center");
-    } else {
-      wrapper.classList.remove("justify-center");
-    }
+    // if (slidesCount < perView) {
+    //   wrapper.classList.add("justify-center");
+    // } else {
+    //   wrapper.classList.remove("justify-center");
+    // }
   }, [slidesCount, sliderConfig]);
 
   useEffect(() => {
@@ -420,19 +420,19 @@ const CategoryList = ({ data, order, loading = false }) => {
           <Swiper {...sliderConfig} className='py-2 items-center categories-section'  >
             {data.categories.map((category, i) => (
               <SwiperSlide
-                key={category?.id ?? category?.slug ?? i}
+                key={i ?? category?.id ?? category?.slug ?? i}
                 style={{ width: "160px" }}
               >
                 <Link
                   to={getFullPath("category/", category.slug)}
                   className="w-[160px] flex flex-col items-center transition-transform duration-300 hover:scale-105 group mx-auto"
                 >
-                  <div className="overflow-hidden w-full h-[110px] shadow-inner p-2 rounded-lg border border-gray-200">
+                  <div className="overflow-hidden w-full h-[130px] shadow-inner p-2 rounded-lg border border-gray-200">
                     <Img
                       src={category.image_url}
                       alt={category.name}
                       width={160}
-                      height={110}
+                      height={130}
                       className="w-full h-full object-cover rounded-md transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
@@ -474,7 +474,7 @@ function FeatureList({ order, data, loading = false }) {
         <div className='container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
           {data.icons.map((feature, idx) => (
             <div key={idx} className='flex flex-col items-center text-center p-4'>
-              <i className={`fas ${feature.icon_name} text - 4xl text - [var(--main)]mb - [20px]`}></i>
+              <i className={`fas ${feature.icon_name} text-4xl text-[var(--main)] mb-[20px]`}></i>
               <h3 className='text-lg font-semibold text-[#252A50] mb-1'>{feature.title}</h3>
               <p className='text-[#77839D] text-sm'>{feature.sub_title || 'وصف'}</p>
             </div>

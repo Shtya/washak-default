@@ -100,12 +100,12 @@ export default function Product() {
         <div className='flex flex-col !p-6 bg-white  rounded-md  flex-1 space-y-4 h-full'>
           <Categories categories={product?.categories} />
           <ProductTitle title={product?.title} />
-          <ProductHeader isEnabled={productOptions?.product_header === "1"} text={productOptions?.product_header_text} />
+          <ProductHeader isEnabled={productOptions?.product_header != "0"} text={productOptions?.product_header_text} />
           <PriceDisplay price={product?.price} />
 
 
           <Reviews reviewEnable={product?.review_enable} noOfReviews={product?.no_of_reviews} />
-          <Description content={product?.product_content} shortDescription={product?.product_short_description} isShortEnabled={product_style_settings?.product_short_description_status === 'yes'} isDescriptionEnabled={productOptions?.description_switch} />
+          <Description content={product?.product_content} shortDescription={product?.product_short_description} isShortEnabled={product_style_settings?.product_short_description_status !== 'no'} isDescriptionEnabled={productOptions?.description_switch} />
 
           <CountdownTimer countdownData={countdownData} text={productOptions?.text_above_counter} aosDelay='' />
           <HurryUpAlert text={hurryUpOptions?.hurryUpText} />
@@ -154,7 +154,7 @@ export default function Product() {
                 <div className="text-[#555] mb-3">لا يمكن تحميل حقول الطلب الآن — سيتم إضافة المنتج للسلة بدلاً من الشراء السريع.</div>
               </div>
             ) : null}
-          <BuyNowSection showValidation={showValidation} isBuyNowLoading={isBuyNowLoading} handleBuyNow={handleBuyNow} getValues={getValues} setValue={setValue} isSticky={productOptions?.product_footer_buy_sticky === '1'} buttonText={productOptions?.buy_now_button_text} />
+          <BuyNowSection showValidation={showValidation} isBuyNowLoading={isBuyNowLoading} handleBuyNow={handleBuyNow} getValues={getValues} setValue={setValue} isSticky={productOptions?.product_footer_buy_sticky != '0'} buttonText={productOptions?.buy_now_button_text} />
         </div>
       </div>
 
@@ -164,7 +164,7 @@ export default function Product() {
         <ProductCarouselRelated title={product_style_settings?.related_prod_name_custom || 'منتجات ذات صلة'} subTitle={'تصفّح منتجات قد تعجبك أيضًا بناءً على هذا المنتج'} cn='max-sm:!px-[10px] !mt-6' bg='sm:!px-[20px] py-[40px] bg-white rounded-md border border-[var(--border-bg)]' products={relatedProducts?.data} loading={loadingRelatedProducts} arrowTop={true} />
         : null}
 
-      <FeatureList />
+      {/* <FeatureList /> */}
 
     </div>
   );
