@@ -384,11 +384,11 @@ const CategoryList = ({ data, order, loading = false }) => {
       }
     });
 
-    // if (slidesCount < perView) {
-    //   wrapper.classList.add("justify-center");
-    // } else {
-    //   wrapper.classList.remove("justify-center");
-    // }
+    if (slidesCount < perView) {
+      wrapper.classList.add("justify-center");
+    } else {
+      wrapper.classList.remove("justify-center");
+    }
   }, [slidesCount, sliderConfig]);
 
   useEffect(() => {
