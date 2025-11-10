@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 
 
-export default function PriceCurrency({ cn = '', price }) {
+export default function PriceCurrency({ cn = '', price, style }) {
   const { storeOptions } = useAppContext();
   const currencyValue = storeOptions?.currency?.value;
 
@@ -12,7 +12,8 @@ export default function PriceCurrency({ cn = '', price }) {
   const formattedPrice = Number(price).toFixed(2);
 
   return (
-    <div className={`flex items-center text-nowrap ${cn}`}>
+    <div className={`flex items-center text-nowrap ${cn}`}
+      style={style}>
       {currencyValue?.currency_position === 'left' ? (
         <>
           {currencyValue?.currency_icon} {formattedPrice}
@@ -53,7 +54,7 @@ export function PriceBlock({ ar = true, salePrice, originalPrice, className = ''
 
   return (
     <div className={`flex items-center justify-center gap-2 ${className}`}>
-      <span className={`text-[var(--second)] font-medium ${fontSize.current}`}>
+      <span className={`price text-[var(--second)] font-medium ${fontSize.current}`}>
         {currencyValue?.currency_position === 'left'
           ? `${ar ? currencyValue?.currency_icon : currencyValue?.currency_name} ${extractNumber(salePrice)}`
           : `${extractNumber(salePrice)} ${ar ? currencyValue?.currency_icon : currencyValue?.currency_name}`}
@@ -61,7 +62,7 @@ export function PriceBlock({ ar = true, salePrice, originalPrice, className = ''
 
       {/* السعر الأصلي إذا مختلف */}
       {originalPrice !== undefined && originalPrice !== salePrice && (
-        <span className={`text-[var(--black-4)] line-through ${fontSize.original}`}>
+        <span className={`old-price text-[var(--black-4)] line-through ${fontSize.original}`}>
           {currencyValue?.currency_position === 'left'
             ? `${ar ? currencyValue?.currency_icon : currencyValue?.currency_name} ${extractNumber(originalPrice)}`
             : `${extractNumber(originalPrice)} ${ar ? currencyValue?.currency_icon : currencyValue?.currency_name}`}

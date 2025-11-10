@@ -24,15 +24,16 @@ export default function MenuItem({ item, isSub = false, slug = '', closeParent }
                 <a
                     href={item.href}
                     target={item.target || "_self"}
-                    className="navlink flex items-center whitespace-nowrap text-[var(--black-2)] hover:text-[var(--main)] transition-all duration-200 ease-in-out"
+                    className={`navlink ${isSub ? "sub bg-red-400" : "main"} flex items-center whitespace-nowrap transition-all duration-200 ease-in-out`}
                 >
-                    <span className="px-2 py-1 font-medium transition-all duration-200 ">
+                    <span className="px-2 py-1 font-medium transition-all duration-200 "
+                    >
                         {item.text || "Menu Item"}
                     </span>
 
                     {item.children?.length > 0 && (
                         <ChevronDown
-                            className={`w-4 h-4 stroke-[3px] transition-all duration-200 !mt-[4px] hover:scale-110 hover:text-[var(--main)]
+                            className={`w-4 h-4 stroke-[3px] transition-all duration-200 !mt-[4px] hover:scale-110
                     ${isSub ? "-rotate-90" : ""}
                     ${open && !isSub ? "rotate-180" : ""}`}
                         />
@@ -46,7 +47,7 @@ export default function MenuItem({ item, isSub = false, slug = '', closeParent }
                     onClick={handleCloseParent}
                     onCli
                     className={
-                        `navlink flex items-center whitespace-nowrap transition-all duration-200 ease-in-out 
+                        `navlink ${isSub ? "sub" : "main"} flex items-center whitespace-nowrap transition-all duration-200 ease-in-out 
                         ${isActive ? "active" : ""}`
                     }
                 >
@@ -56,7 +57,7 @@ export default function MenuItem({ item, isSub = false, slug = '', closeParent }
 
                     {item.children?.length > 0 && (
                         <ChevronDown
-                            className={`w-4 h-4 stroke-[3px] transition-all duration-200 !mt-[4px] hover:scale-110 hover:text-[var(--main)]
+                            className={`w-4 h-4 stroke-[3px] transition-all duration-200 !mt-[4px] hover:scale-110 
                     ${isSub ? "rotate-90" : ""}
                     ${open && !isSub ? "rotate-180" : ""}`}
                         />
@@ -67,7 +68,7 @@ export default function MenuItem({ item, isSub = false, slug = '', closeParent }
             {
                 item.children?.length > 0 && (
                     <ul
-                        className={`absolute bg-white shadow-lg transition-all duration-500 ease-in-out min-w-[180px] z-50  
+                        className={`nav-drop-menu absolute bg-white shadow-lg transition-all duration-500 ease-in-out min-w-[180px] z-50  
                     ${open ? "max-h-[400px] opacity-100" : "overflow-hidden max-h-0 opacity-0 "}
                     ${isSub ? "right-full top-0 " : "right-0 top-full mt-2"}
                 `}

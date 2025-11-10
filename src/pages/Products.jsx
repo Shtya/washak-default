@@ -62,7 +62,9 @@ export default function Products() {
             : `كل المنتجات`}
         </title>
       </Helmet>
-      <div className="bg-[#f8fafb]" >
+      <div className="products "
+        style={{ background: "var(--category_page_color,  #f8fafb)" }}
+      >
         <div className="container max-sm:!px-[20px] py-[30px]">
           <div className="py-6 space-y-4">
             <div data-aos="fade-up" className="flex flex-wrap gap-3">
@@ -80,11 +82,14 @@ export default function Products() {
                   <button
                     key={cat.key}
                     onClick={() => setCategory(cat.slug || "all")}
-                    className={`px-4 py-2 min-h-[45px] rounded-full text-sm font-medium transition-all duration-300 
+                    className={`category-btn border px-4 py-2 min-h-[45px] rounded-full text-sm font-medium transition-all duration-300 
                       ${(cat.slug || "all") === currentCategory
-                        ? "bg-[var(--main)] text-white scale-[1.1]"
-                        : "bg-white text-[#58749A] border border-[#EEF0F7] hover:bg-[var(--main)] hover:border-transparent hover:text-white hover:scale-[1.05]"
-                      }`}
+                        ? "active scale-[1.1]"
+                        : "hoverable hover:border-transparent  hover:scale-[1.05]"
+                      }
+                      
+                       `}
+
                   >
                     {cat.label}
                   </button>
@@ -135,9 +140,9 @@ const PaginatedProductCard = ({ product, index }) => {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      data-aos={`${index % 2 == 0 ? 'fade-up' : 'fade-down'}`} className=' block w-full max-w-[400px] group product-item  border border-[#EEEEEE] relative bg-white text-black rounded-lg p-3 mx-auto'>
+      data-aos={`${index % 2 == 0 ? 'fade-up' : 'fade-down'}`} className='paginated-product block w-full max-w-[400px] group product-item  border border-[#EEEEEE] relative bg-white text-black rounded-lg p-3 mx-auto'>
       <Link to={`/product/${product?.slug}`} className=' block img-switcher-2 relative'>
-        {product?.discountLabel && <span className='absolute shadow-xl top-[5px] left-[5px] z-[10] text-[10px] bg-[var(--second)] text-white px-[10px] py-[5px] rounded-[6px]'>{product?.discountLabel}</span>}
+        {product?.discountLabel && <span className='discount-percentage absolute shadow-xl top-[5px] left-[5px] z-[10] text-[10px] bg-[var(--second)] text-white px-[10px] py-[5px] rounded-[6px]'>{product?.discountLabel}</span>}
         {product?.fakeStock?.status && <span className='absolute shadow-xl top-[5px] right-[5px] z-[10] text-[10px] bg-red-500 text-white px-[10px] py-[5px] rounded-[6px]'>متبقي {product?.fakeStock.left} فقط</span>}
         <ProductImageSwitcher
           mainImage={product?.image}
@@ -147,15 +152,17 @@ const PaginatedProductCard = ({ product, index }) => {
           unique={uniqueRef.current}
         />
       </Link>
-      <span className='bg-[#F8F8F9] text-[#A0A9BB] px-[20px] py-[5px] shadow-sm w-fit text-[10px] rounded-[10px] my-[10px] block mx-auto'>{product?.cta}</span>
-      <span className='text-center w-full block text-[var(--black-1)] text-base my-[10px]'>{product?.title}</span>
+      <span className='category bg-[#F8F8F9] text-[#A0A9BB] px-[20px] py-[5px] shadow-sm w-fit text-[10px] rounded-[10px] my-[10px] block mx-auto'>{product?.cta}</span>
+      <span className='title text-center w-full block  text-base my-[10px]'>{product?.title}</span>
 
       <PriceBlock ar salePrice={product?.salePrice} originalPrice={product?.originalPrice} />
 
       <div className=' flex items-center justify-between mt-[20px] gap-2'>
-        <Link to={`/product/${product?.slug}`} className='btn-blue flex-1 text-center py-2 rounded-md'>
+        <Link to={`/product/${product?.slug}`} className='buy-btn btn-blue flex-1 text-center py-2 rounded-md'>
           شراء الان
-          <img src="/icons/buy.png" alt='' width={20} height={20} />
+          <svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"></path>
+          </svg>
         </Link>
 
         <button

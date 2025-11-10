@@ -65,7 +65,7 @@ export default function ProductCarouselRelated({ btnName = 'شراء الان', 
   if (products?.length <= 0) return null;
 
   return (
-    <div className={` ${!products && ' !hidden'} relative max-sm:!px-[20px]   `} style={{ order: order }}>
+    <div className={` ${!products && ' !hidden'} related-products relative max-sm:!px-[20px]   `} style={{ order: order }}>
       <div className={`container ${cn} `}>
         <div className={`relative ${bg} `}>
           <HeadTitle desc={subTitle} title={title} arrowTop={arrowTop} />
@@ -129,7 +129,7 @@ function RelatedProductCard({ product, btnName = "شراء الان", baseImage 
 
   return (
     <div
-      className="min-h-[537px] group product-item shadow-sm border border-[#EEEEEE] relative bg-white text-black rounded-lg p-3 flex flex-col"
+      className="related-product-card  min-h-[537px] group product-item shadow-sm border border-[#EEEEEE] relative bg-white text-black rounded-lg p-3 flex flex-col"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -165,7 +165,7 @@ function RelatedProductCard({ product, btnName = "شراء الان", baseImage 
 
         <Link to={`/product/${product?.slug}`} >
           <span
-            className="w-full block text-[var(--black-1)] text-base my-[10px] overflow-hidden text-ellipsis whitespace-nowrap px-2"
+            className="title w-full block text-[var(--black-1)] text-base my-[10px] overflow-hidden text-ellipsis whitespace-nowrap px-2"
             title={product?.title}
           >
             {product?.title}
@@ -180,7 +180,7 @@ function RelatedProductCard({ product, btnName = "شراء الان", baseImage 
       <div className="flex items-center justify-between gap-2 mt-[10px]">
         <div
           onClick={() => router(`/product/${product?.slug}`)}
-          className="btn-blue flex-1 text-center py-2 rounded-md cursor-pointer"
+          className="btn-blue buy-btn flex-1 text-center py-2 rounded-md cursor-pointer"
         >
           {btnName}
           <img src="/icons/buy.png" alt="" width={20} height={20} />

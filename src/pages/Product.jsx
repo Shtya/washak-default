@@ -17,6 +17,7 @@ import { BuyNowSection } from '../components/pages/product/BuyNowSection';
 import { FrequentlyBoughtTogether } from '../components/pages/product/FrequentlyBoughtTogether';
 import { useProduct } from '../hooks/Product/useProduct';
 import { getFullPath } from '../helper/getFullPath';
+import { color } from 'framer-motion';
 
 export default function Product() {
   const { breadcrumbRoutes,
@@ -89,7 +90,9 @@ export default function Product() {
   }
 
   return (
-    <div className='bg-[#f8fafb]'>
+    <div className='product-detials-page'
+      style={{ background: "var(--product_page_color,  #f8fafb)" }}
+    >
       <MetaTags title={seo?.meta_title} description={seo?.meta_description} image={`${baseImage}${product?.medias?.[0]?.url}`} url={`${BaseUrl}/product/${product?.slug}`} keywords={seo?.meta_keyword} />
 
       <Breadcrumb cn='!mt-0 !pt-[30px] container' routes={breadcrumbRoutes} />
@@ -154,7 +157,8 @@ export default function Product() {
                 <div className="text-[#555] mb-3">لا يمكن تحميل حقول الطلب الآن — سيتم إضافة المنتج للسلة بدلاً من الشراء السريع.</div>
               </div>
             ) : null}
-          <BuyNowSection showValidation={showValidation} isBuyNowLoading={isBuyNowLoading} handleBuyNow={handleBuyNow} getValues={getValues} setValue={setValue} isSticky={productOptions?.product_footer_buy_sticky != '0'} buttonText={productOptions?.buy_now_button_text} />
+          <BuyNowSection cnbtn='details_buynow' showValidation={showValidation} isBuyNowLoading={isBuyNowLoading} handleBuyNow={handleBuyNow} getValues={getValues} setValue={setValue} isSticky={productOptions?.product_footer_buy_sticky != '0'} buttonText={productOptions?.buy_now_button_text}
+          />
         </div>
       </div>
 
@@ -174,7 +178,8 @@ export default function Product() {
    Product Title
 ====================== */
 export const ProductTitle = ({ title }) => (
-  <h2 className='text-2xl max-md:text-xl font-bold text-[#3B2D35]' data-aos='fade-up'>
+  <h2 className='text-2xl max-md:text-xl font-bold text-[#3B2D35]' data-aos='fade-up'
+    style={{ color: "var(--product_title_color, #3B2D35)" }}>
     {title}
   </h2>
 );
@@ -200,15 +205,20 @@ export const Categories = ({ categories }) =>
 export const PriceDisplay = ({ price }) => (
   <div className='flex items-center gap-2' data-aos='fade-up' >
     <span className='text-[#123770] '>
-      <PriceCurrency currency={'ج.م'} price={price?.special_price} />
+      <PriceCurrency currency={'ج.م'} price={price?.special_price}
+        style={{ color: 'var(--new_price_color, var(main))' }} />
     </span>
     {price?.regular_price && (
       <>
-        <span className='line-through text-[#A5A5A5] text-base'>
-          <PriceCurrency currency={'ج.م'} price={price?.regular_price} />
+        <span className='line-through text-base'
+          style={{ color: 'var(--old_price_color, #A5A5A5)' }}>
+          <PriceCurrency currency={'ج.م'} price={price?.regular_price}
+            style={{ color: 'var(--old_price_color, #A5A5A5)' }} />
         </span>
-        <span className='bg-[var(--second)] text-white text-xs px-2 py-1 rounded-full flex items-center gap-[5px]'>
-          هتوفر <PriceCurrency currency={'ج.م'} price={price?.regular_price - price?.special_price} />
+        <span className='text-white border text-xs px-2 py-1 rounded-full flex items-center gap-[5px]'
+          style={{ background: 'var(--price_bk_color, var(--second))', borderColor: 'var(--price_border_color, var(main))' }}>
+          هتوفر <PriceCurrency currency={'ج.م'} price={price?.regular_price - price?.special_price}
+          />
         </span>
       </>
     )}

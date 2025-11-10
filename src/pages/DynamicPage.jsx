@@ -34,7 +34,9 @@ const DynamicPage = () => {
       {page?.title && <Helmet>
         <title>{page?.title}</title>
       </Helmet>}
-      <div key={slug} className="bg-gray-50 min-h-[calc(100vh-300px)]">
+      <div key={slug} className=" min-h-[calc(100vh-300px)]"
+        style={{ background: "var(--dynamic_page_color,  #f8fafb)" }}
+      >
         {loading ? (
           <div className="container min-h-[calc(100vh-300px)]">
             <Breadcrumb cn="!mt-0 !pt-[30px] container" routes={breadcrumbRoutes} />

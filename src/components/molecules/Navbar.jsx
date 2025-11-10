@@ -8,6 +8,7 @@ import { getFullPath } from '../../helper/getFullPath';
 import useMenuNavigation from '../../hooks/useMenuNavigation';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 import Logo from '../atoms/Logo.jsx';
+import { useCartContext } from '../../contexts/cartContext.js';
 
 export default function Navbar() {
   const { menu, loadingMenu, menuSetting, storeOptions } = useAppContext();
@@ -45,11 +46,12 @@ export default function Navbar() {
   }
 
   return (
-    <div className={`main-header ${header_enable_switch !== '1' && "is-scrolled"} sticky top-0 z-50  ${menuOpen ? "menu-open" : ""}`}>
+    <div className={`main-header ${header_enable_switch !== '1' && "is-scrolled"} sticky top-0 z-50  ${menuOpen ? "menu-open" : ""}`}
+      style={{ backgroundColor: 'var(--bk_color, white)' }}>
       {header_enable_switch === '1' && header_text && (
         <header
           className="header-bar text-white w-full flex items-center justify-center gap-4 text-base max-md:text-xs duration-500 transition-all"
-          style={{ background: 'var(--main)' }}
+          style={{ background: 'var(--sticky_header_bg, var(--main))' }}
         >
           <img
             src="/icons/car.png"
@@ -107,13 +109,15 @@ export default function Navbar() {
                   >
                     <span
                       id="cart-count"
-                      className="absolute top-[-5px] right-[-5px] w-4 h-4 rounded-full text-white text-[10px] flex items-center justify-center"
-                      style={{ background: 'var(--main)' }}
+                      className="absolute top-[-5px] right-[-5px] w-4 h-4 rounded-full  text-[10px] flex items-center justify-center"
+                      style={{ background: 'var(--cart_num_bg_color, var(--main))', color: "var(--cart_num_color, white)" }}
                     >
                       {count}
                     </span>
                     {cart_icon ? (
-                      <i className={`${cart_icon} fa-solid text-2xl`} />
+                      <i className={`${cart_icon} fa-solid text-2xl `}
+                        style={{ color: 'var(--icon_border, black)' }}
+                      />
                     ) : (
                       <img src="/icons/cart.png" alt="Cart" width={30} height={30} />
                     )}
@@ -150,6 +154,7 @@ function MobileMenuToggle({ bar_icon, menuOpen, setMenuOpen }) {
     <button
       onClick={() => setMenuOpen(prev => !prev)}
       className="lg:hidden focus:outline-none"
+      style={{ color: "var(--icon_border, black)" }}
       aria-label="Toggle menu"
     >
       {bar_icon ? (
@@ -200,14 +205,15 @@ function MenuList({ items = [], goToSubmenu, setMenuOpen, fullPathFactory, loadi
 
         return (
           <li key={index} className="group">
-            <div className="flex justify-between items-center py-3 px-4 rounded-lg cursor-pointer bg-white hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-300 ease-in-out transform hover:scale-[1.02]  border border-transparent hover:border-blue-100">
+            <div className="mobile-link flex justify-between items-center py-3 px-4 rounded-lg cursor-pointer bg-white hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-300 ease-in-out transform hover:scale-[1.02]  border border-transparent hover:border-blue-100">
               {item?.page_type === 'custom_page' ? (
                 <a
                   href={fullPath || '#'}
                   target={item.target || '_self'}
                   rel={item.target === '_blank' ? 'noopener noreferrer' : undefined}
                   onClick={() => setMenuOpen(false)}
-                  className="w-full text-[var(--black-2)] font-semibold transition-colors duration-200 group-hover:text-[var(--main)]"
+                  className="text  w-full  font-semibold transition-colors duration-200 "
+                  style={{ color: "var(--text_color, var(--black-2))" }}
                 >
                   {item.text || 'Menu Item'}
                 </a>
@@ -216,7 +222,8 @@ function MenuList({ items = [], goToSubmenu, setMenuOpen, fullPathFactory, loadi
                   to={fullPath || '#'}
                   target={item.target || '_self'}
                   onClick={handleCloseMenu}
-                  className="w-full text-[var(--black-2)] font-semibold transition-colors duration-200 group-hover:text-[var(--main)]"
+                  className="text w-full  font-semibold transition-colors duration-200 "
+                  style={{ color: "var(--text_color, var(--black-2))" }}
                 >
                   {item.text || 'Menu Item'}
                 </Link>
@@ -230,10 +237,11 @@ function MenuList({ items = [], goToSubmenu, setMenuOpen, fullPathFactory, loadi
                     e.stopPropagation();
                     goToSubmenu(index);
                   }}
-                  className="p-2 text-gray-500 hover:text-[var(--main)] transition-all duration-200 transform hover:scale-110 hover:rotate-90 group-hover:bg-blue-100 rounded-full"
+                  className="p-2  hover:!text-[var(--main)] transition-all duration-200 transform hover:scale-110 hover:rotate-90 group-hover:bg-blue-100 rounded-full"
                   aria-label={`Open submenu for ${item.text}`}
                 >
-                  <ChevronDown className="w-4 h-4 text-gray-500 group-hover:text-[var(--main)] transition-all duration-200 group-hover:animate-bounce" />
+                  <ChevronDown className="icon w-4 h-4   transition-all duration-200 group-hover:animate-bounce"
+                    style={{ color: "var(--text_color, var(--black-2))" }} />
                 </button>
               )}
             </div>
@@ -274,11 +282,13 @@ function MobileMenu({
       className={`mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white shadow-2xl rounded-l-xl z-50 transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
     >
       <div className="p-4 flex justify-end border-b">
-        <X className="cursor-pointer text-gray-600 hover:text-red-500 transition duration-300" onClick={() => setMenuOpen(false)} />
+        <X className="cursor-pointer hover:!text-red-500 transition duration-300" onClick={() => setMenuOpen(false)}
+          style={{ color: 'var(--icon_border, black)' }} />
       </div>
 
       <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
-        <p className="font-bold ml-2">{currentMenu.title}</p>
+        <p className="font-bold ml-2"
+        >{currentMenu.title}</p>
 
         {history.length > 0 && (
           <button onClick={goBack} className="flex items-center text-base hover:text-[var(--main)]" aria-label="Back">
@@ -304,6 +314,7 @@ function MobileMenu({
 function FallbackHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
+  const { count } = useCartContext()
 
   // Use the outside click hook to close menu when clicking outside
   useOutsideClick(mobileMenuRef, () => {
@@ -314,7 +325,8 @@ function FallbackHeader() {
 
 
   return (
-    <div className={`main-header sticky top-0 z-50 ${menuOpen ? "menu-open" : ""}`}>
+    <div className={`main-header sticky top-0 z-50 ${menuOpen ? "menu-open" : ""}`}
+      style={{ backgroundColor: 'var(--bk_color, white)' }}>
       {/* Header Bar */}
       <header
         className="header-bar text-white w-full flex items-center justify-center gap-4 text-base max-md:text-xs duration-500 transition-all"
@@ -385,9 +397,9 @@ function FallbackHeader() {
                 <span
                   id="cart-count"
                   className="absolute top-[-5px] right-[-5px] w-4 h-4 rounded-full text-white text-[10px] flex items-center justify-center"
-                  style={{ background: 'var(--main)' }}
+                  style={{ background: 'var(--cart_num_bg_color, var(--main))', color: "var(--cart_num_color, white)" }}
                 >
-                  0
+                  {count}
                 </span>
                 <img src="/icons/cart.png" alt="Cart" width={30} height={30} />
               </Link>
@@ -397,6 +409,7 @@ function FallbackHeader() {
             <button
               onClick={() => setMenuOpen(prev => !prev)}
               className="lg:hidden focus:outline-none"
+              style={{ color: "var(--icon_border, black)" }}
               aria-label="Toggle menu"
             >
               <i className={`fa-bars fa-solid text-[26px] cursor-pointer`} />
@@ -410,7 +423,8 @@ function FallbackHeader() {
           className={`mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white shadow-2xl rounded-l-xl z-50 transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
         >
           <div className="p-4 flex justify-end border-b">
-            <X className="cursor-pointer text-gray-600 hover:text-red-500 transition duration-300" onClick={() => setMenuOpen(false)} />
+            <X className="cursor-pointer text-gray-600 hover:text-red-500 transition duration-300" onClick={() => setMenuOpen(false)}
+              style={{ color: "var(--icon_border, black)" }} />
           </div>
 
           <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
@@ -423,7 +437,7 @@ function FallbackHeader() {
                 <Link
                   to="/"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full text-[var(--black-2)] font-semibold transition-colors duration-200 hover:text-[var(--main)]"
+                  className="header-fallback-link w-full text-[var(--black-2)] font-semibold transition-colors duration-200 hover:text-[var(--main)]"
                 >
                   الرئيسية
                 </Link>
@@ -434,7 +448,7 @@ function FallbackHeader() {
                 <Link
                   to="/products"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full text-[var(--black-2)] font-semibold transition-colors duration-200 hover:text-[var(--main)]"
+                  className="header-fallback-link w-full text-[var(--black-2)] font-semibold transition-colors duration-200 hover:text-[var(--main)]"
                 >
                   المنتجات
                 </Link>
@@ -445,7 +459,7 @@ function FallbackHeader() {
                 <Link
                   to="/contact-us"
                   onClick={() => setMenuOpen(false)}
-                  className="w-full text-[var(--black-2)] font-semibold transition-colors duration-200 hover:text-[var(--main)]"
+                  className="header-fallback-link w-full text-[var(--black-2)] font-semibold transition-colors duration-200 hover:text-[var(--main)]"
                 >
                   اتصل بنا
                 </Link>

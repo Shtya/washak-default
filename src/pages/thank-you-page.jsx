@@ -48,11 +48,13 @@ export default function ThankYouPage() {
         {thankyou_js && shouldInject && <script type="text/javascript">{thankyou_js}</script>}
       </Helmet>
 
-      <div className='bg-[#f8fafb]'>
+      <div className=''
+        style={{ background: "var(--thankyou_page_color,  #f8fafb)" }}
+      >
         <Breadcrumb cn='!mt-0 !pt-[30px] container' routes={breadcrumbRoutes} />
 
         {showAnimation && (
-          <div className='bg-white absolute inset-0 z-50 flex items-center justify-center'>
+          <div className='bg-white  absolute inset-0 z-50 flex items-center justify-center'>
             <Lottie
               animationData={thankyouAnimation}
               loop={false}
@@ -67,7 +69,8 @@ export default function ThankYouPage() {
             <div className='text-right text-gray-800'>
               {thankyou_content_status === 1 ? (
                 <div
-                  className='rounded-lg border border-[var(--border-bg)] text-center space-y-2 bg-white min-h-[30vh] flex items-center justify-center flex-col gap-[10px] mb-[20px]'
+                  className='rounded-lg border border-[var(--border-bg)] text-center space-y-2 min-h-[30vh] flex items-center justify-center flex-col gap-[10px] mb-[20px]'
+                  style={{ background: 'var(--thank_page_bk_color, #f8fafb)' }}
                   data-aos='fade-up'
                   data-aos-delay='100'
                 >
@@ -124,11 +127,14 @@ export default function ThankYouPage() {
 function SuccessMessage() {
   return (
     <>
-      <h2 className='text-2xl max-md:text-xl text-[#404145] font-semibold'>
+      <h2 className='text-2xl max-md:text-xl  font-semibold'
+        style={{ color: 'var(--thank_page_text_color, #404145)' }}
+      >
         تم إتمام طلبك <span className='text-[var(--second)]'>بنجاح !</span>
       </h2>
       <p
-        className='text-base text-[#768497] max-w-[320px] w-full'
+        className='text-base   max-w-[320px] w-full'
+        style={{ color: 'var(--thank_page_text_color, #404145)' }}
         data-aos='fade-up'
         data-aos-delay='200'
       >
@@ -160,7 +166,8 @@ function ProductDetails({
 }) {
   return (
     <div
-      className='bg-white border border-[var(--border-bg)] p-4 rounded-lg'
+      className=' border border-[var(--border-bg)] p-4 rounded-lg'
+      style={{ background: 'var(--thank_page_bk_color, #f8fafb)' }}
       data-aos='fade-right'
       data-aos-delay='200'
     >
@@ -309,7 +316,8 @@ function ShippingSummary({
 }) {
   return (
     <div
-      className='bg-white border border-[var(--border-bg)] p-4 rounded-lg space-y-2'
+      className='border border-[var(--border-bg)] p-4 rounded-lg space-y-2'
+      style={{ background: 'var(--thank_page_bk_color, #f8fafb)' }}
       data-aos='fade-left'
       data-aos-delay='300'
     >

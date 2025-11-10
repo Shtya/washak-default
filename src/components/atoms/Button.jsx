@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Button({
   delay,
   onclick,
+  style,
   dataAos,
   name,
   icon,
@@ -28,6 +29,7 @@ export default function Button({
       data-aos={dataAos}
       data-aos-delay={delay}
       onClick={handleOnClick}
+      style={style}
       className={`
         ${cn}
         btn-blue

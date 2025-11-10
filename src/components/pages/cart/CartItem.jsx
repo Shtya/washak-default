@@ -110,7 +110,7 @@ export const CartItem = ({
                                 onClick={() => setShowVariantDetails((p) => !p)}
                                 className="text-sm text-primary flex items-center gap-1 mb-2"
                             >
-                                {showVariantDetails ? "إخفاء التفاصيل" : "عرض التفاصيل"}
+                                <span className="text-black">{showVariantDetails ? "إخفاء التفاصيل" : "عرض التفاصيل"}</span>
                                 <motion.span
                                     animate={{ rotate: showVariantDetails ? 180 : 0 }}
                                     transition={{ duration: 0.2 }}
@@ -122,7 +122,7 @@ export const CartItem = ({
                                         height="24"
                                         viewBox="0 0 24 24"
                                         fill="none"
-                                        stroke="currentColor"
+                                        stroke="#000"
                                         strokeWidth="2"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"

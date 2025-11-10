@@ -45,7 +45,8 @@ export default function Home() {
 
 
   return (
-    <div className="pt-[30px] max-sm:!pt-[10px] flex flex-col min-h-screen ">
+    <div className="home pt-[30px] max-sm:!pt-[10px] flex flex-col min-h-screen "
+      style={{ background: "var(--homepage_bk_color,  white)" }}>
       {sortedSections.map((section) => {
         switch (section.section) {
           case 'Slider_Section':
@@ -118,7 +119,7 @@ const SectionWrapper = ({
       className={`py-8 md:py-14 ${className}`}
       style={{
         // background: order % 2 === 0 ? '#fff' : '#f9fafb',
-        background: "#fff",
+        background: "var(--homepage_bk_color,  white)",
         order
       }}
     >
@@ -425,7 +426,7 @@ const CategoryList = ({ data, order, loading = false }) => {
               >
                 <Link
                   to={getFullPath("category/", category.slug)}
-                  className="w-[160px] flex flex-col items-center transition-transform duration-300 hover:scale-105 group mx-auto"
+                  className="category-card w-[160px] flex flex-col items-center transition-transform duration-300 hover:scale-105 group mx-auto"
                 >
                   <div className="overflow-hidden w-full h-[130px] shadow-inner p-2 rounded-lg border border-gray-200">
                     <Img
@@ -436,7 +437,7 @@ const CategoryList = ({ data, order, loading = false }) => {
                       className="w-full h-full object-cover rounded-md transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
-                  <span className="mt-4 text-sm text-center text-gray-700 group-hover:text-primary transition-colors duration-300">
+                  <span className="title mt-4 text-sm text-center text-gray-700 group-hover:text-primary transition-colors duration-300">
                     {category.name}
                   </span>
                 </Link>
@@ -473,10 +474,19 @@ function FeatureList({ order, data, loading = false }) {
       ) : data?.icons?.length > 0 ? (
         <div className='container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
           {data.icons.map((feature, idx) => (
-            <div key={idx} className='flex flex-col items-center text-center p-4'>
-              <i className={`fas ${feature.icon_name} text-4xl text-[var(--main)] mb-[20px]`}></i>
-              <h3 className='text-lg font-semibold text-[#252A50] mb-1'>{feature.title}</h3>
-              <p className='text-[#77839D] text-sm'>{feature.sub_title || 'وصف'}</p>
+            <div key={idx}
+              className='rounded-md flex flex-col items-center text-center p-4'
+              style={{ backgroundColor: "var(--icon_section_title_bg_color, transparent)" }}
+            >
+              <i className={`fas ${feature.icon_name} text-4xl mb-[20px]`}
+                style={{ color: "var(--icon_section_title_color, var(--main))" }}
+              ></i>
+              <h3 className='text-lg font-semibold mb-1'
+                style={{ color: "var(--icon_section_title_color, #252A50)" }}
+              >{feature.title}</h3>
+              <p className='text-sm'
+                style={{ color: "var(--icon_section_subtitle_color, #77839D)" }}
+              >{feature.sub_title || 'وصف'}</p>
             </div>
           ))}
         </div>

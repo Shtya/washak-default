@@ -8,7 +8,7 @@ export const CheckoutForm = ({ checkoutFields, register, errors, className, titl
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
       exit={{ opacity: 0, height: 0 }}
-      className={`space-y-4 !mb-8 bg-white rounded-lg overflow-hidden ${className}`}
+      className={`checkout space-y-4 !mb-8 bg-white rounded-lg overflow-hidden ${className}`}
       data-aos='fade-up'
     >
 
@@ -43,7 +43,6 @@ export const CheckoutForm = ({ checkoutFields, register, errors, className, titl
 
 function CustomTilte({ rawTitle }) {
   const words = rawTitle.trim().split(/\s+/);
-
   if (words.length === 1) {
     return <Title title1={words[0]} title2="" cn="!mb-8" />;
   }
@@ -63,7 +62,7 @@ function CustomTilte({ rawTitle }) {
 
 const FieldLabel = ({ field }) => (
   field.type !== 'hidden' && (
-    <label htmlFor={field.backend_field_name} className='text-[#333333] text-base font-normal'>
+    <label htmlFor={field.backend_field_name} className='label text-base font-normal'>
       {field.field_text}
       {field.is_required ? <span className='text-[#ff4b55]'>*</span> : ""}
     </label>
@@ -71,7 +70,7 @@ const FieldLabel = ({ field }) => (
 );
 
 const FieldWrapper = ({ field, children, hasError }) => (
-  <div className={`${field.type !== 'textarea' && 'h-[50px]'} ${field.type === 'hidden' && 'hidden'} relative overflow-hidden rounded-[8px] text-sm border ${hasError ? 'border-[#ff4b55]' : 'border-[#EEEEEE]'} w-full`}>
+  <div className={`${field.type !== 'textarea' && 'h-[50px]'} ${field.type === 'hidden' && 'hidden'} wrapper relative overflow-hidden rounded-[8px] text-sm border ${hasError ? '!border-[#ff4b55]' : ''} w-full`}>
     {children}
   </div>
 );
@@ -120,7 +119,7 @@ const FieldInput = ({ field, register }) => {
       minLength: field.min_length,
     })}
     placeholder={field.field_placeholder}
-    className='placeholder:text-[#A5A5A5] text-[#222] font-normal w-full px-[10px] h-full outline-none'
+    className='checkout-text text-[#222] font-normal w-full px-[10px] h-full outline-none'
   />
 };
 
@@ -143,7 +142,7 @@ const FieldTextarea = ({ field, register }) => (
       }),
     })}
     placeholder={field.field_placeholder}
-    className={`placeholder:text-[#A5A5A5] text-[#222] font-normal w-full px-[10px] py-[8px] outline-none resize-none 
+    className={`checkout-text text-[#222] font-normal w-full px-[10px] py-[8px] outline-none resize-none 
     ${field.min_length && field.min_length > 100 ? 'h-[150px]' : 'h-[100px]'}`}
   />
 );
@@ -155,7 +154,7 @@ const FieldSelect = ({ field, register }) => (
     {...register(field.backend_field_name, {
       required: field.is_required ? `${field.field_text} مطلوب` : false,
     })}
-    className='text-[#222] font-normal w-full px-[10px] h-full outline-none bg-white'
+    className='checkout-text text-[#222] font-normal w-full px-[10px] h-full outline-none bg-white'
   >
     <option value="" disabled>{field.field_placeholder || 'اختر خياراً'}</option>
     {field.settings?.split(',').map(option => (

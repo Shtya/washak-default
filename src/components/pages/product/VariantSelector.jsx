@@ -69,8 +69,10 @@ export const VariantSelector = ({
         <button
           type='button'
           className={`w-full px-3 py-2 text-sm border-[1px] rounded-lg flex justify-between items-center transition-all duration-200 
-          ${selectedOptionId ? 'border-[#0B649F1A] bg-[#123770] text-white ' : 'border-[#EFF2F4] text-[#637381] hover:bg-[#0B649F1A] '} 
+          ${selectedOptionId ? 'border-[#0B649F1A]  text-white ' : 'border-[#EFF2F4] text-[#637381] hover:bg-[#0B649F1A] '}
+           
           ${touchedVariants[variant.id] ? 'ring-2 ring-indigo-100' : ''}`}
+          style={{ backgroundColor: 'var(--option_selected_color, var(--main))' }}
           onClick={() => setOpenSelectId(openSelectId === variant.id ? null : variant.id)}>
           <span className='truncate font-medium'>{selectedOptionName || `إختار ${variant.variant_name}`}</span>
 
@@ -117,9 +119,9 @@ export const VariantSelector = ({
         {variant.options.map(option => {
           const isSelected = currentOptions.includes(`${variant.id}_${option.id}`);
           return (
-            <label key={option.id} className={`flex items-center gap-2 cursor-pointer px-3 py-2 rounded-md text-sm transition-all duration-200 ${isSelected ? 'border-[#0B649F1A] bg-[#123770] text-white' : 'border-[#EFF2F4] text-[#637381] hover:text-[#123770] hover:border-[#F1E5E538] hover:bg-[#0B649F1A]'} ${touchedVariants[variant.id] ? 'ring-1 ring-indigo-100' : ''} border-[1px] `} onClick={() => handleVariantSelect(variant.id, option.id, option.variant_option_name)}>
-              <div className={`w-4 h-4 rounded-full border-[1px] flex items-center justify-center transition-colors ${isSelected ? 'border-white bg-white ' : 'border-[#EFF2F4] border-[3px] '}`}>{isSelected && <Check className='h-[10px] w-[10px] text-[#0B649F]' strokeWidth={3} />}</div>
-              <span className='  font-medium'>{option.variant_option_name}</span>
+            <label key={option.id} className={`option flex items-center gap-2 cursor-pointer px-3 py-2 rounded-md text-sm transition-all duration-200 ${isSelected ? 'selected  ' : 'border-[#EFF2F4] hover:bg-[#0B649F1A]'} ${touchedVariants[variant.id] ? 'ring-1 ring-indigo-100' : ''} border-[1px] `} onClick={() => handleVariantSelect(variant.id, option.id, option.variant_option_name)}>
+              <div className={`w-4 h-4 rounded-full border-[1px] flex items-center justify-center transition-colors ${isSelected ? 'border-white bg-white ' : 'border-[#dee1e3] border-[3px] '}`}>{isSelected && <Check className='h-[10px] w-[10px] text-[#0B649F]' strokeWidth={3} />}</div>
+              <span className='title  font-medium'>{option.variant_option_name}</span>
             </label>
           );
         })}
@@ -130,8 +132,8 @@ export const VariantSelector = ({
   const TextualButtonOption = ({ variant, option }) => {
     const isSelected = getValues()?.includes(`${variant.id}_${option.id}`);
     return (
-      <button key={option.id} onClick={() => handleVariantSelect(variant.id, option.id, option.variant_option_name)} className={`px-3 py-2 text-[14px] rounded-lg transition-all duration-200 font-medium border ${isSelected ? 'bg-[#123770] border-[#F1E5E538] text-white ' : 'bg-[#F8FAFB] border-[#F0F1F1] text-[#3F3E3F4D] hover:text-[#123770] hover:border-[#F1E5E538]  hover:bg-[#0B649F1A]'} ${touchedVariants[variant.id] ? 'ring-1 ring-indigo-100' : ''}`}>
-        {option.variant_option_name}
+      <button key={option.id} onClick={() => handleVariantSelect(variant.id, option.id, option.variant_option_name)} className={`option px-3 py-2 text-[14px] rounded-lg transition-all duration-200 font-medium border ${isSelected ? 'selected  ' : 'bg-[#F8FAFB]  hover:bg-[#0B649F1A]'} ${touchedVariants[variant.id] ? 'ring-1 ring-indigo-100' : ''}`}>
+        <span className='title'>{option.variant_option_name}</span>
       </button>
     );
   };
@@ -215,12 +217,12 @@ export const VariantSelector = ({
 
   return (
     variants?.length > 0 && showVariantDetails && (
-      <div className='space-y-4 !mt-12 ' data-aos={dataAos}>
+      <div className='space-y-4 !mt-12 variants' data-aos={dataAos}>
         {variants.map((variant, index) => (
           <div key={variant.id} className={`${cn} bg-white  pb-4  space-y-4`}>
             <div className={`${innerCn} grid grid-cols-[auto,1fr] items-center gap-4`}>
               <div className={`${labelCn} flex items-center min-w-[80px] w-full  gap-2`}>
-                <h3 className='text-[13px] font-semibold text-gray-800'>{variant.variant_name}</h3>
+                <h3 className='option_title text-[13px] font-semibold'>{variant.variant_name}</h3>
                 {Boolean(variant.is_required) && <span className='text-lg text-rose-500 font-medium'>*</span>}
               </div>
 

@@ -68,7 +68,9 @@ export default function Footer() {
       : 'lg:grid lg:grid-cols-4 grid-cols-1 lg:items-start';
 
   return (
-    <footer className="bg-[var(--main)] text-white">
+    <footer className=""
+      style={{ background: 'var(--footer_bg_color, var(--main))', color: 'var(--footer_font_color, white)' }}
+    >
       <div className="container !py-10 md:py-12">
         {loadingSetting || loadingMenu ? <FooterSkeleton isVertical={lastIsVertical} /> :
           <>
@@ -102,7 +104,8 @@ export default function Footer() {
               footer_copyright && (
                 <div className="border-t border-white/10 mt-12 pt-8 text-center">
                   <div
-                    className="text-sm text-white/60"
+                    className="text-sm "
+                    style={{ color: 'var(--footer_font_color, var(--white-80))' }}
                     dangerouslySetInnerHTML={{ __html: footer_copyright }}
                   />
                 </div>
@@ -141,13 +144,16 @@ function FooterBrand({
 
       {text_under_logo_status === 'yes' && footer_text_under_logo && (
         <div
-          className="text-white/80 font-light leading-relaxed max-w-md text-xs sm:text-sm md:text-base"
+          className="font-light leading-relaxed max-w-md text-xs sm:text-sm md:text-base"
+          style={{ color: 'var(--footer_font_color, var(--white-80))' }}
           dangerouslySetInnerHTML={{ __html: footer_text_under_logo }}
         />
       )}
 
       {shopDesc && (
-        <p className="text-white/70 font-light leading-relaxed max-w-md text-xs sm:text-sm md:text-base mt-2">
+        <p className="font-light leading-relaxed max-w-md text-xs sm:text-sm md:text-base mt-2"
+          style={{ color: 'var(--footer_font_color, var(--white-80))' }}
+        >
           {shopDesc}
         </p>
       )}
@@ -177,12 +183,14 @@ function FooterLinks({ menu, isVertical }) {
         {activeSections.map((section, idx) => (
           <div
             key={section.position || idx}
-            className={`flex flex-col gap-4 ${isVertical ? 'items-center text-center' : ''}`}
+            className={`flex flex-col gap-4   ${isVertical ? 'items-center text-center' : ''}`}
           >
             <h3
-              className="text-base sm:text-lg font-semibold text-white tracking-wide"
+              className="text-base sm:text-lg font-semibold  tracking-wide"
+              style={{ color: 'var(--footer_heads_color, white)' }}
             >
-              {section.name || "قسم"}
+              <span className='underline'
+                style={{ textDecorationColor: 'var(--footer_heads_underline_color, transparent)', textUnderlineOffset: '6px' }} >{section.name || "قسم"}</span>
             </h3>
             <FooterLinksList
               links={section.data}
@@ -229,20 +237,19 @@ const FooteItem = ({ link, position, level, isVertical, index, parentSlug }) => 
           ? fullHref
           : `/${fullHref || "#"} `
       }
-      className={`footer-item-link ${isActive ? "active" : ""} relative flex items-center gap-1 sm:gap-2 transition-all duration-200 w-fit text-xs sm:text-sm ${level > 0 ? "text-white/70 hover:text-white/100" : "text-white/80 hover:text-white/100"
-        } `}
+      className={`footer-item-link ${isActive ? "active" : ""} relative flex items-center gap-1 sm:gap-2 transition-all duration-200 w-fit text-xs sm:text-sm  `}
     >
       {level > 0 && (
         <ChevronRight
           size={12}
-          className="footer-item-icon text-white/50 transition-colors sm:w-3.5 sm:h-3.5 w-3 h-3"
+          className="footer-item-icon transition-colors sm:w-3.5 sm:h-3.5 w-3 h-3"
         />
       )}
       <span
         className={`relative transition-colors duration-100 `}
       >
         {link.text || `Link ${index + 1} `}
-        <span className={`block footer-item-line absolute-bottom-1 right-0 h-0.5 bg-[var(--second)] transition-all duration-200 w-0`} />
+        <span className={`block footer-item-line absolute-bottom-1 right-0 h-0.5 transition-all duration-200 w-0`} />
       </span>
     </Link>
 
@@ -261,22 +268,31 @@ function FooterContact({
 }) {
   return (
     <div
-      className={`flex flex-col gap-4 sm:gap-6 ${footer_alignment === 'vertical' ? 'items-center text-center' : 'items-center text-center lg:items-start lg:text-left'
-        } `}
+      className={`flex flex-col gap-4 sm:gap-6 ${footer_alignment === 'vertical' ? 'items-center text-center' : 'items-center text-center lg:items-start lg:text-left'} `}
+
     >
-      {(footer_phone_number || footer_email || footer_social_icons?.length > 0) && <h3 className="text-base sm:text-lg font-semibold text-white tracking-wide">
-        إتصل بنا
-      </h3>}
+      {(footer_phone_number || footer_email || footer_social_icons?.length > 0) && <h3 className="text-base sm:text-lg font-semibold text-center  tracking-wide w-full lg:text-start"
+        style={{ color: 'var(--footer_heads_color,  white)' }}
+      >
+        <span className='underline'
+          style={{ textDecorationColor: 'var(--footer_heads_underline_color, transparent)', textUnderlineOffset: '6px' }} >إتصل بنا</span>
+
+
+      </h3>
+      }
 
       <div className={`flex flex-col gap-2 sm:gap-3`}>
         {footer_phone_number && (
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-white/10 flex items-center justify-center">
-              <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-white/80" />
+              <Phone className="w-3 h-3 sm:w-4 sm:h-4 "
+                style={{ color: 'var(--footer_font_color, var(--white-80))' }}
+              />
             </div>
             <a
               href={`tel:${footer_phone_number} `}
-              className="text-white/80 hover:text-white transition-colors text-xs sm:text-sm"
+              className="footer-text-hover transition-colors text-xs sm:text-sm"
+              style={{ color: 'var(--footer_font_color, var(--white-80))' }}
             >
               {footer_phone_number}
             </a>
@@ -286,11 +302,13 @@ function FooterContact({
         {footer_email && (
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-white/10 flex items-center justify-center">
-              <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-white/80" />
+              <Mail className="w-3 h-3 sm:w-4 sm:h-4"
+                style={{ color: 'var(--footer_font_color, var(--white-80))' }} />
             </div>
             <a
               href={`mailto:${footer_email} `}
-              className="text-white/80 hover:text-white transition-colors text-xs sm:text-sm"
+              className=" footer-text-hover transition-colors text-xs sm:text-sm"
+              style={{ color: 'var(--footer_font_color, var(--white-80))' }}
             >
               {footer_email}
             </a>
@@ -306,11 +324,14 @@ function FooterContact({
               href={icon.iconURL}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-white/10 rounded-lg hover:bg-white/20 transition-colors duration-200"
-              aria-label={`Social media link ${index + 1} `}
+              className="footer-social-icon w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg"
+              aria-label={`Social media link ${index + 1}`}
             >
-              <i className={`${icon.icon} text-sm sm:text-lg text-white`} />
+              <i
+                className={`${icon.icon} text-sm sm:text-lg`}
+              />
             </a>
+
           ))}
         </div>
       )}
