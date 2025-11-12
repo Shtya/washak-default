@@ -151,7 +151,7 @@ export default function Product() {
           />
           <StockInfo stock={product?.stock} options={productOptions} />
           {showCheckoutForm ?
-            <CheckoutForm checkoutFields={checkoutFields} register={register} errors={errors} className='!mt-8' />
+            <CheckoutForm checkoutFields={checkoutFields} register={register} errors={errors} className='!m-0 !mt-8 p-2' />
             : checkoutSettingsError ? (
               // show a small section-level error with retry
               <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md text-sm">
@@ -205,7 +205,7 @@ export const Categories = ({ categories }) =>
    Price Section
 ====================== */
 export const PriceDisplay = ({ price }) => (
-  <div className='flex items-center gap-2' data-aos='fade-up' >
+  <div className='flex items-center gap-2 flex-wrap' data-aos='fade-up' >
     <span className='text-[#123770] '>
       <PriceCurrency currency={'ج.م'} price={price?.special_price}
         style={{ color: 'var(--new_price_color, var(main))' }} />

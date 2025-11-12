@@ -200,7 +200,7 @@ function ContactInfo({ loading, email, phone }) {
               </div>
               <div className='flex items-center gap-4'>
                 <Mail className='text-[#ff8000] flex-shrink-0' />
-                <a href={`mailto:${email}`} className='text-gray-700 hover:text-[#002c5f] transition'>
+                <a href={`mailto:${email}`} className='break-all text-gray-700 hover:text-[#002c5f] transition'>
                   {email}
                 </a>
               </div>

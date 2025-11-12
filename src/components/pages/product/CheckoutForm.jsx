@@ -13,7 +13,9 @@ export const CheckoutForm = ({ checkoutFields, register, errors, className, titl
     >
 
       {title ? <CustomTilte rawTitle={title} />
-        : <Title title1='يرجى ادخال معلوماتك ' title2='لإكمال الطلب' cn='!mb-8' />}
+        : <Title title1='يرجى ادخال معلوماتك ' title2='لإكمال الطلب' cn='!mb-8'
+          styleTitle={{ textWrap: 'nowrap' }}
+          styleTitle2={{ textWrap: 'wrap' }} />}
       {checkoutFields.map(field => {
         if (!field.is_enable) return null;
 
