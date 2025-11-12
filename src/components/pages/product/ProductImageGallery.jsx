@@ -19,7 +19,7 @@ export const ProductImageGallery = ({ product }) => {
   const thumbnailVariants = {
     hover: { scale: 1.05 },
     tap: { scale: 0.95 },
-    selected: { scale: 1.05, border: '2px solid var(--main)', boxShadow: '0 0 10px rgba(0,0,0,0.1)' },
+    selected: { scale: 1.05, border: '2px solid var(--product_image_border_colors, var(--main))', boxShadow: '0 0 10px rgba(0,0,0,0.1)' },
   };
 
   const zoomButtonVariants = {

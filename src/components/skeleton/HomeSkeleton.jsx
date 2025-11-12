@@ -5,17 +5,18 @@ export function HomeSkeleton() {
 
 
     return (
-        <div className="pt-[30px] max-sm:!pt-[10px] flex flex-col min-h-screen ">
+        <div className="pt-[30px] max-sm:!pt-[10px] flex flex-col min-h-screen space-y-10 md:space-y-12 pb-6"
+            style={{ background: "var(--homepage_bk_color,  white)" }}>
             {/* Hero/Banner Skeleton */}
-            <div className="py-8 md:py-16 ">
-                <div className="container max-sm:!px-[10px]">
+            <div className="container py-10">
+                <div className="max-sm:!px-[10px]">
                     <div className="w-full max-md:!h-[230px] !h-[400px] skeleton rounded-[20px]" />
                 </div>
             </div>
 
             {/* Product Section Skeleton */}
-            <div className="py-8 md:py-16 bg-[#f9fafb]">
-                <div className="container max-sm:!px-[20px]">
+            <div className="container   ">
+                <div className="max-sm:!px-[20px] p-8 bg-[#f9fafb]  rounded-[8px]">
                     <div className="text-center mb-8">
                         <div className="skeleton w-48 h-8 mx-auto mb-4 rounded-md" />
                         <div className="skeleton w-64 h-4 mx-auto rounded-md" />
@@ -29,8 +30,8 @@ export function HomeSkeleton() {
             </div>
 
             {/* Category Section Skeleton */}
-            <div className="py-8 md:py-16 bg-white">
-                <div className="container">
+            <div className="container  ">
+                <div className="p-8 bg-white rounded-[8px]">
                     <div className="text-center mb-8">
                         <div className="skeleton w-48 h-8 mx-auto mb-4 rounded-md" />
                         <div className="skeleton w-64 h-4 mx-auto rounded-md" />
@@ -47,8 +48,8 @@ export function HomeSkeleton() {
             </div>
 
             {/* Feature Section Skeleton */}
-            <div className="py-8 md:py-16 bg-[#f9fafb]">
-                <div className="container">
+            <div className="container  ">
+                <div className="p-8 bg-[#f9fafb] rounded-[8px]">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {Array(4).fill(0).map((_, i) => (
                             <div key={i} className="flex flex-col items-center text-center p-4">
@@ -62,8 +63,10 @@ export function HomeSkeleton() {
             </div>
 
             {/* Content Section Skeleton */}
-            <div className="py-8 md:py-16 bg-white">
-                <div className="container">
+            <div className="container  ">
+                <div className="p-8 bg-white rounded-[8px] space-y-4">
+                    <div className="skeleton h-[200px] rounded-xl" />
+                    <div className="skeleton h-[200px] rounded-xl" />
                     <div className="skeleton h-[200px] rounded-xl" />
                 </div>
             </div>

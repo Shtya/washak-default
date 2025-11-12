@@ -814,7 +814,7 @@ button:disabled,
 .products .category-btn.hoverable:hover,
 .products .category-btn.active {
   background-color: var(--category_select_background_color, var(--main));
-  border-color: transparent;
+  /* border-color: transparent; */
 }
 
 .products .paginated-product .discount-percentage {

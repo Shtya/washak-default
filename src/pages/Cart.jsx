@@ -71,13 +71,13 @@ export default function Cart() {
         <title>عربة التسوق</title>
       </Helmet>
       <div className='cart-page'
-        style={{ backgroundColor: "var(--main_checkout_page, #f8fafb)" }}
+        style={{ backgroundColor: "var(--category_page_color, #f8fafb)" }}
       >
         <Breadcrumb cn='!mt-0 !pt-[30px] container' routes={breadcrumbRoutes} />
 
         <div className='!mb-[30px] container max-lg:grid-cols-1 grid grid-cols-2 gap-[20px]'>
           <div className={`${cartItems.length === 0 && 'col-span-2'} p-4 rounded-md border `}
-            style={{ background: "var(--main_checkout_bk_color, white", borderColor: "var(--main_checkout_border_color, var(--border-bg)" }}
+            style={{ background: "var(--main_checkout_bk_color, white)", borderColor: "var(--main_checkout_border_color, var(--border-bg))" }}
           >
             <Title cn='!mb-[30px]' title1='بيانات' title2='المنتجات'
               styleTitle={{ color: "var(--main_checkout_title, var(--main)" }}
@@ -122,12 +122,14 @@ export default function Cart() {
           </div>
 
           {cartItems.length > 0 && (
-            <div className='p-4 rounded-md border border-[var(--border-bg)]'
-              style={{ background: "var(--main_checkout_bk_color, white", borderColor: "var(--main_checkout_border_color, var(--border-bg)" }}>
+            <div className=''
+
+            >
               {checkoutLoading ? (
-                <div className='bg-white rounded-lg p-4 space-y-5 my-8'>
+                <div className='bg-white rounded-lg p-4 space-y-5 border'
+                  style={{ background: "var(--main_checkout_bk_color, white", borderColor: "var(--main_checkout_border_color, var(--border-bg))" }}>
                   <div className='h-6 w-[220px] bg-gray-200 rounded-md animate-pulse'></div>
-                  {Array.from({ length: checkoutFields.length }).map((_, i) => (
+                  {Array.from({ length: 6 }).map((_, i) => (
                     <div key={i} className='space-y-2'>
                       <div className='h-5 w-[160px] bg-gray-200 rounded-md animate-pulse'></div>
                       <div className='h-[50px] w-full bg-gray-200 rounded-lg animate-pulse'></div>
@@ -135,7 +137,8 @@ export default function Cart() {
                   ))}
                 </div>
               ) : (
-                <div className='space-y-4  bg-white rounded-lg overflow-hidden'>
+                <div className='bg-white rounded-lg overflow-hidden border flex flex-col gap-4'
+                  style={{ background: "var(--main_checkout_bk_color, white)", borderColor: "var(--main_checkout_border_color, var(--border-bg))" }}>
                   {submitError && <div className='bg-red-50 border border-red-200 text-red-600 p-3 rounded-md'>{submitError}</div>}
 
                   <CheckoutForm checkoutFields={checkoutFields} register={register} errors={errors} title={checkout_page_title?.value} />
@@ -152,10 +155,11 @@ export default function Cart() {
                   />
 
 
-                  <Button onclick={handleCheckout} type='submit' loading={isBuyNowLoading} cn='cart-buy-btn w-full !mt-8 flex-row-reverse h-[50px] rounded-md text-white  transition border' name='إتمام الطلب' icon={<ShoppingBag size={20} className='mr-2' />}
+                  <Button onclick={handleCheckout} type='submit' loading={isBuyNowLoading} cn='m-4 !mb-4  cart-buy-btn w-full !mt-8 flex-row-reverse h-[50px] rounded-md text-white  transition border' name='إتمام الطلب' icon={<ShoppingBag size={20} className='mr-2' />}
                     style={{
                       background: "var(--main_checkout_buybtn_bk, var(--main))", color: "var(--main_checkout_buybtn_font, white)",
-                      borderColor: "var(--main_checkout_buybtn_border, transparent)"
+                      borderColor: "var(--main_checkout_buybtn_border, transparent)",
+                      width: 'auto'
                     }} />
                 </div>
               )}

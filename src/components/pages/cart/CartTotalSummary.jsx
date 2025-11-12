@@ -18,7 +18,7 @@ export default function CartTotalSummary({
     const isloading = loadingVariantPrices || productsLoading;
 
     return (
-        <div className="space-y-4 !mt-8 border-t pt-4">
+        <div className="p-4 space-y-4 !mt-8 border-t pt-4">
             <div className="flex justify-between text-base text-[#838BA1]">
                 <span>المجموع الفرعي</span>
                 {isloading ? (

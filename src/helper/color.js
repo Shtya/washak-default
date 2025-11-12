@@ -1,16 +1,20 @@
 
 
+
+export function darkenRgb(rgbStr, factor = 0.85) {
+    const match = rgbStr.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    if (!match) return rgbStr;
+
+    const [_, r, g, b] = match.map(Number);
+    const darken = (v) => Math.max(0, Math.floor(v * factor));
+    return `rgb(${darken(r)}, ${darken(g)}, ${darken(b)})`;
+}
+
 // e.g. obj = { sticky_header_colors: { sticky_header_bg: "#0c8c6c" }, ... }
 
 const samesMap = new Map([
     ['sticky_buynow_style_settings', 'sticky'],
     ['details_buynow_btn_colors', 'details'],
-])
-
-const replaceMap = new Map([
-    ['theme_color ', 'main'],
-    ['second_theme_color', 'second'],
-    ['hover_theme_color', 'hover-main']
 ])
 
 export function applyCssVarsFromObject(obj) {
@@ -20,11 +24,13 @@ export function applyCssVarsFromObject(obj) {
         const prefix = samesMap.get(groupKey) || '';
         if (typeof groupValue === 'object' && groupValue !== null) {
             Object.entries(groupValue).forEach(([colorKey, colorValue]) => {
-                const replaceValue = replaceMap.get(colorKey);
-                if (replaceValue) {
-                    root.style.setProperty(`--${replaceValue}`, colorValue);
-                    return;
+                //save main and hover color
+                if (colorKey === 'theme_color') {
+                    const darker = darkenRgb(colorValue);
+                    root.style.setProperty(`--main`, colorValue);
+                    root.style.setProperty(`--hover-main`, darker);
                 }
+                //save colors
                 if (typeof colorValue === 'string') {
                     if (prefix)
                         root.style.setProperty(`--${prefix}_${colorKey}`, colorValue);

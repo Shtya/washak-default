@@ -46,8 +46,7 @@ export default function Navbar() {
   }
 
   return (
-    <div className={`main-header ${header_enable_switch !== '1' && "is-scrolled"} sticky top-0 z-50  ${menuOpen ? "menu-open" : ""}`}
-      style={{ backgroundColor: 'var(--bk_color, white)' }}>
+    <div className={`main-header ${header_enable_switch !== '1' && "is-scrolled"} sticky top-0 z-50  ${menuOpen ? "menu-open" : ""}`}>
       {header_enable_switch === '1' && header_text && (
         <header
           className="header-bar text-white w-full flex items-center justify-center gap-4 text-base max-md:text-xs duration-500 transition-all"
@@ -71,7 +70,7 @@ export default function Navbar() {
       {navbar_enable === '1' &&
         <div
           className="navbar bg-white"
-          style={{ boxShadow: '0px 4px 4px 0px #CFCFCF40' }}
+          style={{ backgroundColor: 'var(--bk_color, white)', boxShadow: '0px 4px 4px 0px #CFCFCF40' }}
         >
           <nav className={`container !h-[80px] mx-auto flex items-center py-4 !px-4 lg:px-0 gap-3 ${onlyDesktopLinks ? 'lg:justify-center' : 'lg:justify-between'
             }`}>
@@ -326,11 +325,11 @@ function FallbackHeader() {
 
   return (
     <div className={`main-header sticky top-0 z-50 ${menuOpen ? "menu-open" : ""}`}
-      style={{ backgroundColor: 'var(--bk_color, white)' }}>
+    >
       {/* Header Bar */}
       <header
         className="header-bar text-white w-full flex items-center justify-center gap-4 text-base max-md:text-xs duration-500 transition-all"
-        style={{ background: 'var(--main)' }}
+        style={{ background: 'var(--sticky_header_bg, var(--main))' }}
       >
         <img
           src="/icons/car.png"
@@ -347,7 +346,7 @@ function FallbackHeader() {
       {/* Main Navigation */}
       <div
         className="bg-white"
-        style={{ boxShadow: '0px 4px 4px 0px #CFCFCF40' }}
+        style={{ backgroundColor: 'var(--bk_color, white)', boxShadow: '0px 4px 4px 0px #CFCFCF40' }}
       >
         <nav className="container !h-[80px] mx-auto flex items-center lg:justify-between py-4 !px-4 lg:px-0">
           {/* Logo */}

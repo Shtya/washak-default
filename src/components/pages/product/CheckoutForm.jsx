@@ -8,7 +8,7 @@ export const CheckoutForm = ({ checkoutFields, register, errors, className, titl
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
       exit={{ opacity: 0, height: 0 }}
-      className={`checkout space-y-4 !mb-8 bg-white rounded-lg overflow-hidden ${className}`}
+      className={`m-4 checkout space-y-4 !mb-8 rounded-lg overflow-hidden ${className}`}
       data-aos='fade-up'
     >
 

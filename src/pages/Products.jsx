@@ -1,19 +1,14 @@
 'use client';
-import { baseImage, useApiGet } from '../config/Api';
 import FeatureList from '../components/molecules/FeatureList';
 import ProductSkeleton from '../components/skeleton/ProductSkeleton';
-import { useEffect, useState, useMemo, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Breadcrumb from '../components/atoms/Breadcrumb';
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import Img from '../components/atoms/Image';
+import { Link } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 import EmptyState from '../components/atoms/EmptyState';
 import { PriceBlock } from '../components/atoms/PriceCurrency';
-import { useStoreCategories } from '../hooks/useStoreCategories';
-import { useStoreProducts } from '../hooks/Product/useStoreProducts';
 import { Pagination } from '../components/molecules/Pagination';
 import { useAddToCart } from '../hooks/cart/useAddToCart';
-import { NotFoundImage } from '../components/atoms/NotFoundImage';
 import { useProductsWithCategories } from '../hooks/Product/useProducts';
 import ErrorDisplay from '../components/atoms/ErrorDisplay';
 import { getProductImageId } from '../helper/getProductImageId';
@@ -36,8 +31,6 @@ export default function Products() {
     setPage,
     setCategory,
   } = useProductsWithCategories();
-
-
 
   const PproductsStatusCode = productsError?.statusCode;
   const currentCategoryLabel = categories.find(cat => cat.slug === currentCategory)?.label;
@@ -65,59 +58,65 @@ export default function Products() {
       <div className="products "
         style={{ background: "var(--category_page_color,  #f8fafb)" }}
       >
-        <div className="container max-sm:!px-[20px] py-[30px]">
-          <div className="py-6 space-y-4">
-            <div data-aos="fade-up" className="flex flex-wrap gap-3">
-              {categoriesLoading
-                ? Array(4)
-                  .fill(0)
-                  .map((_, index) => (
-                    <div
-                      key={`cat-skeleton-${index}`}
-                      className="h-[45px] w-24 bg-gray-200 rounded-full animate-pulse"
-                    />
-                  ))
+        <div className=" max-sm:!px-[20px] pt-[30px] flex flex-col">
+          <div className='container'>
 
-                : categories.map((cat) => (
-                  <button
-                    key={cat.key}
-                    onClick={() => setCategory(cat.slug || "all")}
-                    className={`category-btn border px-4 py-2 min-h-[45px] rounded-full text-sm font-medium transition-all duration-300 
+
+            <div className="py-6 space-y-4">
+              <div data-aos="fade-up" className="flex flex-wrap gap-3">
+                {categoriesLoading
+                  ? Array(4)
+                    .fill(0)
+                    .map((_, index) => (
+                      <div
+                        key={`cat-skeleton-${index}`}
+                        className="h-[45px] w-24 bg-gray-200 rounded-full animate-pulse"
+                      />
+                    ))
+
+                  : categories.map((cat) => (
+                    <button
+                      key={cat.key}
+                      onClick={() => setCategory(cat.slug || "all")}
+                      className={`category-btn border px-4 py-2 min-h-[45px] rounded-full text-sm font-medium transition-all duration-300 
                       ${(cat.slug || "all") === currentCategory
-                        ? "active scale-[1.1]"
-                        : "hoverable hover:border-transparent  hover:scale-[1.05]"
-                      }
+                          ? "active scale-[1.1]"
+                          : "hoverable hover:border-transparent  hover:scale-[1.05]"
+                        }
                       
                        `}
 
-                  >
-                    {cat.label}
-                  </button>
-                ))}
+                    >
+                      {cat.label}
+                    </button>
+                  ))}
+              </div>
+
+              <Breadcrumb cn={"!pt-[30px]"} routes={breadcrumbRoutes} />
             </div>
 
-            <Breadcrumb cn={"!pt-[30px]"} routes={breadcrumbRoutes} />
+            <div className="bg-white shadow-sm p-4 lg:p-8 rounded-md grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {productsLoading
+                ? Array(12)
+                  .fill(0)
+                  .map((_, i) => <ProductSkeleton key={i} />)
+                : products?.map((p, index) => (
+                  <PaginatedProductCard key={p.id} index={index} product={p} />
+                ))}
+
+              {products?.length === 0 && !productsLoading && <EmptyState className='mx-auto col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4' />}
+            </div>
+
+            <Pagination
+              currentPage={currentPage}
+              pageCount={pageCount}
+              setCurrentPage={setPage}
+            />
           </div>
+          <div className='mt-auto '>
 
-          <div className="bg-white shadow-sm p-4 lg:p-8 rounded-md grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {productsLoading
-              ? Array(12)
-                .fill(0)
-                .map((_, i) => <ProductSkeleton key={i} />)
-              : products?.map((p, index) => (
-                <PaginatedProductCard key={p.id} index={index} product={p} />
-              ))}
-
-            {products?.length === 0 && !productsLoading && <EmptyState className='mx-auto col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4' />}
+            <FeatureList />
           </div>
-
-          <Pagination
-            currentPage={currentPage}
-            pageCount={pageCount}
-            setCurrentPage={setPage}
-          />
-
-          <FeatureList />
         </div>
       </div>
     </>

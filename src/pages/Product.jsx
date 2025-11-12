@@ -57,14 +57,15 @@ export default function Product() {
 
   if (loading) {
     return (
-      <div className='bg-[#f8fafb] min-h-[calc(100vh-300px)] '>
+      <div className='bg-[#f8fafb] min-h-[calc(100vh-300px)] '
+        style={{ background: "var(--product_page_color,  #f8fafb)" }}>
         <Breadcrumb cn='!mt-0 !pt-[30px] container' routes={breadcrumbRoutes} />
-        <div className='!mb-[30px] container max-md:!px-[20px] pb-[50px] grid max-xl:grid-cols-1 grid-cols-[720px,1fr] rounded-xl gap-6'>
+        <div className='!pb-[30px] container max-md:!px-[20px] grid max-xl:grid-cols-1 grid-cols-[720px,1fr] rounded-xl gap-6'>
           <ProductImageSkeleton />
           <ProductInfoSkeleton />
         </div>
 
-        <div className='!mb-[30px] container max-md:!px-[20px] pb-[50px] flex flex-nowrap overflow-x-hidden gap-4 py-[50px] px-[20px]'>
+        <div className='!pb-[30px] container max-md:!px-[20px] flex flex-nowrap overflow-x-hidden gap-4 py-[50px] px-[20px]'>
           {Array(5)
             .fill(0)
             .map((_, i) => (
@@ -97,7 +98,7 @@ export default function Product() {
 
       <Breadcrumb cn='!mt-0 !pt-[30px] container' routes={breadcrumbRoutes} />
 
-      <div className='!mb-[30px] container max-md:!px-[20px] pb-[50px] grid max-xl:grid-cols-1 grid-cols-[720px,1fr] rounded-xl gap-6 items-stretch'>
+      <div className='!pb-[30px] container max-md:!px-[20px] grid max-xl:grid-cols-1 grid-cols-[720px,1fr] rounded-xl gap-6 items-stretch'>
         <ProductImageGallery product={product} />
 
         <div className='flex flex-col !p-6 bg-white  rounded-md  flex-1 space-y-4 h-full'>

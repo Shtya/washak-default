@@ -34,28 +34,31 @@ const DynamicPage = () => {
       {page?.title && <Helmet>
         <title>{page?.title}</title>
       </Helmet>}
-      <div key={slug} className=" min-h-[calc(100vh-300px)]"
+      <div key={slug} className=" "
         style={{ background: "var(--dynamic_page_color,  #f8fafb)" }}
       >
         {loading ? (
-          <div className="container min-h-[calc(100vh-300px)]">
+          <div className="container ">
             <Breadcrumb cn="!mt-0 !pt-[30px] container" routes={breadcrumbRoutes} />
-            <div className="rounded-3xl p-[30px] min-h-[250px]">
+            <div className="rounded-3xl py-[30px] min-h-[250px]">
               <SkeletonBlock height='200px' className="mb-4" />
             </div>
-            <div className="mt-8">
+            <div className="pb-6">
               <SkeletonBlock height='150px' />
             </div>
           </div>
         ) : page ? (
-          <div className="container min-h-[calc(100vh-300px)]">
-            <Breadcrumb cn="!mt-0 !pt-[30px] container" routes={breadcrumbRoutes} />
-            <div className="bg-white rounded-3xl p-[30px] min-h-[250px]">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: page.content.value,
-                }}
-              />
+          <div className=" min-h-[calc(100vh-300px)] flex flex-col">
+            <div className='container'>
+
+              <Breadcrumb cn="!mt-0 !pt-[30px] container" routes={breadcrumbRoutes} />
+              <div className="mt-auto bg-white rounded-3xl p-[30px] min-h-[250px]">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: page.content.value,
+                  }}
+                />
+              </div>
             </div>
             <FeatureList />
           </div>
