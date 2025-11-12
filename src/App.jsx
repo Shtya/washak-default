@@ -1,8 +1,6 @@
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect, useLayoutEffect, useState } from 'react';
-import Lottie from 'lottie-react';
-import lottieAnimation from './lottie/Cart Glassmorphism.json';
 import { AppProviders } from './config/providers/AppProviders';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import { BaseFetch } from './config/Api';

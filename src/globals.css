@@ -589,6 +589,7 @@ html {
   background: var(--footer_link_hover_color, #ffffff);
 }
 
+
 button:disabled,
 .disabled {
   pointer-events: none;

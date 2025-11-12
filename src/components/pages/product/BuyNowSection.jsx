@@ -11,6 +11,7 @@ export const BuyNowSection = ({
   cnbtn,
   buttonText = "شراء الان",
   isSticky = false,
+  disabled = false
 }) => {
   const [showStickyBtn, setShowStickyBtn] = useState(false);
   const buyBtnWrapperRef = useRef(null);
@@ -67,6 +68,7 @@ export const BuyNowSection = ({
           {/* wrap the Button so we can reliably attach a ref even if Button doesn't forward refs */}
           <div ref={buyBtnWrapperRef} className="w-full">
             <Button
+              disabled={disabled}
               id="buy-now-btn"
               loading={isBuyNowLoading}
               cn={`w-full flex-row-reverse h-[44px] sm:h-[50px] rounded-md text-white  transition text-sm sm:text-base ${cnbtn}`}

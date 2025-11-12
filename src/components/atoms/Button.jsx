@@ -13,6 +13,7 @@ export default function Button({
   cn,
   href,
   loading = false,
+  disabled = false
 }) {
   const router = useNavigate();
 
@@ -29,6 +30,7 @@ export default function Button({
       data-aos={dataAos}
       data-aos-delay={delay}
       onClick={handleOnClick}
+      disabled={disabled}
       style={style}
       className={`
         ${cn}

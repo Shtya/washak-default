@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { AlertTriangleIcon, Star } from 'lucide-react';
 import { ProductInfoSkeleton, ProductImageSkeleton } from '../components/skeleton/ProductSkeleton';
 import Breadcrumb from '../components/atoms/Breadcrumb';
-import FeatureList from '../components/molecules/FeatureList';
 import PriceCurrency from '../components/atoms/PriceCurrency';
 import MetaTags from '../components/atoms/MetaTags';
 import ProductCarouselRelated from '../components/atoms/ProductCarouselRelated';
@@ -17,10 +16,12 @@ import { BuyNowSection } from '../components/pages/product/BuyNowSection';
 import { FrequentlyBoughtTogether } from '../components/pages/product/FrequentlyBoughtTogether';
 import { useProduct } from '../hooks/Product/useProduct';
 import { getFullPath } from '../helper/getFullPath';
-import { color } from 'framer-motion';
 
 export default function Product() {
-  const { breadcrumbRoutes,
+
+  const {
+    breadcrumbRoutes,
+    loadingUpsell,
     navigate,
     seo,
     product,
@@ -158,7 +159,7 @@ export default function Product() {
                 <div className="text-[#555] mb-3">لا يمكن تحميل حقول الطلب الآن — سيتم إضافة المنتج للسلة بدلاً من الشراء السريع.</div>
               </div>
             ) : null}
-          <BuyNowSection cnbtn='details_buynow' showValidation={showValidation} isBuyNowLoading={isBuyNowLoading} handleBuyNow={handleBuyNow} getValues={getValues} setValue={setValue} isSticky={productOptions?.product_footer_buy_sticky != '0'} buttonText={productOptions?.buy_now_button_text}
+          <BuyNowSection cnbtn={`details_buynow ${loadingUpsell && 'disabled'}`} showValidation={showValidation} isBuyNowLoading={isBuyNowLoading} handleBuyNow={handleBuyNow} getValues={getValues} setValue={setValue} isSticky={productOptions?.product_footer_buy_sticky != '0'} buttonText={productOptions?.buy_now_button_text}
           />
         </div>
       </div>

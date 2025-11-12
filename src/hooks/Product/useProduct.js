@@ -10,6 +10,7 @@ import { api } from "../../config/Api";
 import { useAppContext } from "../../contexts/AppContext";
 import { useAddToCart } from "../cart/useAddToCart";
 import { Notification } from "../../config/Notification";
+import { useUpsellProducts } from "./useUpsellProducts";
 
 export const useProduct = () => {
   const { id } = useParams();
@@ -20,6 +21,9 @@ export const useProduct = () => {
   const { data: productData, loading: productLoading, error: productError } = useProductBySlug(id);
   const { data: relatedProducts, loading: loadingRelatedProducts, error: relatedProductsError } = useRelatedProducts(id);
   const { data: checkoutSettings, loading: checkoutLoading, error: checkoutSettingsError } = useCheckoutSettings();
+  const productId = productData?.data?.product?.id;
+  const { upsellData, loading: loadingUpsell } = useUpsellProducts(productId);
+  const hasUpSell = upsellData?.upsell_items?.length > 0;
   // Breadcrumb
   const breadcrumbRoutes = [{ label: 'الرئيسية', href: '/' }, { label: 'كل المنتجات', href: '/products' }, { label: 'تفاصيل المنتج' }];
   //settings
@@ -120,8 +124,11 @@ export const useProduct = () => {
         orderSummary, res: res.data.data, productData
       }));
 
+      if (hasUpSell)
+        navigate(`/upsells/${productId}`);
+      else
+        navigate('/thank-you-page');
 
-      navigate('/thank-you-page');
     } catch (err) {
       console.error('Error submitting order:', err);
       const errorMessage = err?.response?.data?.message || err?.response?.data?.error || 'حدث خطأ أثناء إتمام الطلب. الرجاء المحاولة مرة أخرى';
@@ -142,6 +149,9 @@ export const useProduct = () => {
   }, [product_default_variant_combination]);
 
   return {
+    id,
+    loadingUpsell,
+    upsellData,
     loading: productLoading || checkoutLoading,
     loadingLiveVariantPrice,
     breadcrumbRoutes,
