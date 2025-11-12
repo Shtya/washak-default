@@ -138,15 +138,15 @@ function UpsellFooter({ yesBtn, noBtn }) {
 
             <FooterBtn noBtn={noBtn} yesBtn={yesBtn} />
 
-            <div className={`transition-all  ${targetParagraphVisible ? 'opacity-0' : 'opacity-100'} fixed bottom-[12px] left-0 translate-y-0 flex justify-center w-full`}>
-                <FooterBtn noBtn={noBtn} yesBtn={yesBtn} />
+            <div className={`transition-all  ${targetParagraphVisible ? 'opacity-0' : 'opacity-100'} fixed bottom-[12px] left-0 right-0 translate-y-0 flex justify-center w-full`}>
+                <FooterBtn noBtn={noBtn} yesBtn={yesBtn} className="px-3 w-full" />
             </div>
         </div>
     );
 }
 
 
-function FooterBtn({ yesBtn, noBtn }) {
+function FooterBtn({ yesBtn, noBtn, className }) {
     // Parse button styles
     const parseValues = (values) => {
         try {
@@ -170,7 +170,7 @@ function FooterBtn({ yesBtn, noBtn }) {
     }
 
     return (
-        <div className="flex gap-4 justify-center">
+        <div className={`flex gap-4 justify-center ${className}`}>
             {yesBtn && (
                 <button
                     className={`rounded-lg ${getFontSize(yesVals.yes_font_size)} ${getButtonSize(
