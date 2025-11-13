@@ -15,6 +15,7 @@ export default function ThankYouPage() {
   const {
     breadcrumbRoutes,
     product,
+    upsellItems,
     variants,
     selectedOptions,
     getOptionName,
@@ -90,6 +91,7 @@ export default function ThankYouPage() {
                     isCartPurchase={isCartPurchase}
                     cart={cart}
                     product={product}
+                    upsellItems={upsellItems}
                     variants={variants}
                     selectedOptions={selectedOptions}
                     currency={currency}
@@ -157,6 +159,7 @@ function ProductDetails({
   isCartPurchase,
   cart,
   product,
+  upsellItems,
   variants,
   selectedOptions,
   currency,
@@ -216,35 +219,69 @@ function ProductDetails({
           )
         })
         : (
-          <div
-            className='flex items-center mt-4 max-md:gap-[10px] gap-[30px]'
-            data-aos='fade-right'
-            data-aos-delay='300'
-          >
-            <Link to={`/product/${product?.slug}`}>
-              <img
-                src={baseImage + product?.medias?.[0]?.url || '/placeholder-product.jpg'}
-                alt={product?.title}
-                className='w-[88px] max-md:w-[60px] max-md:h-[45px] h-[60px] rounded-md object-cover'
-              />
-            </Link>
-            <div className='flex-1 max-sm:flex-col max-sm:items-start flex items-center justify-between text-sm'>
-              <div className='flex-1 space-y-2'>
-                <Link to={`/product/${product?.slug}`}>
-                  <p className='font-medium text-[#333333]'>{product?.title}</p>
-                </Link>
-                <p className='text-base text-[#BFC2D4]'>عدد القطع : {orderSummary?.qty}</p>
-                {selectedOptions?.map((opt, i) => (
-                  <p key={i} className='text-sm inline-block mx-1 text-gray-500'>
-                    {getOptionName(variants, opt)}
-                  </p>
-                ))}
+          <>
+            <div
+              className='flex items-center mt-4 max-md:gap-[10px] gap-[30px]'
+              data-aos='fade-right'
+              data-aos-delay='300'
+            >
+              <Link to={`/product/${product?.slug}`}>
+                <img
+                  src={baseImage + product?.medias?.[0]?.url || '/placeholder-product.jpg'}
+                  alt={product?.title}
+                  className='w-[88px] max-md:w-[60px] max-md:h-[45px] h-[60px] rounded-md object-cover'
+                />
+              </Link>
+              <div className='flex-1 max-sm:flex-col max-sm:items-start flex items-center justify-between text-sm'>
+                <div className='flex-1 space-y-2'>
+                  <Link to={`/product/${product?.slug}`}>
+                    <p className='font-medium text-[#333333]'>{product?.title}</p>
+                  </Link>
+                  <p className='text-base text-[#BFC2D4]'>عدد القطع : {product?.qty}</p>
+                  {selectedOptions?.map((opt, i) => (
+                    <p key={i} className='text-sm inline-block mx-1 text-gray-500'>
+                      {getOptionName(variants, opt)}
+                    </p>
+                  ))}
+                </div>
+                <p className='text-base text-[#123770] text-nowrap'>
+                  {product?.total?.toFixed(2)} {res?.currency}
+                </p>
               </div>
-              <p className='text-base text-[#123770] text-nowrap'>
-                {res?.total.toFixed(2)} {res?.currency}
-              </p>
             </div>
-          </div>
+            {upsellItems?.map((item, i) => {
+              return <div
+                className='flex items-center mt-4 max-md:gap-[10px] gap-[30px]'
+                data-aos='fade-right'
+                data-aos-delay='300'
+              >
+                <Link to={`/product/${item?.slug}`}>
+                  <img
+                    src={baseImage + item?.medias?.[0]?.url || '/placeholder-product.jpg'}
+                    alt={item?.title}
+                    className='w-[88px] max-md:w-[60px] max-md:h-[45px] h-[60px] rounded-md object-cover'
+                  />
+                </Link>
+                <div className='flex-1 max-sm:flex-col max-sm:items-start flex items-center justify-between text-sm'>
+                  <div className='flex-1 space-y-2'>
+                    <Link to={`/product/${item?.slug}`}>
+                      <p className='font-medium text-[#333333]'>{item?.title}</p>
+                    </Link>
+                    <p className='text-base text-[#BFC2D4]'>عدد القطع : {item?.qty}</p>
+                    {/* {selectedOptions?.map((opt, i) => (
+                      <p key={i} className='text-sm inline-block mx-1 text-gray-500'>
+                        {getOptionName(variants, opt)}
+                      </p>
+                    ))} */}
+                  </div>
+                  <p className='text-base text-[#123770] text-nowrap'>
+                    {item?.total?.toFixed(2)} {res?.currency}
+                  </p>
+                </div>
+              </div>
+            })}
+
+          </>
         )}
     </div>
   )

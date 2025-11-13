@@ -32,7 +32,7 @@ export function AppRoutes() {
                     <Route path="/pages/:page" element={<DynamicPage />} />
                     <Route path="/product/:id" element={<ProductWithKey />} />
                     <Route path="/products" element={<Products />} />
-                    <Route path="/upsells/:id" element={<UpsellProducts />} />
+                    <Route path="/upsells/:productId/:orderId" element={<UpsellProducts />} />
 
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />

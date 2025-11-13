@@ -873,3 +873,24 @@ button:disabled,
 .variants .option:not(.selected):hover {
   color: var(--option_text_color, #123770) !important;
 }
+
+.loader {
+  width: 36px;
+  height: 36px;
+  border: 5px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

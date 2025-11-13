@@ -3,17 +3,19 @@ import { useUpsellProducts } from "../hooks/Product/useUpsellProducts";
 import Img from "../components/atoms/Image";
 import { baseImage } from "../config/Api";
 import { NotFoundImage } from "../components/atoms/NotFoundImage";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import PriceCurrency from "../components/atoms/PriceCurrency";
 import ErrorDisplay from "../components/atoms/ErrorDisplay";
 import useIsVisible from "../hooks/useIsVisible";
-
+import { Loader2, PackageX } from "lucide-react";
+import { useUpsellOrder } from "../hooks/Product/useUpsellOrder";
 
 export default function UpsellProducts() {
-    const { id } = useParams();
+    const { productId, orderId } = useParams();
+    const navigate = useNavigate();
     const mainRef = useRef(null);
-    const { upsellData, error, loading } = useUpsellProducts(id);
-
+    const { upsellData, error, loading } = useUpsellProducts(productId);
+    const { onOrder, isOrdering } = useUpsellOrder({ orderId, upsellData });
     const { totalSpecialPrice, totalRegularPrice } = useMemo(() => {
         if (!upsellData?.upsell_items?.length) return { totalSpecialPrice: 0, totalRegularPrice: 0 };
 
@@ -30,6 +32,10 @@ export default function UpsellProducts() {
     }, [upsellData]);
 
 
+
+    if (!orderId || !productId) {
+        navigate('/thank-you-page');
+    }
     if (loading) {
         return (
             <UpsellSkelaton />
@@ -46,7 +52,19 @@ export default function UpsellProducts() {
             />
         );
     }
-    if (!upsellData) return <div>No upsell data</div>;
+
+    if (!upsellData)
+        return (
+            <div className="flex flex-col items-center justify-center py-16 text-center text-gray-500">
+                <div className="w-20 h-20 mb-6 text-gray-400">
+                    <PackageX className="w-full h-full" />
+                </div>
+                <h2 className="text-xl font-semibold mb-2">لا توجد عروض إضافية حالياً</h2>
+                <p className="text-sm text-gray-400">
+                    شكراً لطلبك! لا توجد منتجات إضافية مرتبطة بهذا المنتج في الوقت الحالي.
+                </p>
+            </div>
+        );
 
     const yesBtn = upsellData.upsell_actions.find(
         (b) => b.action_key === "yes_button_action"
@@ -73,30 +91,7 @@ export default function UpsellProducts() {
                 {/* Scrollable product list */}
                 <div className="flex-1 space-y-4">
                     {upsellData.upsell_items.map((p, i) => (
-                        <div
-                            key={p.id}
-                            className="flex flex-col items-center rounded-lg"
-                        >
-                            <div className="overflow-hidden rounded-[4px] w-full max-w-[368px] aspect-[3/4] max-h-[80vh] flex items-center justify-center">
-
-                                {p.medias?.length > 0 ? (
-                                    <Img
-                                        src={baseImage + p.medias[0].url}
-                                        alt={p.title}
-                                        placeholder={<NotFoundImage />}
-                                        className="w-full h-full object-cover"
-                                    />
-                                ) : (
-                                    <NotFoundImage
-                                        productId={p.id}
-                                        unique={Math.random()}
-                                        className="w-full h-full object-cover"
-                                    />
-                                )}
-                            </div>
-                            <p className="text-base md:text-lg font-medium mt-4">{p.title}</p>
-                        </div>
-
+                        <UpsellProduct key={p.id} product={p} />
                     ))}
                 </div>
                 {upsellData.upsell_footer && (
@@ -113,7 +108,7 @@ export default function UpsellProducts() {
                         <PriceCurrency currency={'ج.م'} price={totalRegularPrice} />
                     </div>
                 </div>
-                <UpsellFooter noBtn={noBtn} yesBtn={yesBtn} />
+                <UpsellFooter noBtn={noBtn} yesBtn={yesBtn} onOrder={onOrder} isOrdering={isOrdering} />
 
 
             </div>
@@ -122,8 +117,34 @@ export default function UpsellProducts() {
 }
 
 
+function UpsellProduct({ product }) {
+    return (
+        <div
+            className="flex flex-col items-center rounded-lg"
+        >
+            <div className="overflow-hidden rounded-[4px] w-full max-w-[368px] aspect-[3/4] max-h-[80vh] flex items-center justify-center">
 
-function UpsellFooter({ yesBtn, noBtn }) {
+                {product.medias?.length > 0 ? (
+                    <Img
+                        src={baseImage + product.medias[0].url}
+                        alt={product.title}
+                        placeholder={<NotFoundImage />}
+                        className="w-full h-full object-cover"
+                    />
+                ) : (
+                    <NotFoundImage
+                        productId={product.id}
+                        unique={Math.random()}
+                        className="w-full h-full object-cover"
+                    />
+                )}
+            </div>
+            <p className="text-base md:text-lg font-medium mt-4">{product.title}</p>
+        </div>
+
+    );
+}
+function UpsellFooter({ yesBtn, noBtn, onOrder, isOrdering }) {
     const buyBtnWrapperRef = useRef(null)
     const targetParagraphVisible = useIsVisible(buyBtnWrapperRef);
 
@@ -136,17 +157,17 @@ function UpsellFooter({ yesBtn, noBtn }) {
             style={{ zIndex: 50 }}
         >
 
-            <FooterBtn noBtn={noBtn} yesBtn={yesBtn} />
+            <FooterBtn noBtn={noBtn} yesBtn={yesBtn} onOrder={onOrder} isOrdering={isOrdering} />
 
             <div className={`transition-all  ${targetParagraphVisible ? 'opacity-0' : 'opacity-100'} fixed bottom-[12px] left-0 right-0 translate-y-0 flex justify-center w-full`}>
-                <FooterBtn noBtn={noBtn} yesBtn={yesBtn} className="px-3 w-full" />
+                <FooterBtn noBtn={noBtn} yesBtn={yesBtn} className="px-3 w-full" onOrder={onOrder} isOrdering={isOrdering} />
             </div>
         </div>
     );
 }
 
 
-function FooterBtn({ yesBtn, noBtn, className }) {
+function FooterBtn({ yesBtn, noBtn, className, onOrder, isOrdering }) {
     // Parse button styles
     const parseValues = (values) => {
         try {
@@ -161,8 +182,8 @@ function FooterBtn({ yesBtn, noBtn, className }) {
 
 
     const navigate = useNavigate();
-    function handelYes() {
-        navigate('/thank-you-page');
+    async function handelYes() {
+        await onOrder();
     }
 
     function handelNo() {
@@ -176,13 +197,21 @@ function FooterBtn({ yesBtn, noBtn, className }) {
                     className={`rounded-lg ${getFontSize(yesVals.yes_font_size)} ${getButtonSize(
                         yesVals.yes_button_size
                     )}`}
+                    disabled={isOrdering}
                     onClick={handelYes}
                     style={{
                         backgroundColor: yesVals.yes_bg_color,
                         color: yesVals.yes_font_color,
                     }}
                 >
-                    {yesVals.yes_button_title || "نعم"}
+                    {isOrdering ? (
+                        <div className="flex gap-2 justify-center items-center">
+                            <span className="text-inherit">جاري الإرسال...</span>
+                            <Loader2 className="animate-spin w-5 h-5 text-inherit" />
+                        </div>
+                    ) : (
+                        yesVals.yes_button_title || 'نعم'
+                    )}
                 </button>
             )}
             {noBtn && (
@@ -191,6 +220,7 @@ function FooterBtn({ yesBtn, noBtn, className }) {
                         noVals.no_button_size
                     )}`}
                     onClick={handelNo}
+                    disabled={isOrdering}
                     style={{
                         backgroundColor: noVals.no_bg_color,
                         color: noVals.no_font_color,

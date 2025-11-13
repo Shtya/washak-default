@@ -49,7 +49,8 @@ export function useCheckoutSession() {
     orderSummary = null,
     res = null,
     productData = null,
-    currency = ''
+    currency = '',
+    upsellItems,
   } = orderData ?? {};
 
 
@@ -81,7 +82,7 @@ export function useCheckoutSession() {
   )
 
   const cartLength = useMemo(
-    () => (isCartPurchase ? cart?.details?.length : 1),
+    () => (isCartPurchase ? cart?.details?.length : upsellItems ? upsellItems.length + 1 : 1),
     [isCartPurchase, cart]
   )
 
@@ -97,6 +98,7 @@ export function useCheckoutSession() {
     orderData: orderData,
     isCartPurchase,
     product,
+    upsellItems,
     variants,
     selectedOptions,
     getOptionName,

@@ -119,13 +119,30 @@ export const useProduct = () => {
     try {
 
       const res = await api.post(`/submit-quick-checkout`, orderSummary);
+
+      const total = res.data?.data?.total;
+      const qty = orderSummary?.qty;
+
+      const enrichedProductData = {
+        ...productData,
+        data: {
+          ...productData?.data,
+          product: {
+            ...productData?.data?.product,
+            total,
+            qty,
+          },
+        },
+      };
+
       sessionStorage.setItem('checkout_data', JSON.stringify({
         currency: storeOptions?.currency.value.currency_name,
-        orderSummary, res: res.data.data, productData
+        orderSummary, res: res.data.data, productData: enrichedProductData
       }));
 
+      const orderId = res?.data?.data?.order_id;
       if (hasUpSell)
-        navigate(`/upsells/${productId}`);
+        navigate(`/upsells/${productId}/${orderId}`);
       else
         navigate('/thank-you-page');
 
