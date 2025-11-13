@@ -294,6 +294,7 @@ function OrderSummary({ orderSummary }) {
   return (
     <div
       className='bg-white border border-[var(--border-bg)] p-4 rounded-lg space-y-2'
+      style={{ background: 'var(--thank_page_bk_color, #f8fafb)' }}
       data-aos='fade-right'
       data-aos-delay='400'
     >
