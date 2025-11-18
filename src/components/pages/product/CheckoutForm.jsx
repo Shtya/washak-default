@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import Title from '../../atoms/Title';
+import { validateEmail } from "../../../helper/util";
 
 export const CheckoutForm = ({ checkoutFields, register, errors, className, title }) => {
 
@@ -77,52 +78,141 @@ const FieldWrapper = ({ field, children, hasError }) => (
   </div>
 );
 
+;
+
 const FieldInput = ({ field, register }) => {
-  const isNumber = field.type?.toLowerCase() === "number";
+  const type = field.type?.toLowerCase() || "text";
+  const isNumber = type === "number";
+  const isEmail = type === "email";
+
+  // قيم افتراضية لو الحقل ما عندوش min/max
+  const defaultMin = {
+    name: 2,
+    first_name: 2,
+    last_name: 2,
+    phone: 7,
+    delivery_address: 10,
+    country: 2,
+  };
+
+  const defaultMax = {
+    name: 50,
+    first_name: 30,
+    last_name: 30,
+    phone: 15,
+    delivery_address: 100,
+    country: 50,
+  };
+
+  const minLength = field.min_length || defaultMin[field.backend_field_name];
+  const maxLength = field.max_length || defaultMax[field.backend_field_name];
 
   const validationRules = {
     required: field.is_required ? `${field.field_text} مطلوب` : false,
-    ...(isNumber && field.min_length && {
+
+    // أرقام (min/max)
+    ...(isNumber && minLength && {
       min: {
-        value: field.min_length,
-        message: `${field.field_text} يجب أن يكون أكبر من أو يساوي ${field.min_length}`,
+        value: minLength,
+        message: `${field.field_text} يجب أن يكون أكبر من أو يساوي ${minLength}`,
       },
     }),
-    ...(isNumber && field.max_length && {
+    ...(isNumber && maxLength && {
       max: {
-        value: field.max_length,
-        message: `${field.field_text} يجب أن يكون أقل من أو يساوي ${field.max_length}`,
+        value: maxLength,
+        message: `${field.field_text} يجب أن يكون أقل من أو يساوي ${maxLength}`,
       },
     }),
-    ...(!isNumber && field.min_length && {
+
+    // نصوص (minLength/maxLength)
+    ...(!isNumber && minLength && {
       minLength: {
-        value: field.min_length,
-        message: `${field.field_text} يجب أن يحتوي على ${field.min_length} أحرف على الأقل`,
+        value: minLength,
+        message: `${field.field_text} يجب أن يحتوي على ${minLength} أحرف على الأقل`,
       },
     }),
-    ...(!isNumber && field.max_length && {
+    ...(!isNumber && maxLength && {
       maxLength: {
-        value: field.max_length,
-        message: `${field.field_text} يجب ألا يتجاوز ${field.max_length} حرفًا`,
+        value: maxLength,
+        message: `${field.field_text} يجب ألا يتجاوز ${maxLength} حرفًا`,
+      },
+    }),
+
+    // بريد إلكتروني
+    ...(isEmail && {
+      validate: (value) => validateEmail(value) || "البريد الإلكتروني غير صالح",
+    }),
+
+    // اسم كامل
+    ...(field.backend_field_name === "name" && {
+      pattern: {
+        value: /^[\p{L}\s'-]+$/u,
+        message: `الاسم الكامل يجب أن يحتوي فقط على أحرف، مسافات، شرطات (-) أو علامات اقتباس ('), بين ${minLength} و${maxLength} حرفًا`,
+      },
+    }),
+
+    // الاسم الأول
+    ...(field.backend_field_name === "first_name" && {
+      pattern: {
+        value: /^[\p{L}\s'-]+$/u,
+        message: `الاسم الأول يجب أن يحتوي فقط على أحرف، مسافات، شرطات (-) أو علامات اقتباس ('), بين ${minLength} و${maxLength} حرفًا`,
+      },
+    }),
+
+    // الاسم الأخير
+    ...(field.backend_field_name === "last_name" && {
+      pattern: {
+        value: /^[\p{L}\s'-]+$/u,
+        message: `الاسم الأخير يجب أن يحتوي فقط على أحرف، مسافات، شرطات (-) أو علامات اقتباس ('), بين ${minLength} و${maxLength} حرفًا`,
+      },
+    }),
+
+    // الهاتف
+    ...(field.backend_field_name === "phone" && {
+      pattern: {
+        value: /^[0-9]+$/,
+        message: `رقم الهاتف يجب أن يحتوي على أرقام فقط، بين ${minLength} و${maxLength} رقمًا`,
+      },
+    }),
+
+    // عنوان التوصيل
+    ...(field.backend_field_name === "delivery_address" && {
+      minLength: {
+        value: minLength,
+        message: `عنوان التوصيل يجب أن يحتوي على ${minLength} أحرف على الأقل`,
+      },
+      maxLength: {
+        value: maxLength,
+        message: `عنوان التوصيل يجب ألا يتجاوز ${maxLength} حرفًا`,
+      },
+    }),
+
+    // الدولة
+    ...(field.backend_field_name === "country" && {
+      pattern: {
+        value: /^[\p{L}\s'-]+$/u,
+        message: `اسم الدولة يجب أن يحتوي فقط على أحرف، مسافات، شرطات (-) أو علامات اقتباس ('), بين ${minLength} و${maxLength} حرفًا`,
       },
     }),
   };
 
-  return <input
-    type={field.type?.toLowerCase() || 'text'}
-    id={field.backend_field_name}
-    {...register(field.backend_field_name, validationRules)}
-    {...(isNumber && {
-      min: field.min_length,
-      max: field.max_length,
-    })}
-    {...(!isNumber && {
-      maxLength: field.max_length,
-      minLength: field.min_length,
-    })}
-    placeholder={field.field_placeholder}
-    className='checkout-text text-[#222] font-normal w-full px-[10px] h-full outline-none'
-  />
+  return (
+    <input
+      type={type}
+      id={field.backend_field_name}
+      {...register(field.backend_field_name, validationRules)}
+      {...(isNumber && {
+        min: minLength,
+        max: maxLength,
+      })}
+      // {...(!isNumber && {
+      //   maxLength: maxLength,
+      //   minLength: minLength,
+      // })}
+      placeholder={field.field_placeholder}
+      className="checkout-text text-[#222] font-normal w-full px-[10px] h-full outline-none"
+    />
+  );
 };
 
 const FieldTextarea = ({ field, register }) => (
