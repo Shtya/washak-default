@@ -84,6 +84,7 @@ const TimeBox = ({ value, label, highlighted = false }) => (
        `}
       style={{
         fontFamily: 'Numbers',
+        fontDisplay: 'swap',
         backgroundColor: highlighted
           ? 'var(--time_color, #0a2a5c)'
           : 'var(--countdown_bk_color, #f8fafb)',

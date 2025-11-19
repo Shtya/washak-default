@@ -57,7 +57,7 @@ export default function Navbar() {
             alt=""
             width={28}
             height={28}
-            className="max-sm:hidden object-contain"
+            className="w-[28px] h-[28px] max-sm:hidden object-contain"
           />
           <p
             className="md:leading-[55px] max-md:py-[10px] text-center"
@@ -336,7 +336,7 @@ function FallbackHeader() {
           alt=""
           width={28}
           height={28}
-          className="max-sm:hidden object-contain lg:mr-20"
+          className="w-[28px] h-[28px] max-sm:hidden object-contain lg:mr-20"
         />
         <p className="md:leading-[55px] max-md:py-[10px] text-center">
           أفضل المنتجات بأفضل الأسعار

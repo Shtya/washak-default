@@ -137,7 +137,7 @@ function FooterBrand({
             sources={[footerLogo, defaultStoreLogo, '/logo-white.png']}
             storeDomainLoading={storeDomainLoading}
             alt={shopName || "Logo"}
-            className="w-32 sm:w-40 h-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200"
+            className="w-32 sm:w-40 sm:h-[160px] h-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200"
           />
         </Link>
       )}
