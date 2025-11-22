@@ -1,0 +1,14 @@
+# .htaccess في مجلد build
+<IfModule mod_expires.c>
+ExpiresActive On
+
+# الصور والفونتات: سنة واحدة
+ExpiresByType image/png "access plus 1 year"
+ExpiresByType image/jpeg "access plus 1 year" 
+ExpiresByType image/webp "access plus 1 year"
+ExpiresByType font/woff2 "access plus 1 year"
+
+# CSS و JS: شهر واحد
+ExpiresByType text/css "access plus 1 month"
+ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
