@@ -17,10 +17,10 @@ export const pullZoneUrl =
 export const storageUrl =
   process.env.REACT_APP_BUNNY_STORAGE_URL || 'https://cdn.washak.net/';
 
-
 const getStoreDomain = () => {
   const isLocal = window.location.hostname === 'localhost';
-  return isLocal ? 'ahmed-shtya.dukanomar.com' : window.location.hostname;
+  return isLocal ? 'correctegy2025.dukanomar.com' : window.location.hostname;
+  // return isLocal ? 'ahmed-shtya.dukanomar.com' : window.location.hostname;
 };
 
 export const api = axios.create({

@@ -205,10 +205,10 @@ function BannerSection({ data, order, loading = false }) {
       ) : data?.images?.length > 0 ? (
         <Swiper
           {...sliderConfig}
-          className='w-full h-[400px] rounded-lg overflow-hidden'>
+          className='w-full max-md:!h-fit h-[400px] rounded-lg overflow-hidden'>
           {data.images.map((banner, i) => (
             <SwiperSlide key={i}>
-              <Img src={banner.image} alt={`Banner ${i}`} className='w-full h-full object-cover rounded-lg' width={600} height={200} />
+              <Img src={banner.image} alt={`Banner ${i}`} className='w-full h-full max-md:!h-fit object-cover rounded-lg' width={600} height={200} />
             </SwiperSlide>
           ))}
         </Swiper>
