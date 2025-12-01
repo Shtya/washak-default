@@ -55,9 +55,9 @@ const MemoizedPriceDisplay = memo(({ price }) => {
           <span className='line-through text-base' style={{ color: 'var(--old_price_color, #A5A5A5)' }}>
             <PriceCurrency currency={'ج.م'} price={price?.regular_price} style={{ color: 'var(--old_price_color, #A5A5A5)' }} />
           </span>
-          <span className='text-white border text-xs px-2 py-1 rounded-full flex items-center gap-[5px]' style={{ background: 'var(--price_bk_color, var(--second))', borderColor: 'var(--price_border_color, var(main))' }}>
+          {/* <span className='text-white border text-xs px-2 py-1 rounded-full flex items-center gap-[5px]' style={{ background: 'var(--price_bk_color, var(--second))', borderColor: 'var(--price_border_color, var(main))' }}>
             هتوفر <PriceCurrency currency={'ج.م'} price={savings} />
-          </span>
+          </span> */}
         </>
       )}
     </div>
