@@ -37,17 +37,17 @@ export const FrequentlyBoughtTogether = ({
       nextEl: '.bought-next',
     },
     pagination: {
-      clickable: true,
+      el: '.freq-products-pagination', clickable: true,
     },
     autoplay: {
       delay: delay,
       disableOnInteraction: false,
     },
     breakpoints: {
-      1400: { slidesPerView: 4 },
-      950: { slidesPerView: 3 },
-      650: { slidesPerView: 2 },
-      0: { slidesPerView: 1 },
+      0: { slidesPerView: 2 },     // phones
+      475: { slidesPerView: 3 },   // small tablets
+      1024: { slidesPerView: 4 },  // tablets
+      1280: { slidesPerView: 5 },  // laptops
     },
   };
 
@@ -58,11 +58,11 @@ export const FrequentlyBoughtTogether = ({
     slideToClickedSlide: false,
     modules: [Navigation, Autoplay, Pagination],
     navigation: {
-      prevEl: '.related-prev',
-      nextEl: '.related-next',
+      prevEl: '.freq-related-prev',
+      nextEl: '.freq-related-next',
     },
     pagination: {
-      clickable: true,
+      el: '.related-freq-products-pagination', clickable: true,
     },
     autoplay: {
       delay: delay,
@@ -77,44 +77,36 @@ export const FrequentlyBoughtTogether = ({
   };
 
   return frequently_bought_products?.length > 0 ? (
-    <div className="container max-md:px-4 mb-10 pb-12" data-aos="fade-up">
-      <div className="bg-white rounded-md p-6 shadow-sm">
+    <div className="" data-aos="fade-up">
+      <div className="relative bg-white rounded-[8px] md:rounded-[12px] lg:rounded-[15px] px-4 py-6 sm:px-[20px] sm:pt-[30px] md:px-[25px] md:pt-[35px] lg:px-[30px] lg:pt-[40px]">
 
+        {/* Bought Together Section */}
+        <div className="relative pb-4 md:pb-6 lg:pb-8 ">
+          <div className="relative flex items-center justify-between">
+            <HeadTitle title="منتجات غالبًا ما يتم شراؤها مع هذا المنتج" />
+            {frequently_bought_products.length > 3 && (
+              <div className="relative flex items-center flex-row-reverse gap-2">
+                <CustomButtonsNavigate swiperPrevClass="bought-prev !relative shrink-0 !left-auto !top-auto text-white" swiperNextClass="bought-next !relative shrink-0 !right-auto !top-auto text-white" />
+              </div>
+            )}
+          </div>
 
-        {/* Bought Together Grid */}
-        {/* <div className="grid grid-cols-4 max-xl:grid-cols-2 max-md:grid-cols-1 items-stretch mt-6 gap-6 xl:gap-10">
-          <ProductCard product={product} />
-          {frequently_bought_products.map((prod) => (
-            <ProductCard key={prod.id ?? prod.slug} product={prod} />
-          ))}
-        </div> */}
-
-        <div className="mt-12">
-          <HeadTitle title="منتجات غالبًا ما يتم شراؤها مع هذا المنتج" />
-          <Swiper {...frequentlyBoughtConfig} className={`!py-[50px] items-stretch md:!px-[5px]`}>
-            <SwiperSlide key={product.id}>
+          <Swiper {...frequentlyBoughtConfig} className={`!py-[15px] md:!py-[25px] items-stretch`}>
+            <SwiperSlide key={product.id} className="!ml-3 md:!ml-4 lg:!ml-5">
               <ProductCard key={product.id ?? product.slug} product={product} />
             </SwiperSlide>
             {frequently_bought_products?.map(prod => (
-              <SwiperSlide key={prod.id}>
+              <SwiperSlide key={prod.id} className="!ml-3 md:!ml-4 lg:!ml-5">
                 <ProductCard key={prod.id ?? prod.slug} product={prod} />
               </SwiperSlide>
             ))}
-
-            <div className='swiper-pagination !mt-6' />
           </Swiper>
-
-          {frequently_bought_products.length > 3 && (
-            <CustomButtonsNavigate swiperPrevClass="bought-prev" swiperNextClass="bought-next" />
-          )}
-
+          <div className='freq-products-pagination swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal' />
         </div>
 
-
-
         {/* Cart / Price Section */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-100 pt-6">
-          <div className="bg-gray-50 rounded-md px-5 py-3 text-lg font-medium text-[var(--main)] shadow-inner">
+        <div className="flex flex-row items-center justify-between gap-4">
+          <div className="bg-gray-50 rounded-md px-3 py-2 md:px-4 lg:px-5 md:py-3 lg:py-4 text-sm md:text-base  font-medium text-[var(--main)] shadow-inner">
             إجمالي السعر:{" "}
             <span className="text-[var(--second)] font-bold">
               {frequentlyBoughtTotalPrice.toFixed(2)} ج.م
@@ -122,7 +114,7 @@ export const FrequentlyBoughtTogether = ({
           </div>
           <Button
             loading={isBuyNowLoading}
-            cn="disabled !h-[50px] !px-8 text-base shadow hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+            cn="disabled  btn main-btn !px-6 sm:!px-8 text-sm sm:text-base shadow hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
             name="اشترِ الآن"
             icon={<ShoppingBag />}
             disabled={
@@ -137,35 +129,37 @@ export const FrequentlyBoughtTogether = ({
           />
         </div>
 
-        {related_products.length > 0 && <div className="mt-12 relative">
-          <HeadTitle title="منتجات ذات صلة" />
-          <Swiper {...relatedProductsConfig} className={`!py-[50px] items-stretch md:!px-[5px]`}>
-            {related_products?.map(p => (
-              <SwiperSlide key={p.id}>
-                <ProductCard product={p} />
-              </SwiperSlide>
-            ))}
+        {/* Related Products Section */}
+        {related_products.length > 0 && (
+          <div className="relative mt-8 sm:mt-10 lg:mt-12">
+            <div className="flex items-center justify-between">
+              <HeadTitle title="منتجات ذات صلة" />
+              {related_products.length > 4 && (
+                <div className="relative flex items-center flex-row-reverse gap-2">
+                  <CustomButtonsNavigate swiperPrevClass="freq-related-prev !relative shrink-0 !left-auto !top-auto" swiperNextClass="freq-related-next !relative shrink-0 !right-auto !top-auto" />
+                </div>
+              )}
+            </div>
 
-            <div className='swiper-pagination !mt-6' />
-          </Swiper>
-
-          {related_products.length > 4 && (
-            <>
-              <CustomButtonsNavigate swiperPrevClass="related-prev" swiperNextClass="related-next" />
-            </>
-          )}
-        </div>}
+            <Swiper {...relatedProductsConfig} className={`!pt-[15px] md:!pt-[25px] items-stretch`}>
+              {related_products?.map(p => (
+                <SwiperSlide key={p.id} className="!ml-3 md:!ml-4 lg:!ml-5">
+                  <ProductCard product={p} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <div className='related-freq-products-pagination swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal' />
+          </div>
+        )}
 
       </div>
-    </div >
-  ) : null
+    </div>
+  ) : null;
 }
-
 
 function ProductCard({ product, className = "" }) {
   const special = Number(product?.price?.special_price || 0);
   const regular = Number(product?.price?.regular_price || 0);
-  const saving = regular > special ? regular - special : 0;
 
   const discountPercentage =
     product?.price?.regular_price && product?.price?.special_price
@@ -175,91 +169,109 @@ function ProductCard({ product, className = "" }) {
   return (
     <div
       aria-label={product.title}
-      className={
-        [
-          // layout
-          "group w-full h-full min-w-0 p-4 sm:p-5 flex flex-col items-stretch text-center gap-3",
-          // visuals
-          "bg-white rounded-xl border border-[var(--border-bg)] shadow-sm hover:shadow-md",
-          // motion
-          "transition-transform hover:-translate-y-1",
-          className
-        ].join(" ")
-      }
-      data-aos="fade-up"
+      data-aos="fade-up" style={{ transition: 'box-shadow 0.3s ease' }}
+      className={`
+        product-card space-y-[7px] md:space-y-[9px]
+        min-h-[224px] md:min-h-[385px]
+        p-[10px] sm:p-[12px] md:p-[14px] lg:p-[16px] xl:p-[20px]
+        group product-item border border-[#EEEEEE] relative bg-white text-black
+        rounded-[5px] h-full flex flex-col w-full max-w-[400px] mx-auto
+        transition-transform hover:-translate-y-1
+        ${className}
+      `}
     >
-      {/* image + discount badge */}
-      <div className="relative w-full aspect-square rounded-md overflow-hidden bg-gray-100">
-        <Link
-          to={`/product/${product.slug}`}
-        >
-          {product.medias?.[0] ? (
-            <Img
-              src={baseImage + product.medias[0].url}
-              alt={product.title}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          ) : (
-            <NotFoundImage productId={product?.id} unique={Math.random()} />
-          )}
 
-          {discountPercentage && discountPercentage.toFixed(0) > 0 && (
-            <div className="absolute top-3 left-3 bg-[--second] text-white text-xs font-semibold px-2 py-1 rounded-full shadow-sm">
-              خصم <span className="font-bold">{discountPercentage.toFixed(0)}%</span>
-            </div>
-          )}
-        </Link>
-      </div>
+      {/* IMAGE */}
+      <Link
+        to={`/product/${product.slug}`}
+        className="img-switcher-2 relative h-[92px] md:h-[179px] mb-[10px] md:mb-[18px] block"
+      >
+        {product.medias?.[0] ? (
+          <Img
+            src={baseImage + product.medias[0].url}
+            alt={product.title}
+            className="absolute inset-0 w-full h-full object-cover rounded-[5px]"
+          />
+        ) : (
+          <NotFoundImage productId={product?.id} unique={Math.random()} />
+        )}
 
+        {discountPercentage > 0 && (
+          <span
+            className="
+              absolute shadow-xl top-[11px] left-[7.5px] z-[10]
+              text-[7px] md:text-[10px] bg-[var(--second)] text-white
+              px-[5px] md:px-[10px] py-[5px] rounded-[5px]
+            "
+          >
+            خصم {discountPercentage.toFixed(0)}%
+          </span>
+        )}
+      </Link>
 
-      {/* title */}
+      {/* TITLE */}
       <Link to={`/product/${product.slug}`}>
-        <h4 className="w-full text-sm sm:text-base font-semibold text-[var(--black-1)] leading-tight line-clamp-2">
+        <h4
+          className="
+            title text-center w-full block text-[var(--black-1)]
+            text-[10px] sm:text-[12px] md:text-[14px] lg:text-[15px] xl:text-[16px]
+            overflow-hidden text-ellipsis whitespace-nowrap leading-tight
+          "
+        >
           {product.title}
         </h4>
       </Link>
 
-      {/* price block */}
-      <div className="flex items-end gap-3 justify-center flex-wrap">
-        <div className="flex items-baseline gap-1">
-          <span className="text-[var(--second)]  text-base sm:text-base">
-            <PriceCurrency currency="ج.م" price={special} />
+      {/* PRICE */}
+      <div className="flex items-center justify-center gap-2">
+        <span className="text-[var(--second)] text-[12px] sm:text-[14px] md:text-[15px] lg:text-[16px]">
+          <PriceCurrency currency="ج.م" price={special} />
+        </span>
+
+        {regular > 0 && regular !== special && (
+          <span className="text-[8px] sm:text-[10px] md:text-[11px] lg:text-[12px] text-gray-400 line-through">
+            <PriceCurrency currency="ج.م" price={regular} />
           </span>
-          {regular > 0 && regular !== special && (
-            <span className="text-xs text-gray-400 line-through">
-              <PriceCurrency currency="ج.م" price={regular} />
-            </span>
-          )}
-        </div>
+        )}
       </div>
 
-      {/* reviews */}
-      {/* {product.review_enable != 0 && (
-        <div className="flex items-center justify-center gap-2 text-xs text-gray-600">
-          <span className='flex items-center text-[#FFC62A]'>
-            {Array(5)
-              .fill(0)
-              .map((_, i) => (
-                <Star key={i} className='!fill-[#FFC62A] w-4 h-4' />
-              ))}
-          </span>
-          <span>({product.no_of_reviews}) تقييمات</span>
-        </div>
-      )} */}
-
-      {/* small CTA */}
-      <div className="w-full mt-auto">
-        <div className="mt-1 flex items-center justify-center">
-          <Link to={`/product/${product?.slug}`} className='btn-blue flex-1 text-center py-2 rounded-md'>
-            شراء الان
-            <svg stroke="currentColor" fill="none" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"></path>
-            </svg>
-          </Link>
-        </div>
+      {/* CTA BUTTON */}
+      <div className="w-full mt-auto pt-[10px] md:pt-[21px]">
+        <Link
+          to={`/product/${product?.slug}`}
+          className="
+            btn-blue text-white bg-[var(--main)] buy-btn flex-1 text-center text-nowrap flex items-center justify-center gap-1
+            text-[8px] sm:text-[10px] md:text-[12px] lg:text-[15px]
+            rounded-[2px] md:rounded-[3.5px] lg:rounded-[5px]
+            p-[5px] sm:p-[6px] md:p-[8px] lg:p-[10px]
+            h-[20px] md:h-[30px] lg:h-[40px]
+          "
+        >
+          شراء الان
+          <svg
+            className="w-[12px] md:w-[15px] lg:w-[18px] h-[12px] md:h-[15px] lg:h-[18px]"
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="1.5"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 
+              1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 
+              0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 
+              7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 
+              10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 
+              .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 
+              0 0 1 .75 0Z"
+            />
+          </svg>
+        </Link>
       </div>
     </div>
   );
 }
-
 

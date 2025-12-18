@@ -50,7 +50,7 @@ export default function Navbar() {
       {header_enable_switch === '1' && header_text && (
         <header
           className="header-bar text-white w-full flex items-center justify-center gap-4 text-base max-md:text-xs duration-500 transition-all"
-          style={{ background: 'var(--sticky_header_bg, var(--main))' }}
+          style={{ background: 'var(--sticky_header_bg, var(--main-secondary))' }}
         >
           <img
             src="/icons/car.png"
@@ -69,24 +69,26 @@ export default function Navbar() {
       {/* Main nav */}
       {navbar_enable === '1' &&
         <div
-          className="navbar bg-white"
-          style={{ backgroundColor: 'var(--bk_color, white)', boxShadow: '0px 4px 4px 0px #CFCFCF40' }}
+          className="navbar bg-white sm:shadow-[0px_4px_4px_0px_#CFCFCF40]"
+          style={{ backgroundColor: 'var(--bk_color, white)' }}
         >
-          <nav className={`container !h-[80px] mx-auto flex items-center py-4 !px-4 lg:px-0 gap-3 ${onlyDesktopLinks ? 'lg:justify-center' : 'lg:justify-between'
+          <nav className={`container  h-[73px] md:h-[82px] lg:h-[91px] mx-auto flex items-center py-4 !px-4 lg:px-0 gap-3 ${onlyDesktopLinks ? 'lg:justify-center' : 'justify-between'
             }`}>
+            <MobileMenuToggle bar_icon={bar_icon} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+
             {site_logo_enable === '1' && (
               <Link to="/" >
                 <Logo
                   sources={imageSources}
                   storeDomainLoading={storeDomainLoading}
                   alt={shopNameStatus === 1 ? shopName : "Logo"}
-                  className="logo object-contain duration-500 max-h-20"
+                  className="logo object-contain duration-500 max-h-[50px] md:max-h-[65px] lg:max-h-[75px]"
                 />
               </Link>
             )}
 
             {/* Desktop links - hidden on mobile */}
-            <ul className="nav-menu hidden lg:flex items-center text-base duration-500">
+            <ul className="nav-menu hidden lg:flex items-center text-base duration-500 lg:gap-6 xl:gap-9">
               {loadingMenu
                 ? Array.from({ length: 4 }).map((_, i) => (
                   <li key={i} className="w-16 h-5 bg-gray-200 rounded animate-pulse mx-2" />
@@ -97,37 +99,43 @@ export default function Navbar() {
             </ul>
 
             {/* Icons - show bar icon only on mobile */}
-            <div className={`flex items-center flex-1 lg:flex-none gap-[15px] ${site_logo_enable ? "justify-end" : "justify-between"} lg:justify-normal `}>
-              <div className='flex items-center gap-[15px]'>
+            <div className={`flex items-center lg:flex-none gap-[15px] ${site_logo_enable ? "justify-end" : "justify-between"} lg:justify-normal `}>
+              <div className='flex items-center gap-[14px]'>
 
                 {cart_enable === '1' && (
                   <Link
                     id="cart-icon"
                     to="/cart"
-                    className="relative cursor-pointer p-1 w-8 h-8 duration-500"
+                    className="relative cursor-pointer duration-500"
                   >
                     <span
                       id="cart-count"
-                      className="absolute top-[-5px] right-[-5px] w-4 h-4 rounded-full  text-[10px] flex items-center justify-center"
+                      className="absolute top-[-1px] right-[-1px] px-[2px] min-w-[10px] min-h-[10px] sm:min-w-[12px] sm:min-h-[12px] md:min-w-[14px] md:min-h-[14px] lg:min-w-[16px] lg:min-h-[16px] rounded-full text-[6px] md:text-[8px]  lg:text-[10px] flex items-center justify-center"
                       style={{ background: 'var(--cart_num_bg_color, var(--main))', color: "var(--cart_num_color, white)" }}
                     >
                       {count}
                     </span>
                     {cart_icon ? (
-                      <i className={`${cart_icon} fa-solid text-2xl `}
-                        style={{ color: 'var(--icon_border, black)' }}
+                      <i className={`${cart_icon} fa-solid  text-[20px] md:text-[25px] lg:text-[30px]`}
+                        style={{ color: 'var(--icon_border, var(--black-2))' }}
                       />
                     ) : (
-                      <img src="/icons/cart.png" alt="Cart" width={30} height={30} />
+                      // <img src="/icons/cart.png" alt="Cart" width={30} height={30} />
+                      <svg className='w-[20px] md:w-[25px] lg:w-[30px] h-[20px] md:h-[25px] lg:h-[30px]' viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.33333 5.25L5 9.75V25.5C5 26.0967 5.23413 26.669 5.65087 27.091C6.06762 27.5129 6.63285 27.75 7.22222 27.75H22.7778C23.3671 27.75 23.9324 27.5129 24.3491 27.091C24.7659 26.669 25 26.0967 25 25.5V9.75L21.6667 5.25H8.33333Z" stroke="#454545" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M5 10.25H25" stroke="#454545" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M18.75 15.25C18.75 15.913 18.3549 16.5489 17.6517 17.0178C16.9484 17.4866 15.9946 17.75 15 17.75C14.0054 17.75 13.0516 17.4866 12.3483 17.0178C11.6451 16.5489 11.25 15.913 11.25 15.25" stroke="#454545" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+
+
                     )}
                   </Link>
                 )}
                 {search_enable === '1' && <SearchIcon />}
               </div>
-
-              <MobileMenuToggle bar_icon={bar_icon} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-
             </div>
+
+
           </nav>
 
           <MobileMenu
@@ -153,21 +161,24 @@ function MobileMenuToggle({ bar_icon, menuOpen, setMenuOpen }) {
     <button
       onClick={() => setMenuOpen(prev => !prev)}
       className="lg:hidden focus:outline-none"
-      style={{ color: "var(--icon_border, black)" }}
+      style={{ color: "var(--icon_border, var(--black-2))" }}
       aria-label="Toggle menu"
     >
       {bar_icon ? (
         bar_icon === "fa-toggle-off" || bar_icon === "fa-toggle-on" ? (
           <i
-            className={`${menuOpen ? "fa-toggle-on" : "fa-toggle-off"} fa-solid text-[26px] cursor-pointer`}
+            className={`${menuOpen ? "fa-toggle-on" : "fa-toggle-off"} fa-solid  cursor-pointer  text-[20px] md:text-[25px] lg:text-[30px]`}
           />
         ) : (
           <i
-            className={`${bar_icon} fa-solid text-[26px] cursor-pointer`}
+            className={`${bar_icon} fa-solid  cursor-pointer  text-[20px] md:text-[25px] lg:text-[30px]`}
           />
         )
       ) : (
-        <Menu className="w-6 h-6 cursor-pointer" />
+        <svg className='w-[20px] md:w-[25px] lg:w-[30px] h-[20px] md:h-[25px] lg:h-[30px]' viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13.8646 6.36458H5.53125M13.8646 0.53125H0.53125M13.8646 12.1979H0.53125" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+
       )}
 
     </button>
@@ -278,11 +289,11 @@ function MobileMenu({
   return (
     <div
       ref={mobileMenuRef}
-      className={`mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white shadow-2xl rounded-l-xl z-50 transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+      className={`mobile-menu lg:hidden fixed top-0 right-0 h-full max-w-[95%] w-[320px] bg-white shadow-2xl rounded-l-xl z-50 transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
     >
       <div className="p-4 flex justify-end border-b">
         <X className="cursor-pointer hover:!text-red-500 transition duration-300" onClick={() => setMenuOpen(false)}
-          style={{ color: 'var(--icon_border, black)' }} />
+          style={{ color: 'var(--icon_border, var(--black-2))' }} />
       </div>
 
       <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
@@ -345,10 +356,22 @@ function FallbackHeader() {
 
       {/* Main Navigation */}
       <div
-        className="bg-white"
-        style={{ backgroundColor: 'var(--bk_color, white)', boxShadow: '0px 4px 4px 0px #CFCFCF40' }}
+        className="bg-white sm:shadow-[0px_4px_4px_0px_#CFCFCF40]"
+        style={{ backgroundColor: 'var(--bk_color, white)' }}
       >
-        <nav className="container !h-[80px] mx-auto flex items-center lg:justify-between py-4 !px-4 lg:px-0">
+        <nav className="container h-[73px] md:h-[82px] lg:h-[91px] mx-auto flex items-center justify-between py-4 !px-4 lg:px-0">
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setMenuOpen(prev => !prev)}
+            className="lg:hidden focus:outline-none"
+            style={{ color: "var(--icon_border, var(--black-2))" }}
+            aria-label="Toggle menu"
+          >
+            <svg width="23" height="23" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.8646 6.36458H5.53125M13.8646 0.53125H0.53125M13.8646 12.1979H0.53125" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+
+          </button>
           {/* Logo */}
           <Link to="/">
             <img
@@ -356,12 +379,12 @@ function FallbackHeader() {
               alt="Logo"
               width={126}
               height={50}
-              className="logo object-contain duration-500"
+              className="logo object-contain duration-500 max-h-[63px] md:max-h-[72px] lg:max-h-[81px]"
             />
           </Link>
 
           {/* Desktop Menu */}
-          <ul className="nav-menu hidden lg:flex items-center text-base duration-500 gap-6">
+          <ul className="nav-menu hidden lg:flex items-center text-base duration-500  lg:gap-6 xl:gap-9">
             <li className="relative">
               <Link to="/" className="navlink flex items-center whitespace-nowrap text-[var(--black-2)] hover:text-[var(--main)] transition-all duration-200 ease-in-out">
                 <span className="px-2 py-1 font-medium transition-all duration-200">
@@ -386,44 +409,41 @@ function FallbackHeader() {
           </ul>
 
           {/* Icons */}
-          <div className="flex items-center flex-1 lg:flex-none gap-[15px] justify-end lg:justify-normal">
+          <div className="flex items-center lg:flex-none gap-[15px] justify-end lg:justify-normal">
             <div className='flex items-center gap-[15px]'>
               <Link
                 id="cart-icon"
                 to="/cart"
-                className="relative cursor-pointer p-1 w-8 h-8 duration-500"
+                style={{ color: "var(--icon_border, var(--black-2))" }}
+                className="relative cursor-pointer  duration-500"
               >
                 <span
                   id="cart-count"
-                  className="absolute top-[-5px] right-[-5px] w-4 h-4 rounded-full text-white text-[10px] flex items-center justify-center"
+                  className="absolute top-[-1px] right-[-1px] w-4 h-4 rounded-full  text-[10px] flex items-center justify-center"
                   style={{ background: 'var(--cart_num_bg_color, var(--main))', color: "var(--cart_num_color, white)" }}
                 >
                   {count}
                 </span>
-                <img src="/icons/cart.png" alt="Cart" width={30} height={30} />
+                <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8.33333 5.25L5 9.75V25.5C5 26.0967 5.23413 26.669 5.65087 27.091C6.06762 27.5129 6.63285 27.75 7.22222 27.75H22.7778C23.3671 27.75 23.9324 27.5129 24.3491 27.091C24.7659 26.669 25 26.0967 25 25.5V9.75L21.6667 5.25H8.33333Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M5 10.25H25" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M18.75 15.25C18.75 15.913 18.3549 16.5489 17.6517 17.0178C16.9484 17.4866 15.9946 17.75 15 17.75C14.0054 17.75 13.0516 17.4866 12.3483 17.0178C11.6451 16.5489 11.25 15.913 11.25 15.25" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </Link>
             </div>
 
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={() => setMenuOpen(prev => !prev)}
-              className="lg:hidden focus:outline-none"
-              style={{ color: "var(--icon_border, black)" }}
-              aria-label="Toggle menu"
-            >
-              <i className={`fa-bars fa-solid text-[26px] cursor-pointer`} />
-            </button>
+
           </div>
         </nav>
 
         {/* Mobile Menu */}
         <div
           ref={mobileMenuRef}
-          className={`mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white shadow-2xl rounded-l-xl z-50 transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          className={`mobile-menu lg:hidden fixed top-0 right-0 h-full  max-w-[95%] w-[320px] bg-white shadow-2xl rounded-l-xl z-50 transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
         >
           <div className="p-4 flex justify-end border-b">
             <X className="cursor-pointer text-gray-600 hover:text-red-500 transition duration-300" onClick={() => setMenuOpen(false)}
-              style={{ color: "var(--icon_border, black)" }} />
+              style={{ color: "var(--icon_border, var(--black-2))" }} />
           </div>
 
           <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">

@@ -68,36 +68,102 @@ const featureList = {
     },
   ],
 };
-export default function FeatureList({ order, data = featureList, loading }) {
-  const renderSkeleton = () => (
-    <div className='container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+
+export default function FeatureList({ order, data = featureList, loading = false }) {
+  const FeatureListSkeleton = () => (
+    <div className="
+      container 
+      grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4
+      gap-4 lg:gap-5
+      py-[30px] sm:py-[35px] md:py-[40px] lg:py-[45px]
+    ">
       {[...Array(4)].map((_, idx) => (
-        <div key={idx} className='flex flex-col items-center text-center p-4 '>
-          <div className='!w-[50px] !h-[50px] mb-4 bg-gray-300 rounded-full skeleton '></div>
-          <div className='!w-24 !h-4 bg-gray-300 rounded mb-2 skeleton '></div>
-          <div className='!w-32 !h-3 bg-gray-200 rounded skeleton '></div>
-        </div>
-      ))}
-    </div>
-  );
+        <div key={idx} className="flex flex-col items-center text-center p-3">
+          <div className="
+            !w-[25px] !h-[25px]
+            sm:!w-[35px] sm:!h-[35px]
+            lg:!w-[40px] lg:!h-[40px]
+            mb-3 bg-gray-300 rounded-full skeleton
+          "></div>
 
-  const renderContent = () => (
-    <div className='container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
-      {data?.icons.map((feature, idx) => (
-        <div key={idx} className='flex flex-col items-center text-center p-4'>
-          {/* <img src={feature.img || `/icons/feature-list/default.png`} alt={feature?.title} className="w-[50px] h-[50px] mb-4" /> */}
-          <i className={`fas ${feature.icon_name}  text-4xl  text-[var(--main)]  mb-[20px]`}></i>
-
-          <h3 className='text-lg font-semibold text-[#252A50] mb-1'> {feature.title} </h3>
-          <p className='text-[#77839D] text-sm'>{feature.sub_title || 'وصف'}</p>
+          <div className="!w-20 !h-3 bg-gray-300 rounded mb-1 skeleton"></div>
+          <div className="!w-24 !h-2 bg-gray-200 rounded skeleton"></div>
         </div>
       ))}
     </div>
   );
 
   return (
-    <div className='bg-[#f8fafb] pt-[50px] pb-[50px] !mt-6 ' style={{ order }}>
-      {loading ? renderSkeleton() : renderContent()}
+    <div style={{ order }}>
+      {loading ? (
+        <FeatureListSkeleton />
+      ) : data?.icons?.length > 0 ? (
+        <div
+          className="
+            py-[20px]
+          "
+          style={{
+            backgroundColor: "transparent",
+          }}
+        >
+          <div
+            className="
+              container !px-0
+              grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4
+              gap-4 lg:gap-5
+            "
+          >
+            {data.icons.map((feature, idx) => (
+              <div
+                key={idx}
+                className="
+                  rounded-md
+                  flex flex-col items-center text-center
+                "
+              >
+                {/* ICON — 25px mobile → 40px desktop */}
+                <i
+                  className={`
+                    fas ${feature.icon_name}
+                    text-[25px] sm:text-[32px] lg:text-[40px]
+                    mb-[15px]
+                  `}
+                  style={{
+                    color: "var(--main)",
+                  }}
+                ></i>
+
+                {/* TITLE — 10px mobile → 16px desktop */}
+                <h3
+                  className="
+                    text-[10px] sm:text-[13px] lg:text-[16px]
+                    font-semibold
+                    mb-[10px] sm:mb-[12px] lg:mb-[15px]
+                  "
+                  style={{
+                    color: "#252A50",
+                  }}
+                >
+                  {feature.title}
+                </h3>
+
+                {/* SUBTITLE — 10px mobile → 13px desktop */}
+                <p
+                  className="
+                    text-[7px] sm:text-[8px] md:text-[10px] lg:text-[13px]
+                  "
+                  style={{
+                    color: "#77839D",
+                  }}
+                >
+                  {feature.sub_title || "وصف"}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
+

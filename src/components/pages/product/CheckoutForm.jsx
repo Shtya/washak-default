@@ -9,7 +9,7 @@ export const CheckoutForm = ({ checkoutFields, register, errors, className, titl
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
       exit={{ opacity: 0, height: 0 }}
-      className={`m-4 checkout space-y-4 !mb-8 rounded-lg overflow-hidden ${className}`}
+      className={`mx-5 mt-5 checkout space-y-5 md:space-y-6 lg:space-y-7 rounded-[5px] overflow-hidden ${className}`}
       data-aos='fade-up'
     >
 
@@ -18,11 +18,12 @@ export const CheckoutForm = ({ checkoutFields, register, errors, className, titl
           styleTitle={{ textWrap: 'nowrap' }}
           styleTitle2={{ textWrap: 'wrap' }} />}
       {checkoutFields.map(field => {
+
         if (!field.is_enable) return null;
 
         const hasError = errors[field.backend_field_name];
         return (
-          <div key={field.id} className='flex flex-col gap-[10px] relative'>
+          <div key={field.id} className='flex flex-col gap-[14px] relative'>
             <FieldLabel field={field} />
             <FieldWrapper field={field} hasError={hasError}>
               {field.type === 'select' ? (
@@ -65,15 +66,15 @@ function CustomTilte({ rawTitle }) {
 
 const FieldLabel = ({ field }) => (
   field.type !== 'hidden' && (
-    <label htmlFor={field.backend_field_name} className='label text-base font-normal'>
-      {field.field_text}
-      {field.is_required ? <span className='text-[#ff4b55]'>*</span> : ""}
+    <label htmlFor={field.backend_field_name} className='label text-[12px] md:text-[13px] lg:text-[14px]  font-normal'>
+      <span>{field.field_text}</span>
+      {field.is_required ? <span className='text-[#ff4b55] mr-1'>*</span> : ""}
     </label>
   )
 );
 
 const FieldWrapper = ({ field, children, hasError }) => (
-  <div className={`${field.type !== 'textarea' && 'h-[50px]'} ${field.type === 'hidden' && 'hidden'} wrapper relative overflow-hidden rounded-[8px] text-sm border ${hasError ? '!border-[#ff4b55]' : ''} w-full`}>
+  <div className={`${field.type !== 'textarea' && 'h-[40px] md:h-[44px] lg:h-[47px]'} ${field.type === 'hidden' && 'hidden'} wrapper relative overflow-hidden rounded-[4.5px] text-sm border ${hasError ? '!border-[#ff4b55]' : ''} w-full`}>
     {children}
   </div>
 );
@@ -210,7 +211,7 @@ const FieldInput = ({ field, register }) => {
       //   minLength: minLength,
       // })}
       placeholder={field.field_placeholder}
-      className="checkout-text text-[#222] font-normal w-full px-[10px] h-full outline-none"
+      className="checkout-text text-[#222] font-normal text-[12px] md:text-[13px] lg:text-[14px] w-full px-[10px] h-full outline-none"
     />
   );
 };
@@ -234,7 +235,7 @@ const FieldTextarea = ({ field, register }) => (
       }),
     })}
     placeholder={field.field_placeholder}
-    className={`checkout-text text-[#222] font-normal w-full px-[10px] py-[8px] outline-none resize-none 
+    className={`checkout-text text-[#222] text-[12px] md:text-[13px] lg:text-[14px] font-normal w-full px-[10px] py-[8px] outline-none resize-none 
     ${field.min_length && field.min_length > 100 ? 'h-[150px]' : 'h-[100px]'}`}
   />
 );
@@ -246,7 +247,7 @@ const FieldSelect = ({ field, register }) => (
     {...register(field.backend_field_name, {
       required: field.is_required ? `${field.field_text} مطلوب` : false,
     })}
-    className='checkout-text text-[#222] font-normal w-full px-[10px] h-full outline-none bg-white'
+    className='checkout-text text-[#222] text-[12px] md:text-[13px] lg:text-[14px] font-normal w-full py-[12px] md:py-[14px] px-[14px] md:px-[16px] h-full outline-none bg-white'
   >
     <option value="" disabled>{field.field_placeholder || 'اختر خياراً'}</option>
     {field.settings?.split(',').map(option => (

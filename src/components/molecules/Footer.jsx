@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useStoreLogos } from '../../hooks/useStoreLogos';
 
 import Logo from '../atoms/Logo';
+import { useMenu } from '../../hooks/globalSettings/useMenu';
 
 export default function Footer() {
   const { menu, loadingMenu, menuSetting, loadingSetting, storeOptions } = useAppContext();
@@ -53,30 +54,56 @@ export default function Footer() {
     setLastIsVertical(!!isVertical);
   }, [isVertical]);
 
+  // filter out empty sections
+  const positions = ["right", "center", "left"];
+
+  const activeSections = positions
+    .map((pos) => menu?.footer?.[pos])
+    .filter((section) => section && section.data.length > 0);
+  const isLogoSideEnabled = footer_logo_switch === '1' || (text_under_logo_status === 'yes' && footer_text_under_logo !== '');
+
+
+  const footerSectionsNumber = isLogoSideEnabled ? activeSections.length + 2 : activeSections.length + 1;
+  const gridStyle = (() => {
+    switch (isLogoSideEnabled ? activeSections.length + 2 : activeSections.length + 1) {
+      case 4:
+        return { grid: "grid-cols-2 lg:grid-cols-4", image: "col-span-2 xl:col-span-1" };
+      case 3:
+        return { grid: "grid-cols-2 lg:grid-cols-3", image: "col-span-2 lg:col-span-1" }
+      case 2:
+        return { grid: "grid-cols-2 md:grid-cols-2", image: "col-span-2 md:col-span-1" }
+      case 1:
+        return { grid: "grid-cols-1", image: "" }
+      default:
+        return { grid: "grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 ", image: "col-span-2 lg:col-span-4 2xl:col-span-1" };
+    }
+  })();
+
   // Show fallback footer if no settings or footer is disabled
   if (!menuSetting?.footer && !loadingSetting) {
     return <FallbackFooter />;
   }
 
-  const isLogoSideEnabled = footer_logo_switch === '1' || (text_under_logo_status === 'yes' && footer_text_under_logo !== '');
 
   if (footer_enable_switch !== '1') return null;
 
   const alignmentClasses =
     footer_alignment === 'vertical'
-      ? 'text-center'
-      : 'lg:grid lg:grid-cols-4 grid-cols-1 lg:items-start';
+      ? 'grid grid-cols-2 items-start'
+      : `grid  ${gridStyle.grid} items-start`;
+
 
   return (
-    <footer className=""
-      style={{ background: 'var(--footer_bg_color, var(--main))', color: 'var(--footer_font_color, white)' }}
+    <footer className=" overflow-hidden "
+      style={{ background: 'var(--footer_bg_color, var(--main-secondary))', color: 'var(--footer_font_color, white)' }}
     >
-      <div className="container !py-10 md:py-12">
+      <div className="container  !pt-[36px]  md:!pt-[60px] !pb-2 !px-6 lg:!px-8">
         {loadingSetting || loadingMenu ? <FooterSkeleton isVertical={lastIsVertical} /> :
           <>
 
-            <div className={`flex flex-col justify-center items-center gap-9  ${alignmentClasses}`}>
+            <div className={`gap-[20px] md:gap-[34px]  ${alignmentClasses}`}>
               <FooterBrand
+                className={footer_alignment !== 'vertical' && gridStyle.image}
                 footer_logo_switch={footer_logo_switch}
                 footer_text_under_logo={footer_text_under_logo}
                 text_under_logo_status={text_under_logo_status}
@@ -86,26 +113,27 @@ export default function Footer() {
                 shopDesc={shopDescStatus === 1 ? shopDesc : ''}
               />
 
-              <div className={`${isLogoSideEnabled ? "lg:col-span-2" : "lg:col-span-3"}`}>
-                <FooterLinks menu={menu} isVertical={isVertical} />
-              </div>
+              <FooterLinks activeSections={activeSections} isVertical={isVertical} />
 
-              <FooterContact
-                footer_alignment={footer_alignment}
-                footer_phone_number={footer_phone_number}
-                footer_email={footer_email}
-                footer_social_icons={footer_social_icons}
-              />
+              <div className={`${footerSectionsNumber == 4 && 'max-lg:col-span-2'} `}>
+
+                <FooterContact
+                  footer_alignment={footer_alignment}
+                  footer_phone_number={footer_phone_number}
+                  footer_email={footer_email}
+                  footer_social_icons={footer_social_icons}
+                />
+              </div>
             </div>
 
             {/* Copyright */}
             {
               footer_copyrights_switch === '1' &&
               footer_copyright && (
-                <div className="border-t border-white/10 mt-12 pt-8 text-center">
+                <div className="border-t border-white/10 mt-[14px] sm:mt-[34px] flex items-center justify-center min-h-[69px] text-center">
                   <div
-                    className="text-sm "
-                    style={{ color: 'var(--footer_font_color, var(--white-80))' }}
+                    className="text-[10px] md:text-xs lg:text-sm "
+                    style={{ color: 'var(--footer_font_color, white)' }}
                     dangerouslySetInnerHTML={{ __html: footer_copyright }}
                   />
                 </div>
@@ -117,6 +145,7 @@ export default function Footer() {
 }
 
 function FooterBrand({
+  className,
   footer_logo_switch,
   footer_text_under_logo,
   text_under_logo_status,
@@ -127,9 +156,10 @@ function FooterBrand({
 }) {
   const { footerLogo, defaultStoreLogo, storeDomainLoading } = useStoreLogos();
 
+
   return (
     <div
-      className={`flex flex-col gap-4 sm:gap-6 ${footer_alignment === 'vertical' ? 'items-center text-center ' : 'items-center lg:items-start'} ${!isLogoSideEnabled && "hidden"} `}
+      className={`flex ${className} flex-col  gap-3 sm:gap-6 ${footer_alignment === 'vertical' ? 'col-span-2 items-start' : ' items-start'} ${!isLogoSideEnabled && "hidden"} `}
     >
       {footer_logo_switch === '1' && (
         <Link to="/" className="group">
@@ -137,69 +167,73 @@ function FooterBrand({
             sources={[footerLogo, defaultStoreLogo, '/logo-white.png']}
             storeDomainLoading={storeDomainLoading}
             alt={shopName || "Logo"}
-            className="w-32 sm:w-40 sm:h-[160px] h-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200"
+            className="
+        max-w-[80px] 
+        sm:max-w-[100px] 
+        lg:max-w-[120px] 
+        max-h-[80px] sm:max-h-[100px] lg:max-h-[120px]
+        h-auto object-contain 
+        opacity-90 hover:opacity-100 transition-opacity duration-200
+      "
           />
         </Link>
       )}
 
       {text_under_logo_status === 'yes' && footer_text_under_logo && (
         <div
-          className="font-light leading-relaxed max-w-md text-xs sm:text-sm md:text-base"
-          style={{ color: 'var(--footer_font_color, var(--white-80))' }}
+          className="font-light leading-relaxed 2xl:max-w-md text-xs sm:text-sm md:text-base"
+          style={{ color: 'var(--footer_font_color, white)' }}
           dangerouslySetInnerHTML={{ __html: footer_text_under_logo }}
         />
       )}
 
-      {shopDesc && (
-        <p className="font-light leading-relaxed max-w-md text-xs sm:text-sm md:text-base mt-2"
-          style={{ color: 'var(--footer_font_color, var(--white-80))' }}
-        >
-          {shopDesc}
-        </p>
-      )}
+
+      {/* {shopDesc && (
+          <p className="font-light leading-relaxed max-w-md text-xs sm:text-sm md:text-base mt-2"
+            style={{ color: 'var(--footer_font_color, white)' }}
+          >
+            {shopDesc}
+          </p>
+        )} */}
+
     </div>
   );
 }
 
-function FooterLinks({ menu, isVertical }) {
+function FooterLinks({ activeSections, isVertical }) {
 
-  // filter out empty sections
-  const positions = ["right", "center", "left"];
-  const activeSections = positions
-    .map((pos) => menu?.footer?.[pos])
-    .filter((section) => section && section.data.length > 0);
 
   if (!activeSections.length) return null;
 
   return (
     <>
-      <div
-        className={`footer-grid grid gap-8 grid-cols-1 text-center lg:text-right  ${isVertical
+      {/* <div
+        className={`footer-grid grid gap-[14px] sm:gap-[34px] grid-cols-1 text-center lg:text-right  ${isVertical
           ? '!grid-cols-1 !place-items-center text-center'
           : ''
           }`}
         style={{ "--cols": String(activeSections.length) }}
-      >
-        {activeSections.map((section, idx) => (
-          <div
-            key={section.position || idx}
-            className={`flex flex-col gap-4   ${isVertical ? 'items-center text-center' : ''}`}
+      > */}
+      {activeSections.map((section, idx) => (
+        <div
+          key={section.position || idx}
+          className={`flex flex-col gap-4 md:gap-6  ${isVertical ? '' : ''}`}
+        >
+          <h3
+            className="text-sm md:text-base sm:text-lg font-semibold  tracking-wide"
+            style={{ color: 'var(--footer_heads_color, white)' }}
           >
-            <h3
-              className="text-base sm:text-lg font-semibold  tracking-wide"
-              style={{ color: 'var(--footer_heads_color, white)' }}
-            >
-              <span className='underline'
-                style={{ textDecorationColor: 'var(--footer_heads_underline_color, transparent)', textUnderlineOffset: '6px' }} >{section.name || "قسم"}</span>
-            </h3>
-            <FooterLinksList
-              links={section.data}
-              position={section.position}
-              isVertical={isVertical}
-            />
-          </div>
-        ))}
-      </div>
+            <span className='underline'
+              style={{ textDecorationColor: 'var(--footer_heads_underline_color, transparent)', textUnderlineOffset: '6px' }} >{section.name || "قسم"}</span>
+          </h3>
+          <FooterLinksList
+            links={section.data}
+            position={section.position}
+            isVertical={isVertical}
+          />
+        </div>
+      ))}
+      {/* </div> */}
     </>
   )
 }
@@ -207,7 +241,7 @@ function FooterLinks({ menu, isVertical }) {
 const FooterLinksList = ({ links, position, level = 0, isVertical, parentSlug = "" }) => {
 
   return (
-    <ul className={`flex gap-2 sm:gap-3 ${isVertical ? "flex-row" : "flex-row lg:flex-col justify-center lg:justify-start"}`} style={{ paddingRight: `${level * 0.3}rem` }} >
+    <ul className={`flex  gap-3 md:gap-4 ${isVertical ? "flex-col " : "flex-col lg:justify-start"}`} style={{ paddingRight: `${level * 0.3}rem` }} >
       {links.map((link, index) => {
 
         return (
@@ -230,14 +264,14 @@ const FooteItem = ({ link, position, level, isVertical, index, parentSlug }) => 
   const fullHref = getFullPath(parentSlug, link.href);
   const isActive = useIsActiveLink(fullHref);
 
-  return <li className={`flex gap-2 sm:gap-3 ${isVertical ? 'flex-row justify-center' : 'flex-row lg:flex-col'}`}>
+  return <li className={`flex gap-2 sm:gap-3 ${isVertical ? 'flex-row lg:flex-col' : 'flex-row lg:flex-col'}`}>
     <Link
       to={
         fullHref?.startsWith("/")
           ? fullHref
           : `/${fullHref || "#"} `
       }
-      className={`footer-item-link ${isActive ? "active" : ""} relative flex items-center gap-1 sm:gap-2 transition-all duration-200 w-fit text-xs sm:text-sm  `}
+      className={`footer-item-link ${isActive ? "active" : ""} relative flex items-center gap-1 sm:gap-2 transition-all duration-200 w-fit text-xs md:text-sm  `}
     >
       {level > 0 && (
         <ChevronRight
@@ -268,10 +302,10 @@ function FooterContact({
 }) {
   return (
     <div
-      className={`flex flex-col gap-4 sm:gap-6 ${footer_alignment === 'vertical' ? 'items-center text-center' : 'items-center text-center lg:items-start lg:text-left'} `}
+      className={`flex flex-col gap-3 sm:gap-5 ${footer_alignment === 'vertical' ? 'items-start text-left' : 'items-start text-left'} `}
 
     >
-      {(footer_phone_number || footer_email || footer_social_icons?.length > 0) && <h3 className="text-base sm:text-lg font-semibold text-center  tracking-wide w-full lg:text-start"
+      {(footer_phone_number || footer_email || footer_social_icons?.length > 0) && <h3 className="text-base sm:text-lg font-semibold tracking-wide w-full text-start"
         style={{ color: 'var(--footer_heads_color,  white)' }}
       >
         <span className='underline'
@@ -284,15 +318,15 @@ function FooterContact({
       <div className={`flex flex-col gap-2 sm:gap-3`}>
         {footer_phone_number && (
           <div className="flex items-center gap-2 sm:gap-3">
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-white/10 flex items-center justify-center">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 shrink-0 rounded-lg bg-white/10 flex items-center justify-center">
               <Phone className="w-3 h-3 sm:w-4 sm:h-4 "
-                style={{ color: 'var(--footer_font_color, var(--white-80))' }}
+                style={{ color: 'var(--footer_font_color, white)' }}
               />
             </div>
             <a
               href={`tel:${footer_phone_number} `}
               className="footer-text-hover transition-colors text-xs sm:text-sm"
-              style={{ color: 'var(--footer_font_color, var(--white-80))' }}
+              style={{ color: 'var(--footer_font_color, white)' }}
             >
               {footer_phone_number}
             </a>
@@ -301,14 +335,14 @@ function FooterContact({
 
         {footer_email && (
           <div className="flex items-center gap-2 sm:gap-3">
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-white/10 flex items-center justify-center">
-              <Mail className="w-3 h-3 sm:w-4 sm:h-4"
-                style={{ color: 'var(--footer_font_color, var(--white-80))' }} />
+            <div className="w-6 h-6 sm:w-8 sm:h-8 shrink-0 rounded-lg bg-white/10 flex items-center justify-center">
+              <Mail className="w-3 h-3 sm:w-4 sm:h-4 "
+                style={{ color: 'var(--footer_font_color, white)' }} />
             </div>
             <a
               href={`mailto:${footer_email} `}
-              className=" footer-text-hover transition-colors text-xs sm:text-sm"
-              style={{ color: 'var(--footer_font_color, var(--white-80))' }}
+              className=" footer-text-hover text-right transition-colors text-xs sm:text-sm  max-lg:break-all"
+              style={{ color: 'var(--footer_font_color, white)' }}
             >
               {footer_email}
             </a>
@@ -324,11 +358,11 @@ function FooterContact({
               href={icon.iconURL}
               target="_blank"
               rel="noopener noreferrer"
-              className="footer-social-icon w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg"
+              className="footer-social-icon w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 flex items-center justify-center rounded-lg"
               aria-label={`Social media link ${index + 1}`}
             >
               <i
-                className={`${icon.icon} text-sm sm:text-lg`}
+                className={`${icon.icon} text-xs sm:text-sm md:text-base lg:text-lg`}
               />
             </a>
 
@@ -411,42 +445,25 @@ function FallbackFooter() {
 
   return (
     <footer className="bg-[var(--main)] text-white">
-      <div className="container !py-6 sm:!py-8 md:!py-10">
-        <div className="flex flex-col items-center gap-4 sm:gap-6 text-center">
-          {/* Logo */}
-          <Link to="/" className="group">
-            <img
-              src="/logo-white.png"
-              alt="Logo"
-              className="w-28 sm:w-32 h-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-200"
-              loading="lazy"
-            />
-          </Link>
-
-          {/* Description */}
-          <p className="text-white/80 font-light leading-relaxed max-w-md text-xs sm:text-sm md:text-base px-4">
-            متجر إلكتروني متخصص في بيع المنتجات عالية الجودة بأفضل الأسعار
-          </p>
+      <div className="container !pt-[36px]  md:!pt-[60px] !pb-2">
+        <div className="flex flex-col items-center gap-[14px] sm:gap-[34px] text-center">
 
           {/* Quick Links */}
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-xs sm:text-sm">
-            <Link to="/" className="text-white/80 hover:text-white transition-colors duration-200">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-7 text-xs sm:text-sm" style={{ color: 'var(--footer_font_color, white)' }}>
+            <Link to="/" className=" transition-colors duration-200">
               الرئيسية
             </Link>
-            <Link to="/products" className="text-white/80 hover:text-white transition-colors duration-200">
+            <Link to="/products" className=" transition-colors duration-200">
               المنتجات
             </Link>
-            <Link to="/contact-us" className="text-white/80 hover:text-white transition-colors duration-200">
+            <Link to="/contact-us" className=" transition-colors duration-200">
               اتصل بنا
             </Link>
           </div>
-
-          {/* Copyright */}
-          {/* <div className="border-t border-white/10 pt-4 sm:pt-6 w-full">
-            <p className="text-xs sm:text-sm text-white/60">
-              جميع الحقوق محفوظة © {currentYear}
-            </p>
-          </div> */}
+          {/* Description */}
+          <p style={{ color: 'var(--footer_font_color, white)' }} className="flex items-center justify-center font-light leading-relaxed text-[10px] sm:text-sm md:text-base px-4 min-h-[58px] sm:min-h-[69px]">
+            جميع الحقوق محفوظة لدى موقعنا  © 2025
+          </p>
         </div>
       </div>
     </footer>

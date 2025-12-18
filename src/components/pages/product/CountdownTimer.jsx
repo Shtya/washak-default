@@ -80,7 +80,7 @@ export const CountdownTimer = ({ countdownData, text, productId, aosDelay = '300
 
 const TimeBox = ({ value, label, highlighted = false }) => (
   <div className='flex flex-col items-center gap-1'>
-    <div className={`w-[44px] h-[36px] flex items-center justify-center rounded-[6px] text-base shadow border
+    <div className={`w-[44px] h-[36px] flex items-center justify-center rounded-[6px] text-[15px] ${highlighted ? 'border-2' : 'border'}
        `}
       style={{
         fontFamily: 'Numbers',
@@ -88,12 +88,12 @@ const TimeBox = ({ value, label, highlighted = false }) => (
         backgroundColor: highlighted
           ? 'var(--time_color, #0a2a5c)'
           : 'var(--countdown_bk_color, #f8fafb)',
-        color: highlighted ? '#93979C' : 'var(--static_text_color, #93979C)',
-        borderColor: 'var(--border_color, #f0f1f1)',
+        color: highlighted ? 'white' : 'var(--static_text_color, #93979C)',
+        borderColor: highlighted ? '#F1E5E538' : 'var(--border_color, #f0f1f1)',
       }} >
       {value}
     </div>
-    <div className='text-sm '
+    <div className='text-[15px]'
       style={{ color: 'var(--time_color, #0a2a5c)' }} >{label}</div>
   </div>
 );

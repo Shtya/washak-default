@@ -77,7 +77,7 @@ export default function UpsellProducts() {
         <div className="bg-[#F8FAFB] py-3 md:py-6 px-4">
 
 
-            <div ref={mainRef} className="container !py-3 md:!py-6 flex flex-col gap-2  bg-white rounded-[12px] md:rounded-[18px] lg:rounded-[25px]">
+            <div ref={mainRef} className="container !py-3 md:!py-6 flex flex-col gap-2 lg:gap-3  bg-white  rounded-[12px] md:rounded-[18px] lg:rounded-[25px]">
                 {/* Header */}
                 <div className="text-center mb-2">
                     <h4 className="text-lg font-medium">

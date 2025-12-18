@@ -12,66 +12,100 @@ export const ProductImageGallery = ({ product }) => {
 
   const imageVariants = {
     hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
-    exit: { opacity: 0, y: 50, transition: { duration: 0.3, ease: 'easeIn' } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.2, ease: 'easeOut' } },
+    exit: { opacity: 0, y: 50, transition: { duration: 0.15, ease: 'easeIn' } },
   };
 
   const thumbnailVariants = {
-    hover: { scale: 1.05 },
-    tap: { scale: 0.95 },
-    selected: { scale: 1.05, border: '2px solid var(--product_image_border_colors, var(--main))', boxShadow: '0 0 10px rgba(0,0,0,0.1)' },
+    unselected: {
+      scale: 1,
+      boxShadow: 'none',
+      border: '1px solid #e5e7eb',
+      // Adding explicit transition to make the change instant/fast
+      transition: { duration: 0.15, ease: 'easeOut' }
+    },
+    selected: {
+      scale: 1,
+      border: '1px solid var(--main)',
+      boxShadow: '0 0 0 2px var(--main)',
+      transition: { duration: 0.15, ease: 'easeOut' }
+    },
+    hover: {
+      scale: 1.05,
+      transition: { duration: 0.15 } // Make hover even faster
+    },
+    tap: {
+      scale: 0.95,
+      transition: { duration: 0.15 }
+    },
   };
-
-  const zoomButtonVariants = {
-    hover: { scale: 1.1, backgroundColor: 'rgba(0,0,0,0.2)', transition: { duration: 0.2 } },
-    tap: { scale: 0.95 },
-  };
-
   const hasImages = images.length > 0;
 
   return (
-    <div className='!p-4 bg-white rounded-md' data-aos='fade-up'>
-      <div className='product-images sticky top-[120px] h-fit productSwiper grid grid-cols-1 md:grid-cols-[110px,1fr] gap-[10px]'>
-        {/* Main Image or Placeholder */}
-        <div className={` max-sm:order-[-1] relative border border-[#eee] rounded-md overflow-hidden max-xl:h-auto h-[550px] w-full flex items-center justify-center bg-gray-50
-          ${!hasImages && "col-span-2"}`}>
+    <div className='p-4 bg-white rounded-[10px]' data-aos='fade-up'>
+      <div className='product-images sticky top-[120px] h-fit flex max-xl:justify-center gap-3 md:gap-4  flex-row-reverse'>
+        {/*h-[200px] xs:h-[250px] md:h-[550px] */}
+        {/* Main Image Container */}
+        <div className={`relative rounded-md overflow-hidden max-w-full w-[500px]  flex items-center justify-center bg-gray-50`}>
           {hasImages ? (
-            <motion.div key={selectedImage} initial='hidden' animate='visible' exit='exit' variants={imageVariants} className='w-full h-full'>
-              <Img id={`mainImage-${product.id}`} src={selectedImage} className='object-fill shadow-inner bg-gray-50 h-full w-full' alt={product?.title} />
-            </motion.div>
+            <AnimatePresence mode='wait'>
+              <motion.div
+                key={selectedImage}
+                initial='hidden'
+                animate='visible'
+                exit='exit'
+                variants={imageVariants}
+                className='w-full h-full'
+              >
+                <Img
+                  src={selectedImage}
+                  className='    object-fit: cover; bg-gray-50 h-auto w-full'
+                  alt={product?.title}
+                />
+              </motion.div>
+            </AnimatePresence>
           ) : (
-            <div className='text-gray-500 text-lg h-[550px] flex justify-center items-center'>الصورة غير متاحه</div>
+            <div className='text-gray-500 text-lg flex justify-center items-center'>الصورة غير متاحه</div>
           )}
 
           {hasImages && (
-            <motion.button
+            <button
               onClick={() => setIsModalOpen(true)}
-              className='border border-white p-2 absolute left-[10px] bottom-[10px] cursor-pointer rounded-md'
-              aria-label='Zoom image'
-              variants={zoomButtonVariants}
-              whileHover='hover'
-              whileTap='tap'
+              className='bg-black/20 hover:bg-black/40 p-2 absolute left-3 bottom-3 cursor-pointer rounded-md backdrop-blur-sm transition-colors'
             >
-              <Maximize2 className='text-white' />
-            </motion.button>
+              <Maximize2 className='text-white size-3 md:size-4 lg:size-5' />
+            </button>
           )}
         </div>
 
-        {/* Thumbnails */}
+        {/* Thumbnails Sidebar */}
         {hasImages && (
-          <div dir='ltr' className='md:order-[-2] product-scroll max-md:overflow-x-auto max-md:h-[80px] md:h-[550px] overflow-auto w-full'>
-            <div className='p-2 max-md:!px-0 md:!py-0 flex flex-row md:flex-col items-center gap-3 h-full w-fit'>
+          <div
+            dir='ltr'
+            className='flex-shrink-0 w-fit p-1 product-scroll max-h-[300px] md:max-h-[550px] overflow-y-auto overflow-x-hidden box-content'
+          >
+            <div className='flex flex-col items-center gap-3 pr-2'> {/* pr-2 adds space for scrollbar */}
               {images.map((img, idx) => (
                 <motion.div
                   key={idx}
-                  className={`overflow-hidden rounded-md md:mt-1 w-[90px] h-[75px] md:w-full md:h-[81px] flex-shrink-0 cursor-pointer border border-gray-200`}
                   variants={thumbnailVariants}
-                  onClick={() => setSelectedImage(img)}
                   animate={selectedImage === img ? 'selected' : ''}
-                  whileHover='hover'
-                  whileTap='tap'
+                  whileHover="hover"
+                  whileTap="tap"
+                  onClick={() => setSelectedImage(img)}
+                  className={`
+                    relative overflow-hidden rounded-md cursor-pointer border border-gray-200 flex-shrink-0
+                    w-[60px] h-[55px] 
+                    sm:w-[80px] sm:h-[70px]
+                    lg:w-[120px] lg:h-[110px] 
+                    transition-all duration-200
+                  `}
                 >
-                  <Img src={img} className='h-full object-cover w-full' alt={`${product?.title} - Image ${idx + 1}`} />
+                  <Img
+                    src={img}
+                    className="h-full w-full object-cover"
+                    alt={`${product?.title} - Image ${idx + 1}`}
+                  />
                 </motion.div>
               ))}
             </div>
@@ -79,8 +113,14 @@ export const ProductImageGallery = ({ product }) => {
         )}
       </div>
 
-      {/* Modal only if images exist */}
-      {hasImages && <ImageModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} selectedImage={selectedImage} product={product} />}
+      {hasImages && (
+        <ImageModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          selectedImage={selectedImage}
+          product={product}
+        />
+      )}
     </div>
   );
 };

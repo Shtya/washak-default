@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { getMimeType } from '../../helper/getMimeType';
 
+// do not forgot store description
 export default function Meta({
   title = "Washak | تسوق أفضل المنتجات المنزلية بسهولة",
   twitterTitle = '',

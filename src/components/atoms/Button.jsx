@@ -31,16 +31,15 @@ export default function Button({
       data-aos-delay={delay}
       onClick={handleOnClick}
       disabled={disabled}
-      style={style}
+      style={{ height: '50px', ...style }}
       className={`
         ${cn}
         btn-blue
-        !h-[50px]
+        
         flex items-center justify-center gap-2 px-4
         transition-all duration-300
         ${loading ? 'bg-gray-400 cursor-not-allowed' : ''}
-      `}
-    >
+      `} >
       {loading ? (
         <>
           <Loader2 className="animate-spin w-5 h-5 text-white" />

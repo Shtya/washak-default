@@ -71,12 +71,13 @@ export const BuyNowSection = ({
               disabled={disabled}
               id="buy-now-btn"
               loading={isBuyNowLoading}
-              cn={`w-full flex-row-reverse h-[44px] sm:h-[50px] rounded-md text-white  transition text-sm sm:text-base ${cnbtn}`}
+              cn={`w-full main-btn rounded-[5px] md:rounded-[10px] text-white  transition text-sm sm:text-base ${cnbtn}`}
               onclick={handleBuyNow}
               icon={<svg width="18" height="18" stroke="currentColor" className=" sm:w-5 sm:h-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.17132 1.66699L4.22461 4.69199" strokeWidth="1.5" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round" /><path d="M12.3652 1.66699L15.3119 4.69199" strokeWidth="1.5" stroke-miterlimit="10" strokeLinecap="round" strokeLinejoin="round" /><path d="M1.62891 6.54167C1.62891 5 2.43478 4.875 3.43601 4.875H16.102C17.1032 4.875 17.9091 5 17.9091 6.54167C17.9091 8.33333 17.1032 8.20833 16.102 8.20833H3.43601C2.43478 8.20833 1.62891 8.33333 1.62891 6.54167Z" strokeWidth="1.5" /><path d="M7.94531 11.667V14.6253" strokeWidth="1.5" strokeLinecap="round" /><path d="M11.6895 11.667V14.6253" strokeWidth="1.5" strokeLinecap="round" /><path d="M3.99609 15.533C4.25658 17.1497 4.88336 18.333 7.21143 18.333H12.1199C14.6515 18.333 15.0259 17.1997 15.319 15.633L16.6865 8.33301" strokeWidth="1.5" strokeLinecap="round" /><path d="M2.84961 8.33301L3.4357 11.983" strokeWidth="1.5" strokeLinecap="round" /></svg>}
               name={buttonText}
             />
           </div>
+
 
           <QuantityControl getValues={getValues} setValue={setValue} />
         </div>
@@ -111,7 +112,7 @@ export const QuantityControl = ({ getValues, setValue }) => {
   };
 
   return (
-    <div className='w-full sm:w-fit flex items-center justify-center sm:justify-start gap-2 sm:gap-3' data-aos='fade-up'
+    <div className='w-full sm:w-fit flex items-center justify-between sm:justify-start gap-2 sm:gap-3' data-aos='fade-up'
       style={{ color: 'var(--quantity_text_color, var(--main))' }}
     >
       <div className='text-sm sm:text-base  font-medium'>الكمية:</div>

@@ -14,17 +14,17 @@ export default function ErrorDisplay({
         <div className={`min-h-[400px] flex items-center justify-center py-12 pt-[30px] max-sm:!pt-[10px] ${className}`}>
             <div className="text-center max-w-md mx-auto px-4">
                 {/* Error Icon */}
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <AlertCircle className="w-8 h-8 text-red-600" />
+                <div className="w-12 md:w-14 lg:w-16  h-12 md:h-14 lg:h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <AlertCircle className="w-6 md:w-7 lg:w-8 h-6 md:h-7 lg:h-8 text-red-600" />
                 </div>
 
                 {/* Error Title */}
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3">
+                <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-3">
                     {title}
                 </h2>
 
                 {/* Error Message */}
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-6">
+                <p className="text-gray-600 text-xs md:text-sm lg:text-base leading-relaxed mb-6">
                     {message}
                 </p>
 
@@ -42,7 +42,7 @@ export default function ErrorDisplay({
                 {showRetry && onRetry && (
                     <button
                         onClick={onRetry}
-                        className="mt-10 inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
+                        className="mt-10 inline-flex items-center gap-2 !bg-red-600 hover:!bg-red-700 text-white main-btn btn rounded-lg font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
                     >
                         <RefreshCw className="w-4 h-4" />
                         إعادة المحاولة
@@ -50,7 +50,7 @@ export default function ErrorDisplay({
                 )}
 
                 {/* Alternative Actions */}
-                <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+                <div className="mt-6 flex flex-row gap-3 justify-center">
                     <button
                         onClick={() => window.location.href = '/'}
                         className="text-gray-600 hover:text-gray-800 transition-colors duration-200 text-sm"

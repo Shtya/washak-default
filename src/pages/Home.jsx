@@ -7,19 +7,17 @@ import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Img from '../components/atoms/Image.jsx';
 import HeadTitle from '../components/atoms/HeadTitle.jsx';
 import Button from '../components/atoms/Button.jsx';
 import SkeletonCard from '../components/skeleton/SkeletonCard.jsx';
 import ProductCard from '../components/pages/product/ProductCard.jsx';
-import { getFullPath } from '../helper/getFullPath.js';
 import { useStoreHomeSections } from '../hooks/useStoreHomeSections.js';
 import { HomeSkeleton } from '../components/skeleton/HomeSkeleton.jsx';
 import ErrorDisplay from '../components/atoms/ErrorDisplay.jsx';
 import { useAppContext } from '../contexts/AppContext.js';
 import { CustomButtonsNavigate } from '../components/atoms/CustomButtonsNavigate.jsx';
-
+import CategoryCard from '../components/pages/product/CategoryCard.jsx';
 
 export default function Home() {
   const { loading, data, error } = useStoreHomeSections();
@@ -45,13 +43,13 @@ export default function Home() {
 
 
   return (
-    <div className="home pt-[30px] max-sm:!pt-[10px] flex flex-col min-h-screen "
+    <div className="home pt-[33px] max-sm:!pt-[25px] flex flex-col min-h-screen space-y-[35px] md:space-y-[40px] lg:space-y-[45px]"
       style={{ background: "var(--homepage_bk_color,  white)" }}>
       {sortedSections.map((section) => {
         switch (section.section) {
           case 'Slider_Section':
             return (
-              <SectionWrapper key={section.id} order={section.sort_order} className="!py-0 !pb-8 md:!pb-12">
+              <SectionWrapper key={section.id} order={section.sort_order} className="">
                 <BannerSlider order={section.sort_order} loading={loading} data={section.data} />
               </SectionWrapper>
             );
@@ -80,7 +78,7 @@ export default function Home() {
 
           case 'Content_With_Icon':
             return (
-              <SectionWrapper key={section.id} order={section.sort_order}>
+              <SectionWrapper key={section.id} order={section.sort_order} className='home-feature-section '>
                 <FeatureList order={section.sort_order} data={section.data} loading={loading} />
               </SectionWrapper>
             );
@@ -116,7 +114,7 @@ const SectionWrapper = ({
 }) => {
   return (
     <div
-      className={`py-8 md:py-14 ${className}`}
+      className={`${className} home-section`}
       style={{
         // background: order % 2 === 0 ? '#fff' : '#f9fafb',
         background: "var(--homepage_bk_color,  white)",
@@ -156,16 +154,16 @@ function BannerSlider({ data, order, loading = false }) {
 
 
   return (
-    <div className={`container max-sm:!px-[10px]`} style={{ order }}>
+    <div className={`container max-sm:!px-[20px]`} style={{ order }}>
       {loading ? (
         <SkeletonBanner />
       ) : data?.images?.length > 0 ? (
         <Swiper
           {...sliderConfig}
-          className='w-full h-[400px] max-md:h-[240px]'>
+          className="w-full h-[125px] xs:h-[180px] sm:h-[250px] lg:h-[330px] xl:h-[411px]">
           {data?.images.map((src, i) => (
             <SwiperSlide key={i}>
-              <Img className='bg-gray-200 rounded-[20px] w-full h-full object-cover' src={src?.image} alt={`Banner ${i + 1}`} width={1500} height={500} />
+              <Img className='bg-gray-200 rounded-[10px] md:rounded-[15px] lg:rounded-[20px]  w-full h-full object-cover' src={src?.image} alt={`Banner ${i + 1}`} width={1500} height={500} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -176,7 +174,7 @@ function BannerSlider({ data, order, loading = false }) {
 
 // Banner Section Component (for Banners_Section)
 function BannerSection({ data, order, loading = false }) {
-  const SkeletonBanner = () => <div className='h-[400px] rounded-lg skeleton' />;
+  const SkeletonBanner = () => <div className='w-full max-md:!h-[230px] !h-[400px]  rounded-lg skeleton' />;
 
   const scrollType = data?.section_info?.scroll_type || "Auto";
 
@@ -199,16 +197,16 @@ function BannerSection({ data, order, loading = false }) {
   }), [scrollType]);
 
   return (
-    <div className='container max-sm:!px-[10px]' style={{ order }}>
+    <div className='container max-sm:!px-[20px]' style={{ order }}>
       {loading ? (
         <SkeletonBanner />
       ) : data?.images?.length > 0 ? (
         <Swiper
           {...sliderConfig}
-          className='w-full h-[400px] rounded-lg overflow-hidden'>
+          className='w-full h-[125px] xs:h-[180px] sm:h-[250px] lg:h-[330px] xl:h-[411px]'>
           {data.images.map((banner, i) => (
             <SwiperSlide key={i}>
-              <Img src={banner.image} alt={`Banner ${i}`} className='w-full h-full object-cover rounded-lg' width={600} height={200} />
+              <Img src={banner.image} alt={`Banner ${i}`} className='bg-gray-200 rounded-[10px] md:rounded-[15px] lg:rounded-[20px]  w-full h-full object-cover' width={600} height={200} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -253,7 +251,6 @@ function ProductSection({ sectionData, loading = false, buyText }) {
     loop: true,
     speed: process.env.REACT_APP_PRODUCTS_SWIPER_SPEED || 2000,
     slideToClickedSlide: false,
-    slidesPerView,
     modules: [Navigation, Autoplay, Pagination],
     navigation: {
       prevEl: `.prev-${order}`,
@@ -262,33 +259,33 @@ function ProductSection({ sectionData, loading = false, buyText }) {
     pagination: {
       clickable: true,
     },
-    autoplay:
-      scrollType === "Auto"
-        ? {
-          delay: process.env.REACT_APP_PRODUCTS_SWIPER_DELAY || 4000,
-          disableOnInteraction: false,
-        }
-        : false,
+    autoplay: false
+      // autoplay: scrollType === "Auto"
+      ? {
+        delay: process.env.REACT_APP_PRODUCTS_SWIPER_DELAY || 4000,
+        disableOnInteraction: false,
+      }
+      : false,
     breakpoints: {
-      0: { slidesPerView: 1 },     // phones
-      650: { slidesPerView: 2 },   // small tablets
-      950: { slidesPerView: 3 },   // tablets
-      1200: { slidesPerView: 4 },  // laptops
-      1400: { slidesPerView: 5 },  // desktops
+      0: { slidesPerView: 2 },     // phones
+      475: { slidesPerView: 3 },   // small tablets
+      1024: { slidesPerView: 4 },   // tablets
+      1280: { slidesPerView: 5 },  // laptops
     },
-  }), [slidesPerView, scrollType]);
+  }), [scrollType]);
+
 
 
 
 
   return (
-    <div className='relative max-sm:!px-[20px]' style={{ order: sectionData.sort_order }}>
-      <div className='container'>
+    <div className='relative' style={{ order: sectionData.sort_order }}>
+      <div className='container max-md:!px-2.5'>
         <div className='relative'>
           <HeadTitle desc={section_info?.sub_titile} title={section_info?.title} loading={loading} />
 
           {loading ? (
-            <div className='flex flex-nowrap overflow-x-hidden gap-5 py-[50px] px-[20px]'>
+            <div className='flex flex-nowrap overflow-x-hidden gap-5 section-pad'>
               {Array(isSlider ? slidesPerView : 4)
                 .fill(0)
                 .map((_, i) => (
@@ -299,30 +296,32 @@ function ProductSection({ sectionData, loading = false, buyText }) {
             <>
               {isSlider ? (
                 <div className='relative'>
-                  <Swiper {...sliderConfig} className='!py-[50px] md:!px-[5px]'>
+                  <Swiper {...sliderConfig} className=' section-pad with-bottom'>
                     {products.map(product => (
-                      <SwiperSlide key={product.id} >
+                      <SwiperSlide key={product.id} className='!ml-2.5 md:!ml-5'>
                         <ProductCard product={product} buyText={buyText} />
                       </SwiperSlide>
                     ))}
-                    <div className='swiper-pagination !mt-6' />
+                    <div className='swiper-pagination' />
                   </Swiper>
 
-                  {products.length > slidesPerView && (
-                    <CustomButtonsNavigate swiperPrevClass={`prev-${order}`} swiperNextClass={`next-${order}`} />
-                  )}
+
+                  <CustomButtonsNavigate swiperPrevClass={`prev-${order}`} swiperNextClass={`next-${order}`} />
+
                 </div>
               ) :
                 (
                   <>
-                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 py-[50px]'>
+                    <div className='grid grid-cols-2 xs:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2.5 gap-y-4 md:gap-x-5 sm:gap-y-5 md:gap-5 xl:gap-6 section-pad with-bottom'
+                    >
                       {products.slice(0, visibleCount).map(product => (
                         <ProductCard key={product.id} product={product} buyText={buyText} />
                       ))}
                     </div>
+
                     {visibleCount < products.length && (
                       <div className='flex justify-center py-4'>
-                        <Button name='عرض المزيد' onclick={loadMore} cn='!px-8' />
+                        <Button name='عرض المزيد' onclick={loadMore} cn='text-white !h-auto bg-[var(--main)] text-[10px] md:text-[12px] lg:text-[15px] rounded-[5px]  p-[6px] md:p-[8px] lg:p-[10px]' />
                       </div>
                     )}
                   </>
@@ -346,15 +345,13 @@ const CategoryList = ({ data, order, loading = false }) => {
   // Swiper config — slidesPerView: 'auto' keeps the original fixed w-[160px] cards
   const sliderConfig = useMemo(() => ({
     modules: [Autoplay, Pagination],
-    spaceBetween: 16, // small gap similar to your original gap-4 / gap-6
+    spaceBetween: 10, // small gap similar to your original gap-4 / gap-6
     speed: process.env.REACT_APP_CATEGORIES_SWIPER_SPEED || 2000,
     breakpoints: {
-      320: { slidesPerView: "auto" },  // tiny phones
-      480: { slidesPerView: 2 },  // small phones
-      640: { slidesPerView: 3 },  // larger phones
-      768: { slidesPerView: 4 },  // tablet
-      1024: { slidesPerView: 6 },  // small desktop
-      // 1280: { slidesPerView: 8 },  // large desktop
+      0: { slidesPerView: 2 },     // phones
+      400: { slidesPerView: 3 },   // small tablets
+      1024: { slidesPerView: 4 },   // tablets
+      1280: { slidesPerView: 6 },  // laptops
     },
     centeredSlides: false,
     pagination: { el: '.category-pagination', clickable: true },
@@ -398,8 +395,20 @@ const CategoryList = ({ data, order, loading = false }) => {
     return () => window.removeEventListener("resize", checkCenter);
   }, [checkCenter]);
 
+
+  const [isPaginationActive, setPaginationActive] = useState(false);
+
+  const checkPagination = (swiper) => {
+    // Check if pagination is configured in params
+    const hasPaginationConfig =
+      swiper.params.pagination && swiper.params.pagination !== false;
+    const isLocked = swiper.isLocked;
+
+    setPaginationActive(hasPaginationConfig && !isLocked);
+  };
+
   return (
-    <div className='container flex flex-col gap-12' style={{ order }}>
+    <div className='container flex flex-col' style={{ order }}>
       {/* العنوان */}
       <HeadTitle title={data?.section_info?.title} desc={data?.section_info?.sub_titile} loading={loading} />
 
@@ -417,34 +426,17 @@ const CategoryList = ({ data, order, loading = false }) => {
         </div>
       ) : data?.categories?.length > 0 ? (
         // Swiper preserves each item's classNames so style is unchanged
-        <div className=''>
-          <Swiper {...sliderConfig} className='py-2 items-center categories-section'  >
+        <div className='relative '>
+          <Swiper {...sliderConfig} onLock={checkPagination} onUnlock={checkPagination} className={`py-2 items-center categories-section section-pad ${isPaginationActive && 'with-bottom'}`}  >
             {data.categories.map((category, i) => (
               <SwiperSlide
                 key={i ?? category?.id ?? category?.slug ?? i}
-                style={{ width: "160px" }}
               >
-                <Link
-                  to={getFullPath("category/", category.slug)}
-                  className="category-card w-[160px] flex flex-col items-center transition-transform duration-300 hover:scale-105 group mx-auto"
-                >
-                  <div className="overflow-hidden w-full h-[130px] shadow-inner p-2 rounded-lg border border-gray-200">
-                    <Img
-                      src={category.image_url}
-                      alt={category.name}
-                      width={160}
-                      height={130}
-                      className="w-full h-full object-cover rounded-md transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </div>
-                  <span className="title mt-4 text-sm text-center text-gray-700 group-hover:text-primary transition-colors duration-300">
-                    {category.name}
-                  </span>
-                </Link>
+                <CategoryCard category={category} />
               </SwiperSlide>
             ))}
+            <div className="category-pagination swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"></div>
           </Swiper>
-          <div className="category-pagination flex justify-center mt-3"></div>
         </div>
       ) : (
         <div className='py-12 text-center text-gray-500'>لا توجد تصنيفات متاحة حالياً</div>
@@ -456,12 +448,12 @@ const CategoryList = ({ data, order, loading = false }) => {
 // Feature List Component
 function FeatureList({ order, data, loading = false }) {
   const FeatureListSkeleton = () => (
-    <div className='container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+    <div className='container grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 py-[35px] md:py-[40px] lg:py-[45px]'>
       {[...Array(4)].map((_, idx) => (
-        <div key={idx} className='flex flex-col items-center text-center p-4'>
-          <div className='!w-[50px] !h-[50px] mb-4 bg-gray-300 rounded-full skeleton'></div>
-          <div className='!w-24 !h-4 bg-gray-300 rounded mb-2 skeleton'></div>
-          <div className='!w-32 !h-3 bg-gray-200 rounded skeleton'></div>
+        <div key={idx} className='flex flex-col items-center text-center p-3'>
+          <div className='!w-[25px] !h-[25px] sm:!w-[35px] sm:!h-[35px] lg:!w-[40px] lg:!h-[40px] mb-3 bg-gray-300 rounded-full skeleton'></div>
+          <div className='!w-20 !h-3 bg-gray-300 rounded mb-1 skeleton'></div>
+          <div className='!w-24 !h-2 bg-gray-200 rounded skeleton'></div>
         </div>
       ))}
     </div>
@@ -472,64 +464,125 @@ function FeatureList({ order, data, loading = false }) {
       {loading ? (
         <FeatureListSkeleton />
       ) : data?.icons?.length > 0 ? (
-        <div className='container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
-          {data.icons.map((feature, idx) => (
-            <div key={idx}
-              className='rounded-md flex flex-col items-center text-center p-4'
-              style={{ backgroundColor: "var(--icon_section_title_bg_color, transparent)" }}
-            >
-              <i className={`fas ${feature.icon_name} text-4xl mb-[20px]`}
-                style={{ color: "var(--icon_section_title_color, var(--main))" }}
-              ></i>
-              <h3 className='text-lg font-semibold mb-1'
-                style={{ color: "var(--icon_section_title_color, #252A50)" }}
-              >{feature.title}</h3>
-              <p className='text-sm'
-                style={{ color: "var(--icon_section_subtitle_color, #77839D)" }}
-              >{feature.sub_title || 'وصف'}</p>
-            </div>
-          ))}
+        <div className='py-[20px] lg:py-[15px]' style={{ backgroundColor: "var(--icon_section_title_bg_color, transparent)" }}>
+          <div className='container  grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5' >
+            {data.icons.map((feature, idx) => (
+              <div
+                key={idx}
+                className='rounded-md flex flex-col items-center text-center'
+              >
+                {/* ICON — 25px mobile → 40px desktop */}
+                <i
+                  className={`fas ${feature.icon_name} 
+                  text-[25px] sm:text-[32px] lg:text-[40px] 
+                  mb-[15px]`}
+                  style={{ color: "var(--icon_section_title_color, var(--main))" }}
+                ></i>
+
+                {/* TITLE — 10px mobile → 16px desktop */}
+                <h3
+                  className='
+                  text-[10px] sm:text-[13px] lg:text-[16px]
+                  font-semibold mb-[10px] sm:mb-[12px] lg:mb-[15px]
+                '
+                  style={{ color: "var(--icon_section_title_color, #252A50)" }}
+                >
+                  {feature.title}
+                </h3>
+
+                {/* SUBTITLE — 10px mobile → 13px desktop */}
+                <p
+                  className='
+                  text-[7px] sm:text-[8px] md:text-[10px] lg:text-[13px]
+                '
+                  style={{ color: "var(--icon_section_subtitle_color, #77839D)" }}
+                >
+                  {feature.sub_title || "وصف"}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       ) : null}
     </div>
   );
 }
 
+
 // Map Section Component
 function MapSection({ order, data, loading = false }) {
   const [mapError, setMapError] = useState(false);
 
   return (
-    <div>
-      <div className='container '>
+    <div style={{ order }}>
+      <div className="container">
         {loading ? (
-          <div className='skeleton h-[400px] rounded-xl' />
+          <div className="skeleton h-[220px] sm:h-[260px] md:h-[320px] lg:h-[380px] xl:h-[400px] rounded-xl" />
         ) : data ? (
-          <div className='py-8 px-4 md:px-8 lg:px-20 rounded-xl'>
-            <div className='max-w-6xl mx-auto text-center'>
-              <h2 className='text-2xl md:text-3xl font-bold text-gray-800 mb-3'>{data.title}</h2>
-              <p className='text-gray-600 mb-8'>{data.sub_titile}</p>
+          <div className="
 
-              {/* حالة الخطأ */}
+            rounded-xl
+          ">
+            <div className="max-w-6xl mx-auto text-center">
+
+              {/* Title */}
+              <h2
+                className="
+                  text-[16px] sm:text-[18px] md:text-[22px] lg:text-[26px]
+                  font-bold text-gray-800 mb-[6px]
+                "
+              >
+                {data.title}
+              </h2>
+
+              {/* Subtitle */}
+              <p
+                className="
+                  text-[10px] sm:text-[12px] md:text-[14px] lg:text-[15px]
+                  text-gray-600 mb-[20px] sm:mb-[25px] md:mb-[30px]
+                "
+              >
+                {data.sub_titile}
+              </p>
+
+              {/* Error State */}
               {mapError ? (
-                <div className='w-full h-[400px] flex items-center justify-center bg-red-50 border border-red-200 rounded-xl shadow'>
-                  <p className='text-red-600 text-lg font-medium'>⚠️ لا يمكن عرض الخريطة حالياً. يرجى من مسؤول المتجر التأكد من صلاحية Google Maps API Key.</p>
+                <div className="
+                  w-full 
+                  h-[220px] sm:h-[260px] md:h-[320px] lg:h-[380px] xl:h-[400px]
+                  flex items-center justify-center 
+                  bg-red-50 border border-red-200 rounded-xl shadow
+                ">
+                  <p className="text-red-600 text-[12px] sm:text-[14px] md:text-[16px] font-medium">
+                    ⚠️ لا يمكن عرض الخريطة حالياً. يرجى من مسؤول المتجر التأكد من صلاحية Google Maps API Key.
+                  </p>
                 </div>
               ) : (
-                <div className='w-full h-[400px] rounded-xl overflow-hidden shadow-lg border border-gray-200'>
-                  {/* <iframe width='100%' height='100%' style={{ border: 0 }} loading='lazy' allowFullScreen referrerPolicy='no-referrer-when-downgrade' src={`https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&zoom=14&q=${data.map_latitude},${data.map_longitude}`} onError={() => setMapError(true)}></iframe> */}
-
-                  <iframe width='100%' height='100%' style={{ border: 0 }} className='w-full h-full rounded-lg border-0' src={`https://maps.google.com/maps?q=${data.map_latitude},${data.map_longitude}&z=15&output=embed`} onError={() => setMapError(true)} allowFullScreen loading='lazy' />
-                </div >
-              )
-              }
-            </div >
-          </div >
+                <div className="
+                  w-full 
+                  h-[220px] sm:h-[260px] md:h-[320px] lg:h-[380px] xl:h-[400px]
+                  rounded-xl overflow-hidden shadow-lg border border-gray-200
+                ">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    className="w-full h-full rounded-lg border-0"
+                    src={`https://maps.google.com/maps?q=${data.map_latitude},${data.map_longitude}&z=15&output=embed`}
+                    onError={() => setMapError(true)}
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
         ) : null}
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }
+
 
 // HTML Content Section Component
 function HtmlContentSection({ data, loading = false }) {

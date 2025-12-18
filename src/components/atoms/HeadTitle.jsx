@@ -5,14 +5,14 @@ export default function HeadTitle({ title, desc, arrowTop, loading = false }) {
 
     if (loading) return <div className='skeleton w-[150px] h-6 mx-auto rounded-md' />;
     return (
-        <div className='flex items-center flex-col gap-[5px] ' >
+        <div className='flex flex-col gap-[5px] ' >
 
-            <div className={` text-2xl max-md:text-lg font-[600] text-[var(--main)] flex gap-[5px] justify-center  ${arrowTop ? 'text-right !mt-0 ' : 'text-center'} `}>
+            <div className={` text-sm md:text-lg  lg:text-xl xl:text-[22px] font-[600] text-[var(--main)] flex gap-[5px]   ${arrowTop ? 'text-right !mt-0 ' : ''} `}>
                 <span>{one}</span>
                 <span className='text-[var(--second)]'>{two}</span>
             </div>
 
-            {desc && <p className='text-lg opacity-70 max-md:text-base text-[var(--primary)] ' > {desc}</p>}
+            {desc && <p className='text-xs md:text-base xl:text-lg opacity-70  text-[var(--primary)] ' > {desc}</p>}
         </div>
     );
 }

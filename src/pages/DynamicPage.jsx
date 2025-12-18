@@ -38,9 +38,9 @@ const DynamicPage = () => {
         style={{ background: "var(--dynamic_page_color,  #f8fafb)" }}
       >
         {loading ? (
-          <div className="container ">
-            <Breadcrumb cn="!mt-0 !pt-[30px] container" routes={breadcrumbRoutes} />
-            <div className="rounded-3xl py-[30px] min-h-[250px]">
+          <div className="container  !my-0'">
+            <Breadcrumb cn=" " routes={breadcrumbRoutes} />
+            <div className="rounded-[8px] md:rounded-[12px] lg:rounded-[15px] py-[30px] min-h-[250px]">
               <SkeletonBlock height='200px' className="mb-4" />
             </div>
             <div className="pb-6">
@@ -49,10 +49,10 @@ const DynamicPage = () => {
           </div>
         ) : page ? (
           <div className=" min-h-[calc(100vh-300px)] flex flex-col">
-            <div className='container'>
+            <div className='container !mt-0 !mb-[12px] sm:!mb-[16px] md:!mb-[20px] lg:!mb-[24px]'>
 
-              <Breadcrumb cn="!mt-0 !pt-[30px] container" routes={breadcrumbRoutes} />
-              <div className="mt-auto bg-white rounded-3xl p-[30px] min-h-[250px]">
+              <Breadcrumb cn="" routes={breadcrumbRoutes} />
+              <div className="mt-auto text-sm md:text-base lg:text-[20px] bg-white rounded-[8px] md:rounded-[12px] lg:rounded-[15px]  p-2 md:p-4 lg:p-6 2xl:p-8 min-h-[250px]">
                 <div
                   dangerouslySetInnerHTML={{
                     __html: page.content.value,
@@ -60,7 +60,7 @@ const DynamicPage = () => {
                 />
               </div>
             </div>
-            <FeatureList />
+            {/* <FeatureList /> */}
           </div>
         ) : (
           <NotFoundPage />

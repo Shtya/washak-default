@@ -38,6 +38,7 @@ export const VariantSelector = ({
       const matched = validOptions.find(opt => defaultSet.has(opt.id));
       const selected = matched || validOptions[0];
 
+
       if (selected) {
         handleVariantSelect(variant.id, selected.id, false);
       }
@@ -45,7 +46,6 @@ export const VariantSelector = ({
   }, [variants, defaultVariantCombinations]);
 
   const handleVariantSelect = (variantId, optionId, userAction = true) => {
-
     if (optionId !== null && optionId !== undefined && optionId !== '') {
       setNewOption(variantId, optionId);
     }
@@ -68,7 +68,7 @@ export const VariantSelector = ({
       <div className='relative max-w-[200px] w-full '>
         <button
           type='button'
-          className={`w-full px-3 py-2 text-sm border-[1px] rounded-lg flex justify-between items-center transition-all duration-200 
+          className={`w-full h-[36px] md:h-[38px] px-[9px] md:px-2.5 text-sm border-[1px] rounded-lg flex justify-between items-center transition-all duration-200 
           ${selectedOptionId ? 'border-[#0B649F1A]  text-white ' : 'border-[#EFF2F4] text-[#637381] hover:bg-[#0B649F1A] '}
            
           ${touchedVariants[variant.id] ? 'ring-2 ring-indigo-100' : ''}`}
@@ -84,7 +84,7 @@ export const VariantSelector = ({
 
         {/* Fade-in and slide-up animation for dropdown */}
         <motion.div
-          className={`absolute z-10 mt-1 text-sm w-full bg-white border-[1px] border-gray-100 rounded-lg max-h-60 overflow-y-auto`}
+          className={`absolute z-[100] mt-1 text-sm w-full bg-white border-[1px] border-gray-100 rounded-lg max-h-60 overflow-y-auto`}
           initial={{ opacity: 0, y: 20, pointerEvents: 'none' }}
           animate={{
             opacity: openSelectId === variant.id ? 1 : 0,
@@ -97,13 +97,13 @@ export const VariantSelector = ({
             return (
               <div
                 key={option.id}
-                className={`px-3 py-2 cursor-pointer transition-colors duration-150 flex items-center ${isSelected ? 'bg-[#0B649F1A] text-[#123770] ' : 'hover:text-[#123770] hover:border-[#F1E5E538] hover:bg-[#0B649F1A] text-gray-700'}`}
+                className={`h-[36px] md:h-[38px] px-[9px] md:px-2.5 cursor-pointer transition-colors duration-150 flex items-center ${isSelected ? 'bg-[#0B649F1A] text-[var(--main-secondary)] ' : 'hover:text-[var(--main)] hover:border-[#F1E5E538] hover:bg-[#0B649F1A] text-gray-700'}`}
                 onClick={() => {
                   handleVariantSelect(variant.id, option.id, option.variant_option_name);
                   setOpenSelectId(null);
                 }}>
                 <span className='flex-1 font-medium'>{option.variant_option_name}</span>
-                {isSelected && <Check className='h-5 w-5 text-[#123770]' />}
+                {isSelected && <Check className='h-5 w-5 text-[var(--main-secondary)]' />}
               </div>
             );
           })}
@@ -119,8 +119,8 @@ export const VariantSelector = ({
         {variant.options.map(option => {
           const isSelected = currentOptions.includes(`${variant.id}_${option.id}`);
           return (
-            <label key={option.id} className={`option flex items-center gap-2 cursor-pointer px-3 py-2 rounded-md text-sm transition-all duration-200 ${isSelected ? 'selected  ' : 'border-[#EFF2F4] hover:bg-[#0B649F1A]'} ${touchedVariants[variant.id] ? 'ring-1 ring-indigo-100' : ''} border-[1px] `} onClick={() => handleVariantSelect(variant.id, option.id, option.variant_option_name)}>
-              <div className={`w-4 h-4 rounded-full border-[1px] flex items-center justify-center transition-colors ${isSelected ? 'border-white bg-white ' : 'border-[#dee1e3] border-[3px] '}`}>{isSelected && <Check className='h-[10px] w-[10px] text-[#0B649F]' strokeWidth={3} />}</div>
+            <label key={option.id} className={`option flex items-center gap-2 cursor-pointer h-[36px] md:h-[38px] px-[9px] md:px-2.5 rounded-md text-sm transition-all duration-200 ${isSelected ? 'selected  ' : 'border-[#EFF2F4] hover:bg-[#0B649F1A]'} ${touchedVariants[variant.id] ? 'ring-1 ring-indigo-100' : ''} border-[1px] `} onClick={() => handleVariantSelect(variant.id, option.id, option.variant_option_name)}>
+              <div className={`w-4 h-4 rounded-full border-[1px] flex items-center justify-center transition-colors ${isSelected ? 'border-white bg-white ' : 'border-[#dee1e3] border-[2px] '}`}>{isSelected && <Check className='h-[10px] w-[10px] text-[#0B649F]' strokeWidth={3} />}</div>
               <span className='title  font-medium'>{option.variant_option_name}</span>
             </label>
           );
@@ -132,7 +132,7 @@ export const VariantSelector = ({
   const TextualButtonOption = ({ variant, option }) => {
     const isSelected = getValues()?.includes(`${variant.id}_${option.id}`);
     return (
-      <button key={option.id} onClick={() => handleVariantSelect(variant.id, option.id, option.variant_option_name)} className={`option px-3 py-2 text-[14px] rounded-lg transition-all duration-200 font-medium border ${isSelected ? 'selected  ' : 'bg-[#F8FAFB]  hover:bg-[#0B649F1A]'} ${touchedVariants[variant.id] ? 'ring-1 ring-indigo-100' : ''}`}>
+      <button key={option.id} onClick={() => handleVariantSelect(variant.id, option.id, option.variant_option_name)} className={`option h-[36px] md:h-[38px] px-[9px] md:px-2.5 text-[14px] rounded-lg transition-all duration-200 font-medium border ${isSelected ? 'selected  ' : 'bg-[#F8FAFB]  hover:bg-[#0B649F1A]'} ${touchedVariants[variant.id] ? 'ring-1 ring-indigo-100' : ''}`}>
         <span className='title'>{option.variant_option_name}</span>
       </button>
     );
@@ -141,7 +141,7 @@ export const VariantSelector = ({
   const ColorButtonOption = ({ variant, option }) => {
     const isSelected = getValues()?.includes(`${variant.id}_${option.id}`);
     return (
-      <div key={option.id} onClick={() => handleVariantSelect(variant.id, option.id, option.variant_option_name)} className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 ${isSelected ? 'ring-2 ring-offset-2 ring-[#F1E5E538] scale-[1.1]' : 'ring-1 ring-[#F0F1F1] hover:ring-[#123770] hover:scale-[0.9] '} duration-500 `} style={{ backgroundColor: option.preview || '#ccc' }} title={option.variant_option_name}>
+      <div key={option.id} onClick={() => handleVariantSelect(variant.id, option.id, option.variant_option_name)} className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 ${isSelected ? 'ring-2 ring-offset-2 ring-[#F1E5E538] scale-[1.1]' : 'ring-1 ring-[#F0F1F1] hover:ring-[#123770] hover:scale-[0.9] '} duration-500 `} style={{ backgroundColor: option.preview || '#ccc' }} title={option.variant_option_name}>
         {isSelected && <Check className='h-4 w-4 text-white' strokeWidth={3} />}
       </div>
     );
@@ -217,12 +217,12 @@ export const VariantSelector = ({
 
   return (
     variants?.length > 0 && showVariantDetails && (
-      <div className='space-y-4 !mt-12 variants' data-aos={dataAos}>
+      <div className='relative z-[1] space-y-4 md:space-y-5 mt-6 sm:mt-8 md:mt-10 lg:mt-12 variants' data-aos={dataAos}>
         {variants.map((variant, index) => (
-          <div key={variant.id} className={`${cn} bg-white  pb-4  space-y-4`}>
-            <div className={`${innerCn} grid grid-cols-[auto,1fr] items-center gap-4`}>
+          <div key={variant.id} className={`${cn} bg-white space-y-3 md:space-y-4`}>
+            <div className={`${innerCn} flex flex-col gap-2.5 md:grid grid-cols-[auto,1fr] md:items-center md:gap-4`}>
               <div className={`${labelCn} flex items-center min-w-[80px] w-full  gap-2`}>
-                <h3 className='option_title text-[13px] font-semibold'>{variant.variant_name}</h3>
+                <h3 className='option_title text-[12px] md:text-[14px] lg:text-[16px] font-semibold'>{variant.variant_name}</h3>
                 {Boolean(variant.is_required) && <span className='text-lg text-rose-500 font-medium'>*</span>}
               </div>
 

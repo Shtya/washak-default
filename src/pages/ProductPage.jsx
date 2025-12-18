@@ -15,8 +15,8 @@ const LazyProduct = lazy(() => import('./Product'));
 
 // Simple loading component for suspense
 const ProductLoading = () => (
-  <div className='bg-[#f8fafb] min-h-[calc(100vh-300px)] flex items-center justify-center'>
-    <div className='animate-pulse'>جارٍ التحميل...</div>
+  <div className="loader-container">
+    <span className="loader"></span>
   </div>
 );
 

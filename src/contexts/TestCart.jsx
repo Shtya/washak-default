@@ -109,12 +109,13 @@ function TestCart() {
                         className="px-3 py-2 border rounded w-32"
                     />
                     <button
-                        onClick={() =>
+                        onClick={() => {
                             setSpecificOption({
                                 id: idInput,
                                 variantId: variantInput,
                                 optionId: optionInput,
                             })
+                        }
                         }
                         className="px-4 py-2 bg-yellow-300 text-white rounded hover:bg-yellow-400"
                     >

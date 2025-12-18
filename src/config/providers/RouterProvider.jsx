@@ -19,8 +19,8 @@ export function AppRoutes() {
     return (
         <BrowserRouter>
             <ScrollToTop />
-            <Suspense fallback={<div class="loader-container">
-                <span class="loader"></span>
+            <Suspense fallback={<div className="loader-container">
+                <span className="loader"></span>
             </div>
             }>
                 <Routes>

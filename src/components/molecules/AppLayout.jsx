@@ -18,6 +18,12 @@ export function AppLayout() {
 
     const appName = storeOptions?.shop_name?.value;
 
+    // --- DECLARE IT HERE ---
+    const {
+        value: shopDesc = '',
+        status: shopDescStatus = 0
+    } = storeOptions?.shop_description || {};
+
     return (
         <div className='min-h-[970px] flex flex-col'>
             {storeOptions?.seo?.status === 1 && (
@@ -32,6 +38,18 @@ export function AppLayout() {
                     defaultFaviconIco={defaultFaviconLogo}
                     appName={appName}
                 />
+            )}
+
+            {shopDescStatus === 1 && (
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Organization",
+                        "name": appName,
+                        "description": shopDesc,
+                        "url": window.location.origin
+                    })}
+                </script>
             )}
 
             {/* this Helmet block injects your runtime CSS/JS */}

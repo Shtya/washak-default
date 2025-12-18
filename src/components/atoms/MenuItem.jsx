@@ -24,9 +24,9 @@ export default function MenuItem({ item, isSub = false, slug = '', closeParent }
                 <a
                     href={item.href}
                     target={item.target || "_self"}
-                    className={`navlink ${isSub ? "sub bg-red-400" : "main"} flex items-center whitespace-nowrap transition-all duration-200 ease-in-out`}
+                    className={`navlink ${isSub ? "sub" : "main"} flex items-center whitespace-nowrap transition-all duration-200 ease-in-out`}
                 >
-                    <span className="px-2 py-1 font-medium transition-all duration-200 "
+                    <span className="px-2 py-1 font-semibold transition-all duration-200 "
                     >
                         {item.text || "Menu Item"}
                     </span>
@@ -45,13 +45,12 @@ export default function MenuItem({ item, isSub = false, slug = '', closeParent }
                     to={fullPath}
                     target={item.target || "_self"}
                     onClick={handleCloseParent}
-                    onCli
                     className={
                         `navlink ${isSub ? "sub" : "main"} flex items-center whitespace-nowrap transition-all duration-200 ease-in-out 
                         ${isActive ? "active" : ""}`
                     }
                 >
-                    <span className="px-2 py-1 font-medium transition-all duration-200 ">
+                    <span className="px-2 py-1 font-semibold transition-all duration-200 ">
                         {item.text || "Menu Item"}
                     </span>
 

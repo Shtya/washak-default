@@ -22,7 +22,7 @@ import { getFullPath } from '../helper/getFullPath';
 
 // Memoized components to prevent unnecessary re-renders
 const MemoizedProductTitle = memo(({ title }) => (
-  <h2 className='text-2xl max-md:text-xl font-bold text-[#3B2D35]' data-aos='fade-up' style={{ color: 'var(--product_title_color, #3B2D35)' }}>
+  <h2 className='text-lg md:text-mxl lg:text-2xl  font-bold text-[#3B2D35]' data-aos='fade-up' style={{ color: 'var(--product_title_color, #3B2D35)' }}>
     {title}
   </h2>
 ));
@@ -48,11 +48,11 @@ const MemoizedPriceDisplay = memo(({ price }) => {
   return (
     <div className='flex items-center gap-2 flex-wrap' data-aos='fade-up'>
       <span className='text-[#123770]'>
-        <PriceCurrency currency={'ج.م'} price={price?.special_price} style={{ color: 'var(--new_price_color, var(main))' }} />
+        <PriceCurrency cn='text-base md:text-lg' currency={'ج.م'} price={price?.special_price} style={{ color: 'var(--new_price_color, var(main))' }} />
       </span>
       {hasRegularPrice && (
         <>
-          <span className='line-through text-base' style={{ color: 'var(--old_price_color, #A5A5A5)' }}>
+          <span className='line-through text-sm md:text-base' style={{ color: 'var(--old_price_color, #A5A5A5)' }}>
             <PriceCurrency currency={'ج.م'} price={price?.regular_price} style={{ color: 'var(--old_price_color, #A5A5A5)' }} />
           </span>
           <span className='text-white border text-xs px-2 py-1 rounded-full flex items-center gap-[5px]' style={{ background: 'var(--price_bk_color, var(--second))', borderColor: 'var(--price_border_color, var(main))' }}>
@@ -73,31 +73,29 @@ const MemoizedLiveVariantPrice = memo(({ loading, price, comparePrice, productPr
     return { totalPrice, totalCompare, savings };
   }, [price, comparePrice, productPrice, quantity]);
 
-  if (loading) {
-    return (
-      <div aria-live='polite' className='mt-3 flex items-center gap-2 bg-amber-50 text-amber-800 px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm'>
-        <span className='animate-spin border-2 border-amber-400 border-t-transparent rounded-full w-4 h-4' />
-        <span>جارٍ تحديث السعر...</span>
-      </div>
-    );
-  }
-
   return (
-    <div aria-live='polite' className='mt-3 flex flex-wrap items-center gap-3 bg-amber-50 text-amber-800 px-3 py-1 rounded-lg text-sm font-semibold shadow-sm animate-fadeIn'>
-      <span>🎯 السعر حسب اختيارك:</span>
-      <span className='text-base font-bold text-[#0a2a5c] transition-all duration-700 ease-out transform scale-95'>
-        <PriceCurrency currency={'ج.م'} price={totalPrice || productPrice?.special_price} />
-      </span>
-      {totalCompare && totalCompare > totalPrice && (
-        <span className='line-through text-gray-500 text-xs transition-all duration-700 ease-out transform scale-95'>
-          <PriceCurrency currency={'ج.م'} price={totalCompare} />
-        </span>
-      )}
-      {savings > 0 && (
-        <span className='flex gap-2 bg-[#0a2a5c] text-white text-[11px] px-2 py-0.5 rounded-full transition-all duration-700 ease-out transform scale-95'>
-          <span>هتوفر</span> <PriceCurrency currency={'ج.م'} price={savings} />
-        </span>
-      )}
+    <div data-aos='fade-up'>
+
+      {loading ? <div aria-live='polite' className='mt-3 flex items-center gap-2 text-amber-800 px-3 py-1.5 rounded-full text-sm font-semibold'>
+        <span className='animate-spin border-2 border-t-transparent rounded-full w-4 h-4' />
+        <span>جارٍ تحديث السعر...</span>
+      </div> :
+        <div aria-live='polite' className='mt-3 flex flex-wrap items-center gap-3 text-amber-800 px-3 py-1 rounded-lg text-sm font-semibold animate-fadeIn'>
+          <span>السعر حسب اختيارك:</span>
+          <span className='text-base font-bold text-[var(--main)] transition-all duration-700 ease-out transform scale-95'>
+            <PriceCurrency currency={'ج.م'} price={totalPrice || productPrice?.special_price} />
+          </span>
+          {totalCompare && totalCompare > totalPrice && (
+            <span className='line-through text-gray-500 text-xs transition-all duration-700 ease-out transform scale-95'>
+              <PriceCurrency currency={'ج.م'} price={totalCompare} />
+            </span>
+          )}
+          {savings > 0 && (
+            <span className='flex gap-2 bg-[var(--main)] text-white text-[11px] px-2 py-0.5 rounded-full transition-all duration-700 ease-out transform scale-95'>
+              <span>هتوفر</span> <PriceCurrency currency={'ج.م'} price={savings} />
+            </span>
+          )}
+        </div>}
     </div>
   );
 });
@@ -117,7 +115,7 @@ const MemoizedReviews = memo(({ reviewEnable, noOfReviews }) => {
   if (reviewEnable == 0) return null;
 
   return (
-    <div className='flex items-center gap-[10px] text-sm text-[#666666]' data-aos='fade-up'>
+    <div className='flex items-center gap-[10px] text-sm md:text-sm text-[#666666]' data-aos='fade-up'>
       <span className='flex items-center text-[#FFC62A]'>
         {Array(5)
           .fill(0)
@@ -140,7 +138,7 @@ const MemoizedDescription = memo(({ content, shortDescription, isShortEnabled, i
 
   if (!hasShort && !hasFull) return null;
 
- 
+
   if (hasShort && hasFull) {
     return (
       <div data-aos='fade-up'>
@@ -230,58 +228,62 @@ export default function Product() {
   }
 
   return (
-    <div className='product-detials-page' style={{ background: 'var(--product_page_color,  #f8fafb)' }}>
-      <MetaTags title={seo?.meta_title} description={seo?.meta_description} image={metaImage} url={metaUrl} keywords={seo?.meta_keyword} />
+    <div style={{ background: 'var(--product_page_color,  #f8fafb)' }} className='pb-4 md:pb-5 lg:pb-6'>
+      <div className='product-detials-page !pt-[12px] sm:!pt-[16px] md:!pt-[20px] lg:!pt-[24px] container !px-[12px] sm:!px-[16px] md:!px-[20px] lg:!px-[24px]  max-md:!px-[20px]  space-y-4 md:space-y-5 lg:space-y-6 '>
+        <MetaTags title={seo?.meta_title} description={seo?.meta_description} image={metaImage} url={metaUrl} keywords={seo?.meta_keyword} />
 
-      <Breadcrumb cn='!mt-0 !pt-[30px] container' routes={breadcrumbRoutes} />
+        <Breadcrumb cn='!mt-0 max-sm:!px-5' routes={breadcrumbRoutes} />
 
-      <div className='!pb-[30px] container max-md:!px-[20px] grid max-xl:grid-cols-1 grid-cols-[720px,1fr] rounded-xl gap-6 items-stretch'>
-        <ProductImageGallery product={product} />
+        <div className='flex flex-col xl:flex-row rounded-[10px] gap-4 items-stretch'>
+          <ProductImageGallery product={product} />
 
-        <div className='flex flex-col !p-6 bg-white rounded-md flex-1 space-y-4 h-full'>
-          <MemoizedCategories categories={product?.categories} />
-          <MemoizedProductTitle title={product?.title} />
-          <MemoizedProductHeader isEnabled={productOptions?.product_header != '0'} text={productOptions?.product_header_text} />
-          <MemoizedPriceDisplay price={product?.price} />
+          <div className='flex flex-col !p-6 bg-white rounded-md flex-1 space-y-4 md:space-y-5 lg:space-y-6 h-full'>
+            <MemoizedCategories categories={product?.categories} />
+            <MemoizedProductTitle title={product?.title} />
+            <MemoizedProductHeader isEnabled={productOptions?.product_header != '0'} text={productOptions?.product_header_text} />
+            <MemoizedPriceDisplay price={product?.price} />
 
-          <MemoizedReviews reviewEnable={product?.review_enable} noOfReviews={product?.no_of_reviews} />
-          <MemoizedDescription content={product?.product_content} shortDescription={product?.product_short_description} isShortEnabled={product_style_settings?.product_short_description_status !== 'no'} isDescriptionEnabled={productOptions?.description_switch} />
+            <MemoizedReviews reviewEnable={product?.review_enable} noOfReviews={product?.no_of_reviews} />
+            <MemoizedDescription content={product?.product_content} shortDescription={product?.product_short_description} isShortEnabled={product_style_settings?.product_short_description_status !== 'no'} isDescriptionEnabled={productOptions?.description_switch} />
 
-          <CountdownTimer countdownData={countdownData} text={productOptions?.text_above_counter} aosDelay='' />
-          <MemoizedHurryUpAlert text={hurryUpOptions?.hurryUpText} />
-          <MemoizedLiveVariantPrice loading={loadingLiveVariantPrice} price={variant?.price} productPrice={product?.price} comparePrice={variant?.compare_at_price} quantity={quantity} />
-          <VariantSelector
-            dataAos='fade-up'
-            key={product.id}
-            variants={product_variants}
-            isVariantSelected={variant => {
-              const selectedOptions = getValues('options');
-              return selectedOptions.some(opt => opt.startsWith(`${variant.id}_`));
-            }}
-            setNewOption={handleVariantSelection}
-            getValues={() => getValues('options') || []}
-            showValidation={showValidation}
-            setShowValidation={setShowValidation}
-            defaultCvariantCombinations={defaultVariantCombination}
-          />
-          <StockInfo stock={product?.stock} options={productOptions} />
+            <CountdownTimer countdownData={countdownData} text={productOptions?.text_above_counter} aosDelay='' />
+            <MemoizedHurryUpAlert text={hurryUpOptions?.hurryUpText} />
+            <MemoizedLiveVariantPrice loading={loadingLiveVariantPrice} price={variant?.price} productPrice={product?.price} comparePrice={variant?.compare_at_price} quantity={quantity} />
+            <VariantSelector
+              dataAos='fade-up'
+              key={product.id}
+              variants={product_variants}
+              isVariantSelected={variant => {
+                const selectedOptions = getValues('options');
+                return selectedOptions.some(opt => opt.startsWith(`${variant.id}_`));
+              }}
+              setNewOption={handleVariantSelection}
+              getValues={() => getValues('options') || []}
+              showValidation={showValidation}
+              setShowValidation={setShowValidation}
+              defaultCvariantCombinations={defaultVariantCombination}
+            />
+            <StockInfo stock={product?.stock} options={productOptions} />
 
-          {showCheckoutForm ? (
-            <CheckoutForm checkoutFields={checkoutFields} register={register} errors={errors} className='!m-0 !mt-8 p-2' />
-          ) : checkoutSettingsError ? (
-            <div className='p-4 bg-yellow-50 border border-yellow-200 rounded-md text-sm'>
-              <div className='mb-2 font-medium'>تعذّر تحميل نموذج الشراء</div>
-              <div className='text-[#555] mb-3'>لا يمكن تحميل حقول الطلب الآن — سيتم إضافة المنتج للسلة بدلاً من الشراء السريع.</div>
-            </div>
-          ) : null}
+            {showCheckoutForm ? (
+              <CheckoutForm checkoutFields={checkoutFields} register={register} errors={errors} className='!m-0 !mt-8 p-2' />
+            ) : checkoutSettingsError ? (
+              <div className='p-4 bg-yellow-50 border border-yellow-200 rounded-md text-sm'>
+                <div className='mb-2 font-medium'>تعذّر تحميل نموذج الشراء</div>
+                <div className='text-[#555] mb-3'>لا يمكن تحميل حقول الطلب الآن — سيتم إضافة المنتج للسلة بدلاً من الشراء السريع.</div>
+              </div>
+            ) : null}
 
-          <BuyNowSection cnbtn={`details_buynow ${loadingUpsell && 'disabled'}`} showValidation={showValidation} isBuyNowLoading={isBuyNowLoading} handleBuyNow={handleBuyNow} getValues={getValues} setValue={setValue} isSticky={productOptions?.product_footer_buy_sticky != '0'} buttonText={productOptions?.buy_now_button_text} />
+            <BuyNowSection cnbtn={`details_buynow ${loadingUpsell && 'disabled'}`} showValidation={showValidation} isBuyNowLoading={isBuyNowLoading} handleBuyNow={handleBuyNow} getValues={getValues} setValue={setValue} isSticky={productOptions?.product_footer_buy_sticky != '0'} buttonText={productOptions?.buy_now_button_text} />
+          </div>
+        </div>
+
+        <div className='space-y-4 md:space-y-5 lg:space-y-6'>
+          <FrequentlyBoughtTogether frequently_bought_products={frequently_bought_products} product={product} frequentlyBoughtTotalPrice={frequentlyBoughtTotalPrice} isBuyNowLoading={isBuyNowLoading} errors={errors} checkoutFields={checkoutFields} getValues={getValues} handleBuyNow={handleBuyNow} />
+
+          {!relatedProductsError && product_style_settings?.related_product_button_enable_custom === '1' && <ProductCarouselRelated title={product_style_settings?.related_prod_name_custom || 'منتجات ذات صلة'} subTitle={'تصفّح منتجات قد تعجبك أيضًا بناءً على هذا المنتج'} cn='' bg='' products={relatedProducts?.data} loading={loadingRelatedProducts} arrowTop={true} />}
         </div>
       </div>
-
-      <FrequentlyBoughtTogether frequently_bought_products={frequently_bought_products} product={product} frequentlyBoughtTotalPrice={frequentlyBoughtTotalPrice} isBuyNowLoading={isBuyNowLoading} errors={errors} checkoutFields={checkoutFields} getValues={getValues} handleBuyNow={handleBuyNow} />
-
-      {!relatedProductsError && product_style_settings?.related_product_button_enable_custom === '1' && <ProductCarouselRelated title={product_style_settings?.related_prod_name_custom || 'منتجات ذات صلة'} subTitle={'تصفّح منتجات قد تعجبك أيضًا بناءً على هذا المنتج'} cn='max-sm:!px-[10px] !mt-6' bg='sm:!px-[20px] py-[40px] bg-white rounded-md border border-[var(--border-bg)]' products={relatedProducts?.data} loading={loadingRelatedProducts} arrowTop={true} />}
     </div>
   );
 }

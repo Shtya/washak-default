@@ -49,13 +49,13 @@ export default function ThankYouPage() {
         {thankyou_js && shouldInject && <script type="text/javascript">{thankyou_js}</script>}
       </Helmet>
 
-      <div className=''
+      <div className='container max-sm:!px-0 !pt-[12px] sm:!pt-[16px] md:!pt-[20px] lg:!pt-[24px] '
         style={{ background: "var(--thankyou_page_color,  #f8fafb)" }}
       >
-        <Breadcrumb cn='!mt-0 !pt-[30px] container' routes={breadcrumbRoutes} />
+        <Breadcrumb cn='!mt-0 max-sm:!px-5' routes={breadcrumbRoutes} />
 
         {showAnimation && (
-          <div className='bg-white  absolute inset-0 z-50 flex items-center justify-center'>
+          <div className='bg-white   absolute inset-0 z-50 flex items-center justify-center'>
             <Lottie
               animationData={thankyouAnimation}
               loop={false}
@@ -66,27 +66,38 @@ export default function ThankYouPage() {
         )}
 
         {!showAnimation && (
-          <div className='container max-md:!px-[15px]'>
+          <div className=''>
             <div className='text-right text-gray-800'>
               {thankyou_content_status === 1 ? (
                 <div
-                  className='rounded-lg border border-[var(--border-bg)] text-center space-y-2 min-h-[30vh] flex items-center justify-center flex-col gap-[10px] mb-[20px]'
+                  className='space-y rounded-lg  text-sm md:text-base  text-center space-y-2 min-h-[30vh] flex items-center justify-center flex-col gap-[10px] mb-2.5 md:mb-4 lg:mb-5'
                   style={{ background: 'var(--thank_page_bk_color, #f8fafb)' }}
                   data-aos='fade-up'
                   data-aos-delay='100'
                 >
                   {thankyou_content_value ? (
-                    <div dangerouslySetInnerHTML={{ __html: thankyou_content_value }} />
+                    <div className='space-y-8 md:space-y-10 lg:space-y-13 p-4 md:p-5'>
+
+                      <div dangerouslySetInnerHTML={{ __html: thankyou_content_value }} />
+                      <Button
+                        name='استكمال التسوق'
+                        href='/products'
+                        cn='!w-fit btn main-btn !px-[50px] md:!px-[70px] lg:!px-[100px] !mx-auto'
+                        data-aos='fade-up'
+                        data-aos-delay='300'
+                      />
+                    </div>
                   ) : (
                     <SuccessMessage />
                   )}
+
                 </div>
               ) : null}
 
 
 
-              <div className='grid md:grid-cols-3 gap-6'>
-                <div className='md:col-span-2 gap-6 flex flex-col'>
+              <div className='grid md:grid-cols-3 gap-2.5 md:gap-4 lg:gap-5'>
+                <div className='md:col-span-2 gap-2.5 md:gap-4 lg:gap-5 flex flex-col'>
                   <ProductDetails
                     isCartPurchase={isCartPurchase}
                     cart={cart}
@@ -129,13 +140,13 @@ export default function ThankYouPage() {
 function SuccessMessage() {
   return (
     <>
-      <h2 className='text-2xl max-md:text-xl  font-semibold'
+      <h2 className=' text-base md:text-xl lg:text-[22px] font-semibold'
         style={{ color: 'var(--thank_page_text_color, #404145)' }}
       >
         تم إتمام طلبك <span className='text-[var(--second)]'>بنجاح !</span>
       </h2>
       <p
-        className='text-base   max-w-[320px] w-full'
+        className=' text-xs md:text-sm lg:text-base   max-w-[320px] w-full'
         style={{ color: 'var(--thank_page_text_color, #404145)' }}
         data-aos='fade-up'
         data-aos-delay='200'
@@ -145,7 +156,7 @@ function SuccessMessage() {
       <Button
         name='استكمال التسوق'
         href='/products'
-        cn='!w-fit !px-[100px] !mx-auto'
+        cn='!w-fit btn main-btn !px-[50px] md:!px-[70px] lg:!px-[100px] !mx-auto'
         data-aos='fade-up'
         data-aos-delay='300'
       />
@@ -169,13 +180,13 @@ function ProductDetails({
 }) {
   return (
     <div
-      className=' border border-[var(--border-bg)] p-4 rounded-lg'
+      className='p-4 md:p-5 rounded-lg'
       style={{ background: 'var(--thank_page_bk_color, #f8fafb)' }}
       data-aos='fade-right'
       data-aos-delay='200'
     >
       <Title
-        cn='!mb-[20px] border-b border-b-[var(--border-bg)] pb-2'
+        cn='!mb-4 md:!mb-[20px] pb-2'
         title1='بيانات'
         title2='المنتجات'
       />
@@ -188,34 +199,43 @@ function ProductDetails({
           return (
             <div
               key={index}
-              className='flex items-center mt-4 max-md:gap-[10px] gap-[30px]'
-              data-aos='fade-right'
+              className="flex items-center mt-4 max-md:gap-[10px] gap-[30px]"
+              data-aos="fade-right"
               data-aos-delay={300 + index * 100}
             >
               <Link to={`/product/${cartProduct?.slug}`}>
                 <img
                   src={baseImage + cartProduct?.medias?.[0]?.url || '/placeholder-product.jpg'}
                   alt={cartProduct?.title}
-                  className='w-[88px] max-md:w-[60px] max-md:h-[45px] h-[60px] rounded-md object-cover'
+                  className="w-[88px] max-md:w-[60px] h-[61px] rounded-md object-cover"
                 />
               </Link>
-              <div className='flex-1 max-sm:flex-col max-sm:items-start flex items-center justify-between text-sm'>
-                <div className='flex-1 space-y-2'>
+
+              <div className="flex-1 flex items-center justify-between">
+                <div className="flex-1 space-y-2">
                   <Link to={`/product/${cartProduct?.slug}`}>
-                    <p className='font-medium text-[#333333]'>{cartProduct?.title}</p>
+                    <p className="font-medium text-[#333333] text-[10px]">
+                      {cartProduct?.title}
+                    </p>
                   </Link>
-                  <p className='text-base text-[#BFC2D4]'>عدد القطع : {item?.quantity}</p>
+
+                  <p className="text-[13px] text-[#BFC2D4]">
+                    عدد القطع : {item?.quantity}
+                  </p>
+
                   {item?.options?.map((opt, i) => (
-                    <p key={i} className='text-sm inline-block mx-1 text-gray-500'>
+                    <p key={i} className="text-[10px] inline-block mx-1 text-gray-500">
                       {getOptionName(productVariants, opt)}
                     </p>
                   ))}
                 </div>
-                <p className='text-base text-[#123770] text-nowrap'>
+
+                <p className="text-[14px] text-[#123770] text-nowrap">
                   {item?.total_price.toFixed(2)} {currency}
                 </p>
               </div>
             </div>
+
           )
         })
         : (
@@ -293,46 +313,46 @@ function OrderSummary({ orderSummary }) {
 
   return (
     <div
-      className='bg-white border border-[var(--border-bg)] p-4 rounded-lg space-y-2'
+      className='bg-white p-4 md:p-5 rounded-lg space-y-4'
       style={{ background: 'var(--thank_page_bk_color, #f8fafb)' }}
       data-aos='fade-right'
       data-aos-delay='400'
     >
       <Title
-        cn='border-b !mb-[20px] border-b-[var(--border-bg)] pb-2'
+        cn='!mb-4  md:!mb-[20px] pb-2'
         title1='بيانات '
         title2='التوصيل'
       />
 
       {orderSummary?.name && (
-        <div className='text-base text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='450'>
+        <div className='text-xs md:text-sm lg:text-base  text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='450'>
           <span>اسم العميل</span>
           <span className='text-[#A6AFB9] text-sm'>{orderSummary?.name}</span>
         </div>
       )}
 
       {orderSummary?.phone && (
-        <div className='text-base text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='500'>
+        <div className='text-xs md:text-sm lg:text-base  text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='500'>
           <span>رقم الجوال</span>
           <span className='text-[#A6AFB9] text-sm'>{orderSummary?.phone}</span>
         </div>
       )}
 
       {orderSummary?.delivery_address && (
-        <div className='text-base text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='550'>
+        <div className='text-xs md:text-sm lg:text-base  text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='550'>
           <span>العنوان</span>
           <span className='text-[#A6AFB9] text-sm'>{orderSummary?.delivery_address}</span>
         </div>
       )}
 
       {orderSummary?.zip_code && (
-        <div className='text-base text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='600'>
+        <div className='text-xs md:text-sm lg:text-base  text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='600'>
           <span>الرمز البريدي</span>
           <span className='text-[#A6AFB9] text-sm'>{orderSummary?.zip_code}</span>
         </div>
       )}
 
-      <div className='text-base text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='650'>
+      <div className='text-xs md:text-sm lg:text-base  text-[#838BA1] flex justify-between' data-aos='fade-right' data-aos-delay='650'>
         <span>بيانات الدفع</span>
         <span className='text-[#A6AFB9] text-sm'>الدفع عند الاستلام</span>
       </div>
@@ -354,47 +374,47 @@ function ShippingSummary({
 }) {
   return (
     <div
-      className='border border-[var(--border-bg)] p-4 rounded-lg space-y-2'
+      className='p-4 md:p-5 rounded-lg space-y-4 md:space-y-5'
       style={{ background: 'var(--thank_page_bk_color, #f8fafb)' }}
       data-aos='fade-left'
       data-aos-delay='300'
     >
       <Title
-        cn='border-b !mb-[20px] border-b-[var(--border-bg)] pb-2'
+        cn='!mb-4  md:!mb-[20px] pb-2'
         title1='ملخص'
         title2='الطلب'
       />
 
-      <div className='!mt-[20px] text-base text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='350'>
+      <div className=' text-xs md:text-sm lg:text-base   text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='350'>
         <span>عدد المنتجات</span>
         <span className='text-[var(--second)] text-sm'>{cartLength} منتج</span>
       </div>
 
-      <div className='!mt-[20px] text-base text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='400'>
+      <div className=' text-xs md:text-sm lg:text-base   text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='400'>
         <span>اجمالى المنتجات</span>
         <span className='text-[var(--main)] text-sm'>{totalCartQuantity} قطع</span>
       </div>
 
       {isCartPurchase && (
         <>
-          <div className='!mt-[20px] text-base text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='450'>
+          <div className=' text-xs md:text-sm lg:text-base   text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='450'>
             <span>المبلغ المستحق</span>
             <span className='text-[var(--main)] text-sm'>{subTotal?.toFixed(2)} {currency}</span>
           </div>
 
-          <div className='!mt-[20px] text-base text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='500'>
+          <div className=' text-xs md:text-sm lg:text-base   text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='500'>
             <span>الضريبة</span>
             <span className='text-[var(--second)] text-sm'>{tax?.toFixed(2)} {currency}</span>
           </div>
 
-          <div className='!mt-[20px] text-base text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='500'>
+          <div className=' text-xs md:text-sm lg:text-base   text-[#838BA1] flex justify-between' data-aos='fade-left' data-aos-delay='500'>
             <span>تكلفة الشحن</span>
             <span className='text-[var(--second)] text-sm'>{shipping?.toFixed(2)} {currency}</span>
           </div>
         </>
       )}
 
-      <div className='!mt-[20px] text-base text-[var(--second)] flex justify-between' data-aos='fade-left' data-aos-delay='500'>
+      <div className=' text-xs md:text-sm lg:text-base   text-[var(--second)] flex justify-between' data-aos='fade-left' data-aos-delay='500'>
         <span>المبلغ الاجمالى</span>
         <span className='text-[var(--second)] text-sm'>{totals?.toFixed(2)} {currency}</span>
       </div>
