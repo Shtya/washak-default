@@ -95,8 +95,11 @@ export default function ProductCarouselRelated({ btnName = 'شراء الان', 
             <>
               <Swiper {...config} className={`!py-[15px] md:!py-[25px]  items-stretch ${arrowTop ? '!px-0' : ''}`}>
                 {products?.map(p => (
-                  <SwiperSlide key={p.id} className='!ml-3 md:!ml-4 lg:!ml-5'>
-                    <RelatedProductCard product={p} btnName={btnName} baseImage={baseImage} />
+                  <SwiperSlide key={p.id} className='!ml-0'>
+                    <div className='!ml-3 md:!ml-4 lg:!ml-5'>
+
+                      <RelatedProductCard product={p} btnName={btnName} baseImage={baseImage} />
+                    </div>
                   </SwiperSlide>
                 ))}
 

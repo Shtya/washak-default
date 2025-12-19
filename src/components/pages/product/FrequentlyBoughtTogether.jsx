@@ -92,12 +92,16 @@ export const FrequentlyBoughtTogether = ({
           </div>
 
           <Swiper {...frequentlyBoughtConfig} className={`!py-[15px] md:!py-[25px] items-stretch`}>
-            <SwiperSlide key={product.id} className="!ml-3 md:!ml-4 lg:!ml-5">
-              <ProductCard key={product.id ?? product.slug} product={product} />
+            <SwiperSlide key={product.id} className="!ml-0">
+              <div className="!ml-3 md:!ml-4 lg:!ml-5">
+                <ProductCard key={product.id ?? product.slug} product={product} />
+              </div>
             </SwiperSlide>
             {frequently_bought_products?.map(prod => (
-              <SwiperSlide key={prod.id} className="!ml-3 md:!ml-4 lg:!ml-5">
-                <ProductCard key={prod.id ?? prod.slug} product={prod} />
+              <SwiperSlide key={prod.id} className="!ml-0">
+                <div className="!ml-3 md:!ml-4 lg:!ml-5">
+                  <ProductCard key={prod.id ?? prod.slug} product={prod} />
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
