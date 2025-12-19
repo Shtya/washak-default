@@ -82,7 +82,7 @@ export const ProductImageGallery = ({ product }) => {
         {hasImages && (
           <div
             dir='ltr'
-            className='flex-shrink-0 w-fit p-1 product-scroll max-h-[300px] md:max-h-[550px] overflow-y-auto overflow-x-hidden box-content'
+            className='flex-shrink-0 w-fit p-1 product-scroll max-h-[500px] h-full overflow-y-auto overflow-x-hidden box-content'
           >
             <div className='flex flex-col items-center gap-3 pr-2'> {/* pr-2 adds space for scrollbar */}
               {images.map((img, idx) => (
