@@ -22,7 +22,7 @@ import { getFullPath } from '../helper/getFullPath';
 
 // Memoized components to prevent unnecessary re-renders
 const MemoizedProductTitle = memo(({ title }) => (
-  <h2 className='text-lg md:text-mxl lg:text-2xl  font-bold text-[#3B2D35]' data-aos='fade-up' style={{ color: 'var(--product_title_color, #3B2D35)' }}>
+  <h2 className='text-lg md:text-5 lg:text-6 font-medium text-[#3B2D35]' data-aos='fade-up' style={{ color: 'var(--product_title_color, #3B2D35)' }}>
     {title}
   </h2>
 ));
@@ -100,7 +100,7 @@ const MemoizedLiveVariantPrice = memo(({ loading, price, comparePrice, productPr
   );
 });
 
-const MemoizedProductHeader = memo(({ isEnabled, text }) => (isEnabled ? <div data-aos='fade-up' dangerouslySetInnerHTML={{ __html: text }} /> : null));
+const MemoizedProductHeader = memo(({ isEnabled, text }) => (isEnabled && text ? <div data-aos='fade-up' dangerouslySetInnerHTML={{ __html: text }} /> : null));
 
 const MemoizedHurryUpAlert = memo(({ text }) =>
   text ? (
@@ -281,7 +281,7 @@ export default function Product() {
         <div className='space-y-4 md:space-y-5 lg:space-y-6'>
           <FrequentlyBoughtTogether frequently_bought_products={frequently_bought_products} product={product} frequentlyBoughtTotalPrice={frequentlyBoughtTotalPrice} isBuyNowLoading={isBuyNowLoading} errors={errors} checkoutFields={checkoutFields} getValues={getValues} handleBuyNow={handleBuyNow} />
 
-          {!relatedProductsError && product_style_settings?.related_product_button_enable_custom === '1' && <ProductCarouselRelated title={product_style_settings?.related_prod_name_custom || 'منتجات ذات صلة'} subTitle={'تصفّح منتجات قد تعجبك أيضًا بناءً على هذا المنتج'} cn='' bg='' products={relatedProducts?.data} loading={loadingRelatedProducts} arrowTop={true} />}
+          {!relatedProductsError && product_style_settings?.related_product_button_enable_custom == '1' && <ProductCarouselRelated title={product_style_settings?.related_prod_name_custom || 'منتجات ذات صلة'} subTitle={'تصفّح منتجات قد تعجبك أيضًا بناءً على هذا المنتج'} cn='' bg='' products={relatedProducts?.data} loading={loadingRelatedProducts} arrowTop={true} />}
         </div>
       </div>
     </div>

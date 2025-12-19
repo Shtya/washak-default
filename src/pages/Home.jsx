@@ -298,8 +298,13 @@ function ProductSection({ sectionData, loading = false, buyText }) {
                 <div className='relative'>
                   <Swiper {...sliderConfig} className=' section-pad with-bottom'>
                     {products.map(product => (
-                      <SwiperSlide key={product.id} className='!ml-2.5 md:!ml-5'>
-                        <ProductCard product={product} buyText={buyText} />
+                      <SwiperSlide key={product.id} className='!ml-0'>
+                        <div>
+                          <div className='!ml-2.5 md:!ml-5'>
+
+                            <ProductCard product={product} buyText={buyText} />
+                          </div>
+                        </div>
                       </SwiperSlide>
                     ))}
                     <div className='swiper-pagination' />
@@ -312,8 +317,7 @@ function ProductSection({ sectionData, loading = false, buyText }) {
               ) :
                 (
                   <>
-                    <div className='grid grid-cols-2 xs:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2.5 gap-y-4 md:gap-x-5 sm:gap-y-5 md:gap-5 xl:gap-6 section-pad with-bottom'
-                    >
+                    <div className='grid grid-cols-2 xs:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2.5 gap-y-4 md:gap-x-5 sm:gap-y-5 md:gap-5 xl:gap-6 section-pad with-bottom'>
                       {products.slice(0, visibleCount).map(product => (
                         <ProductCard key={product.id} product={product} buyText={buyText} />
                       ))}

@@ -137,7 +137,14 @@ export default function Cart() {
                 ) : (
                   <div className='bg-white rounded-lg overflow-hidden border flex flex-col gap-4 '
                     style={{ background: "var(--main_checkout_bk_color, white)", borderColor: "var(--main_checkout_border_color, var(--border-bg))" }}>
-                    {submitError && <div className='bg-red-50 border border-red-200 text-red-600 p-3 rounded-md'>{submitError}</div>}
+                    {submitError && (
+                      <div
+                        className=" bg-red-50 border border-red-200 text-red-600  text-[12px] md:text-[13px] lg:text-[14px] p-[6px] sm:p-[8px] md:p-[10px] lg:p-[12px] rounded-md
+    "
+                      >
+                        {submitError}
+                      </div>
+                    )}
 
                     <CheckoutForm checkoutFields={checkoutFields} register={register} errors={errors} title={checkout_page_title?.value} />
 

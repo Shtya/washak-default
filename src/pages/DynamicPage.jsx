@@ -47,7 +47,7 @@ const DynamicPage = () => {
               <SkeletonBlock height='150px' />
             </div>
           </div>
-        ) : page ? (
+        ) : page && page.content ? (
           <div className=" min-h-[calc(100vh-300px)] flex flex-col">
             <div className='container !mt-0 !mb-[12px] sm:!mb-[16px] md:!mb-[20px] lg:!mb-[24px]'>
 

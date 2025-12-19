@@ -47,7 +47,7 @@ export const CheckoutForm = ({ checkoutFields, register, errors, className, titl
 
 function CustomTilte({ rawTitle }) {
   const words = rawTitle.trim().split(/\s+/);
-  if (words.length === 1) {
+  if (words.length == 1) {
     return <Title title1={words[0]} title2="" cn="!mb-8" />;
   }
 

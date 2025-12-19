@@ -70,7 +70,7 @@ export default function ProductCarouselRelated({ btnName = 'شراء الان', 
       <div className={`${cn} `}>
         <div className={`relative px-4 py-6 sm:px-[20px] sm:pt-[30px] md:px-[25px] md:pt-[35px] lg:px-[30px] lg:pt-[40px] bg-white rounded-[8px] md:rounded-[12px] lg:rounded-[15px]  ${bg} `}>
           <div className="flex items-center justify-between">
-            <HeadTitle desc={subTitle} title={title} arrowTop={arrowTop} />
+            <HeadTitle desc={subTitle} title={title} arrowTop={arrowTop} align="start" />
 
             {showArrows && (
               <div className="relative flex items-center flex-row-reverse gap-2">
@@ -171,7 +171,7 @@ function RelatedProductCard({ product, btnName = "شراء الان", baseImage 
           </span>
         )}
 
-        {fakeDate?.status === "1" && (
+        {fakeDate?.status == "1" && (
           <span
             className="
               absolute shadow-xl top-[11px] right-[7.5px] z-[10]

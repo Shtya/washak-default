@@ -83,7 +83,7 @@ export const FrequentlyBoughtTogether = ({
         {/* Bought Together Section */}
         <div className="relative pb-4 md:pb-6 lg:pb-8 ">
           <div className="relative flex items-center justify-between">
-            <HeadTitle title="منتجات غالبًا ما يتم شراؤها مع هذا المنتج" />
+            <HeadTitle title="منتجات غالبًا ما يتم شراؤها مع هذا المنتج" align="start" />
             {frequently_bought_products.length > 3 && (
               <div className="relative flex items-center flex-row-reverse gap-2">
                 <CustomButtonsNavigate swiperPrevClass="bought-prev !relative shrink-0 !left-auto !top-auto text-white" swiperNextClass="bought-next !relative shrink-0 !right-auto !top-auto text-white" />
@@ -106,7 +106,7 @@ export const FrequentlyBoughtTogether = ({
 
         {/* Cart / Price Section */}
         <div className="flex flex-row items-center justify-between gap-4">
-          <div className="bg-gray-50 rounded-md px-3 py-2 md:px-4 lg:px-5 md:py-3 lg:py-4 text-sm md:text-base  font-medium text-[var(--main)] shadow-inner">
+          <div className="bg-gray-50 rounded-md px-3 py-2 md:px-4 lg:px-5 md:py-3 lg:py-4 text-xs sm:text-sm md:text-base  font-medium text-[var(--main)]  ">
             إجمالي السعر:{" "}
             <span className="text-[var(--second)] font-bold">
               {frequentlyBoughtTotalPrice.toFixed(2)} ج.م

@@ -20,7 +20,8 @@ export const storageUrl =
 const getStoreDomain = () => {
   const isLocal = window.location.hostname === 'localhost';
   // return isLocal ? 'correctegy2025.dukanomar.com' : window.location.hostname;
-  return isLocal ? 'ahmed-shtya.dukanomar.com' : window.location.hostname;
+  // return isLocal ? 'ahmed-shtya.dukanomar.com' : window.location.hostname;
+  return isLocal ? 'test-new-style.dukanomar.com' : window.location.hostname;
 };
 
 export const api = axios.create({

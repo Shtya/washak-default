@@ -68,7 +68,7 @@ export default function ThankYouPage() {
         {!showAnimation && (
           <div className=''>
             <div className='text-right text-gray-800'>
-              {thankyou_content_status === 1 ? (
+              {thankyou_content_status == 1 ? (
                 <div
                   className='space-y rounded-lg  text-sm md:text-base  text-center space-y-2 min-h-[30vh] flex items-center justify-center flex-col gap-[10px] mb-2.5 md:mb-4 lg:mb-5'
                   style={{ background: 'var(--thank_page_bk_color, #f8fafb)' }}

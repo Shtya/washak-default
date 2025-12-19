@@ -60,7 +60,7 @@ export default function Footer() {
   const activeSections = positions
     .map((pos) => menu?.footer?.[pos])
     .filter((section) => section && section.data.length > 0);
-  const isLogoSideEnabled = footer_logo_switch === '1' || (text_under_logo_status === 'yes' && footer_text_under_logo !== '');
+  const isLogoSideEnabled = footer_logo_switch == '1' || (text_under_logo_status === 'yes' && footer_text_under_logo !== '');
 
 
   const footerSectionsNumber = isLogoSideEnabled ? activeSections.length + 2 : activeSections.length + 1;
@@ -85,7 +85,7 @@ export default function Footer() {
   }
 
 
-  if (footer_enable_switch !== '1') return null;
+  if (footer_enable_switch != '1') return null;
 
   const alignmentClasses =
     footer_alignment === 'vertical'
@@ -128,7 +128,7 @@ export default function Footer() {
 
             {/* Copyright */}
             {
-              footer_copyrights_switch === '1' &&
+              footer_copyrights_switch == '1' &&
               footer_copyright && (
                 <div className="border-t border-white/10 mt-[14px] sm:mt-[34px] flex items-center justify-center min-h-[69px] text-center">
                   <div
@@ -161,7 +161,7 @@ function FooterBrand({
     <div
       className={`flex ${className} flex-col  gap-3 sm:gap-6 ${footer_alignment === 'vertical' ? 'col-span-2 items-start' : ' items-start'} ${!isLogoSideEnabled && "hidden"} `}
     >
-      {footer_logo_switch === '1' && (
+      {footer_logo_switch == '1' && (
         <Link to="/" className="group">
           <Logo
             sources={[footerLogo, defaultStoreLogo, '/logo-white.png']}

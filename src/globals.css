@@ -919,8 +919,12 @@ button:disabled,
 }
 
 
-.swiper-horizontal>.swiper-pagination-bullets {
+/* .swiper-horizontal>.swiper-pagination-bullets {
   bottom: 4px !important;
+} */
+
+.swiper-horizontal>.swiper-pagination-bullets {
+  bottom: 0 !important;
 }
 
 /* Tablet */
@@ -939,9 +943,9 @@ button:disabled,
     transform: scale(1.5);
   }
 
-  .swiper-horizontal>.swiper-pagination-bullets {
+  /* .swiper-horizontal>.swiper-pagination-bullets {
     bottom: 6px !important;
-  }
+  } */
 }
 
 /* Desktop */
@@ -960,9 +964,7 @@ button:disabled,
     transform: scale(1.7);
   }
 
-  .swiper-horizontal>.swiper-pagination-bullets {
-    bottom: 8px !important;
-  }
+
 }
 
 
@@ -973,15 +975,30 @@ button:disabled,
 /* Mobile (default) */
 
 .section-pad {
-  padding-top: 30px !important;
+  padding-top: 20px !important;
 }
 
 .section-pad.with-bottom {
-  padding-bottom: 30px !important;
+  padding-bottom: 20px !important;
 }
 
-/* sm */
-@media (min-width: 640px) {
+
+
+/* md */
+@media (min-width: 768px) {
+  .section-pad {
+    padding-top: 25px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  .section-pad.with-bottom {
+    padding-bottom: 25px !important;
+  }
+}
+
+/* lg */
+@media (min-width: 1024px) {
   .section-pad {
     padding-top: 30px !important;
   }
@@ -989,41 +1006,16 @@ button:disabled,
   .section-pad.with-bottom {
     padding-bottom: 30px !important;
   }
-
-}
-
-/* md */
-@media (min-width: 768px) {
-  .section-pad {
-    padding-top: 35px !important;
-    padding-left: 5px !important;
-    padding-right: 5px !important;
-  }
-
-  .section-pad.with-bottom {
-    padding-bottom: 35ppx !important;
-  }
-}
-
-/* lg */
-@media (min-width: 1024px) {
-  .section-pad {
-    padding-top: 40px !important;
-  }
-
-  .section-pad.with-bottom {
-    padding-bottom: 40px !important;
-  }
 }
 
 /* xl */
 @media (min-width: 1280px) {
   .section-pad {
-    padding-top: 45px !important;
+    padding-top: 35px !important;
   }
 
   .section-pad.with-bottom {
-    padding-bottom: 45px !important;
+    padding-bottom: 35px !important;
   }
 }
 
@@ -1115,4 +1107,13 @@ button:disabled,
 
 .product-detials-page .swiper-pagination-bullet-active {
   background-color: var(--main) !important;
+}
+
+.main-layout:has(> .products) {
+  display: flex;
+}
+
+
+.main-layout>.products {
+  flex-grow: 1;
 }

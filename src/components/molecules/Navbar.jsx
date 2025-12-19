@@ -38,7 +38,7 @@ export default function Navbar() {
   } = storeOptions?.shop_name || {};
 
   const { header_text = '', header_enable_switch = '1', site_logo_enable = '1', search_enable = '0', cart_enable = '1', cart_icon = '', navbar_enable = '1', bar_icon = 'fa-bars' } = settings;
-  const onlyDesktopLinks = site_logo_enable !== '1' && search_enable !== '1' && cart_enable !== '1' && menuItems.length > 0;
+  const onlyDesktopLinks = site_logo_enable != '1' && search_enable != '1' && cart_enable != '1' && menuItems.length > 0;
 
 
   if (!menu?.header && !loadingMenu) {
@@ -46,8 +46,8 @@ export default function Navbar() {
   }
 
   return (
-    <div className={`main-header ${header_enable_switch !== '1' && "is-scrolled"} sticky top-0 z-50  ${menuOpen ? "menu-open" : ""}`}>
-      {header_enable_switch === '1' && header_text && (
+    <div className={`main-header ${header_enable_switch != '1' && "is-scrolled"} sticky top-0 z-50  ${menuOpen ? "menu-open" : ""}`}>
+      {header_enable_switch == '1' && header_text && (
         <header
           className="header-bar text-white w-full flex items-center justify-center gap-4 text-base max-md:text-xs duration-500 transition-all"
           style={{ background: 'var(--sticky_header_bg, var(--main-secondary))' }}
@@ -67,7 +67,7 @@ export default function Navbar() {
       )}
 
       {/* Main nav */}
-      {navbar_enable === '1' &&
+      {navbar_enable == '1' &&
         <div
           className="navbar bg-white sm:shadow-[0px_4px_4px_0px_#CFCFCF40]"
           style={{ backgroundColor: 'var(--bk_color, white)' }}
@@ -76,12 +76,12 @@ export default function Navbar() {
             }`}>
             <MobileMenuToggle bar_icon={bar_icon} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
-            {site_logo_enable === '1' && (
+            {site_logo_enable == '1' && (
               <Link to="/" >
                 <Logo
                   sources={imageSources}
                   storeDomainLoading={storeDomainLoading}
-                  alt={shopNameStatus === 1 ? shopName : "Logo"}
+                  alt={shopNameStatus == 1 ? shopName : "Logo"}
                   className="logo object-contain duration-500 max-h-[50px] md:max-h-[65px] lg:max-h-[75px]"
                 />
               </Link>
@@ -102,7 +102,7 @@ export default function Navbar() {
             <div className={`flex items-center lg:flex-none gap-[15px] ${site_logo_enable ? "justify-end" : "justify-between"} lg:justify-normal `}>
               <div className='flex items-center gap-[14px]'>
 
-                {cart_enable === '1' && (
+                {cart_enable == '1' && (
                   <Link
                     id="cart-icon"
                     to="/cart"
@@ -116,7 +116,7 @@ export default function Navbar() {
                       {count}
                     </span>
                     {cart_icon ? (
-                      <i className={`${cart_icon} fa-solid  text-[20px] md:text-[25px] lg:text-[30px]`}
+                      <i className={`${cart_icon} fa-solid  text-[20px] md:text-[25px] lg:text-[27px]`}
                         style={{ color: 'var(--icon_border, var(--black-2))' }}
                       />
                     ) : (
@@ -131,7 +131,7 @@ export default function Navbar() {
                     )}
                   </Link>
                 )}
-                {search_enable === '1' && <SearchIcon />}
+                {search_enable == '1' && <SearchIcon />}
               </div>
             </div>
 

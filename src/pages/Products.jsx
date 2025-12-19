@@ -95,9 +95,7 @@ export default function Products() {
             text-[10px] sm:text-[12px] md:text-[14px] lg:text-[15px]
             ${(cat.slug || 'all') === currentCategory
                         ? 'active scale-[1.1]'
-                        : 'hoverable hover:border-transparent hover:scale-[1.05]'
-                      }
-          `}
+                        : 'hoverable hover:border-transparent hover:scale-[1.05]'}`}
                   >
                     {cat.label}
                   </button>
@@ -106,7 +104,7 @@ export default function Products() {
 
             <Breadcrumb cn={"!mb-[25px]"} routes={breadcrumbRoutes} />
 
-            <div className="bg-white !pb-0 p-2 md:p-4 lg:p-6 2xl:p-8 rounded-[8px] md:rounded-[12px] lg:rounded-[15px] grid grid-cols-2  xs:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2.5 gap-y-4 md:gap-x-5 sm:gap-y-5 md:gap-5 xl:gap-6">
+            <div className="bg-white  p-2 md:p-4 lg:p-6 2xl:p-8 rounded-[8px] md:rounded-[12px] lg:rounded-[15px] grid grid-cols-2  xs:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5  md:gap-4 lg:gap-5">
               {productsLoading
                 ? Array(12)
                   .fill(0)

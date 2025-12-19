@@ -58,7 +58,7 @@ export const StockInfo = ({ stock, options }) => {
       ) : (
         // Real stock view
         <>
-          {stock?.stock_manage != 0 && stock.stock_status === 1 && (
+          {stock?.stock_manage != 0 && stock.stock_status == 1 && (
             <div className="grid grid-cols-[135px,1fr]">
               <span className="font-[600] text-sm text-gray-800">الكمية في المخزون</span>
               <span
@@ -73,7 +73,7 @@ export const StockInfo = ({ stock, options }) => {
           <div className="grid grid-cols-[135px,1fr]">
             <span className="font-[600] text-sm text-gray-800">حالة المخزون</span>
             <span className="font-semibold flex items-center gap-2">
-              {stock.stock_status === 1 ? (
+              {stock.stock_status == 1 ? (
                 <>
                   <CheckCircle size={18} className="text-[var(--second)]" />
                   <span className="text-[var(--second)]">متوفر</span>

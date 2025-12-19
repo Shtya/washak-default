@@ -11,9 +11,7 @@ export function Pagination({ currentPage, pageCount, setCurrentPage }) {
         <div
             className="
                 bg-white flex items-center justify-center flex-wrap 
-                py-[18px]
-                md:py-[20px]
-                lg:py-6
+                pb-[18px] md:pb-[20px] lg:pb-6 max-md:pt-2.5 max-lg:pt-1
                 gap-[6px] sm:gap-[8px] md:gap-[10px] lg:gap-2
             "
         >

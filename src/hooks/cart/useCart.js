@@ -27,77 +27,77 @@ export const useCart = () => {
     increaseQty,
     clearCart
   } = useCartContext();
-    // collect product ids from cart
-    const productIdsKey = useMemo(
-      () => contextCartItems.map(i => i.id).filter(Boolean),
-      [contextCartItems]
-    );
-    //form
-    const {
-      register,
-      formState: { errors },
-      trigger,
-      getValues
-    } = useForm();
-    // use the hook
-    const { data: products, isLoading:  productsLoading, refetch, error: productsError } = useProductsByIds(productIdsKey);
-    // force refetch when ids change
-    useEffect(() => {
+  // collect product ids from cart
+  const productIdsKey = useMemo(
+    () => contextCartItems.map(i => i.id).filter(Boolean),
+    [contextCartItems]
+  );
+  //form
+  const {
+    register,
+    formState: { errors },
+    trigger,
+    getValues
+  } = useForm();
+  // use the hook
+  const { data: products, isLoading: productsLoading, refetch, error: productsError } = useProductsByIds(productIdsKey);
+  // force refetch when ids change
+  useEffect(() => {
 
-      if (productIdsKey.length > 0) refetch();
-    }, [productIdsKey?.join(",")]);
+    if (productIdsKey.length > 0) refetch();
+  }, [productIdsKey?.join(",")]);
 
-    //clear cart wehn no products founds with status code 200 to mintain ux
-    useEffect(() => {
-      if (contextCartItems.length > 0 && !productsLoading && products?.length === 0) {
-        clearCart();
-      }
-    }, [contextCartItems.length, products, productsLoading, clearCart]);
-    
-    // local UI state kept here
-    const [submitError, setSubmitError] = useState(null);
-    const [isBuyNowLoading, setIsBuyNowLoading] = useState(false);
-    // checkout settings 
-    const { data: checkoutSettings, loading: checkoutLoading } = useCheckoutSettings();
-    const checkoutFields = useMemo(() => checkoutSettings?.data || [], [checkoutSettings]);
+  //clear cart wehn no products founds with status code 200 to mintain ux
+  useEffect(() => {
+    if (contextCartItems.length > 0 && !productsLoading && products?.length === 0) {
+      clearCart();
+    }
+  }, [contextCartItems.length, products, productsLoading, clearCart]);
 
-    // related products hook 
-    const { data: relatedProducts, loading: loadingRelatedProducts } = useRelatedProducts(contextCartItems[0]?.slug);
-    // Cache to avoid re-requesting the same variant combos
-    const variantFetchCache = useRef(new Map());
+  // local UI state kept here
+  const [submitError, setSubmitError] = useState(null);
+  const [isBuyNowLoading, setIsBuyNowLoading] = useState(false);
+  // checkout settings 
+  const { data: checkoutSettings, loading: checkoutLoading } = useCheckoutSettings();
+  const checkoutFields = useMemo(() => checkoutSettings?.data || [], [checkoutSettings]);
 
-    /*
-    Build a list of variant requests and run them with useQueries.
-    Each query key is ['variantPrice', productId, joinedVariantIds] so react-query caches per combo.
-  */
+  // related products hook 
+  const { data: relatedProducts, loading: loadingRelatedProducts } = useRelatedProducts(contextCartItems[0]?.slug);
+  // Cache to avoid re-requesting the same variant combos
+  const variantFetchCache = useRef(new Map());
 
-    const variantRequests = useMemo(() => {
-      if (!products?.length || !contextCartItems?.length) return [];
-    
-      const result = products
-        .map(product => {
-          const cartItem = contextCartItems.find(c => c.id === product.id);
-          if (!cartItem || !product.product_variants?.length) return null;
-    
-          const variantIds = cartItem.selectedOptions
-            ? cartItem.selectedOptions.map(o => o.split('_')[1])
-            : product.product_variants.map(v => v.options?.[0]?.id).filter(Boolean);
-    
-          if (!variantIds.length) return null;
-    
-          return { productId: product.id, variantIds: variantIds?.sort()};
-        })
-        .filter(Boolean); // remove nulls
-  
-      return result;
-    }, [products, contextCartItems]);
-    
-    
+  /*
+  Build a list of variant requests and run them with useQueries.
+  Each query key is ['variantPrice', productId, joinedVariantIds] so react-query caches per combo.
+*/
 
-    // 👇 use the hook to get prices
+  const variantRequests = useMemo(() => {
+    if (!products?.length || !contextCartItems?.length) return [];
+
+    const result = products
+      .map(product => {
+        const cartItem = contextCartItems.find(c => c.id === product.id);
+        if (!cartItem || !product.product_variants?.length) return null;
+
+        const variantIds = cartItem.selectedOptions
+          ? cartItem.selectedOptions.map(o => o.split('_')[1])
+          : product.product_variants.map(v => v.options?.[0]?.id).filter(Boolean);
+
+        if (!variantIds.length) return null;
+
+        return { productId: product.id, variantIds: variantIds?.sort() };
+      })
+      .filter(Boolean); // remove nulls
+
+    return result;
+  }, [products, contextCartItems]);
+
+
+
+  // 👇 use the hook to get prices
   const { data: variantData, isLoading: loadingVariantPrices } = useVariantQueries(variantRequests);
 
-    // 👇 normalize results into an object keyed by productId
+  // 👇 normalize results into an object keyed by productId
   const variantPrices = useMemo(() => {
     const prices = {};
     variantRequests?.forEach((req, idx) => {
@@ -112,7 +112,7 @@ export const useCart = () => {
     });
     return prices;
   }, [variantRequests, variantData]);
-  
+
   const taxConfig = storeOptions?.tax;
   // Totals are memoized to avoid unnecessary recomputations in render
   const totals = useMemo(() => {
@@ -120,7 +120,7 @@ export const useCart = () => {
     let subtotal = 0;
     let discount = 0;
     let shipping = 0; // still exposed to caller to set if needed
-     // Use tax only if status !== 1
+    // Use tax only if status !== 1
     const tax = taxConfig?.status === 1 ? 0 : Number(taxConfig?.value || 0);
 
     contextCartItems.forEach(item => {
@@ -151,42 +151,42 @@ export const useCart = () => {
   }, [contextCartItems, products, variantPrices, taxConfig]);
 
 
-    // Cart mutation helpers — these update the CartContext so the hook and rest of app stay in sync
-    const removeItem = useCallback(id => {
-      removeItemFromContext(id);
-    }, [removeItemFromContext]);
+  // Cart mutation helpers — these update the CartContext so the hook and rest of app stay in sync
+  const removeItem = useCallback(id => {
+    removeItemFromContext(id);
+  }, [removeItemFromContext]);
 
-    const handleVariantSelection = useCallback((productId, variantId, optionId) => {
-      // Update selection in cart context
-      setSpecificOption({id:productId, variantId, optionId  });
-    }, [setSpecificOption, products]);
+  const handleVariantSelection = useCallback((productId, variantId, optionId) => {
+    // Update selection in cart context
+    setSpecificOption({ id: productId, variantId, optionId });
+  }, [setSpecificOption, products]);
 
-     // validate required variants before checkout
-     const validateVariants = useCallback(() => {
-      for (const item of contextCartItems) {
-        const product = products.find(p => p.id === item.id);
-        if (product?.product_variants?.length > 0) {
-          const required = product.product_variants.filter(v => v.is_required);
-          for (const v of required) {
-            const has = item.selectedOptions?.some(opt => opt.startsWith(`${v.id}_`));
-            if (!has) {
-              return false; // ❌ invalid → return immediately
-            }
+  // validate required variants before checkout
+  const validateVariants = useCallback(() => {
+    for (const item of contextCartItems) {
+      const product = products.find(p => p.id === item.id);
+      if (product?.product_variants?.length > 0) {
+        const required = product.product_variants.filter(v => v.is_required);
+        for (const v of required) {
+          const has = item.selectedOptions?.some(opt => opt.startsWith(`${v.id}_`));
+          if (!has) {
+            return false; // ❌ invalid → return immediately
           }
         }
       }
-      return true; // ✅ all valid
-    }, [contextCartItems, products]);
-    
+    }
+    return true; // ✅ all valid
+  }, [contextCartItems, products]);
+
 
   // handleCheckout: returns the API response (caller can navigate or handle success)
-  
+
 
   const handleCheckout = useCallback(async ({ skipVariantValidation = false } = {}) => {
     setSubmitError(null);
 
     const isValid = await trigger();
-      if (!isValid) return;
+    if (!isValid) return;
 
     // basic validation
     if (!skipVariantValidation && !validateVariants()) {
@@ -194,29 +194,29 @@ export const useCart = () => {
       return;
     }
 
-     // 🚨 New validation for cart_max_item_value and cart_max_total_items
-     if (cart_max_item_value?.status === 1) {
-       const invalidItem = contextCartItems.find(
-         item => (item.quantity || 1) > Number(cart_max_item_value.value || 0)
-       );
-       const product = products.find(p => p.id === invalidItem?.id);
-       if (invalidItem) {
+    // 🚨 New validation for cart_max_item_value and cart_max_total_items
+    if (cart_max_item_value?.status == 1) {
+      const invalidItem = contextCartItems.find(
+        item => (item.quantity || 1) > Number(cart_max_item_value.value || 0)
+      );
+      const product = products.find(p => p.id === invalidItem?.id);
+      if (invalidItem) {
         const msg = `المنتج "${product?.title}" يحتوي على كمية ${invalidItem?.quantity}، بينما الحد الأقصى المسموح هو ${cart_max_item_value.value}`;
-         Notification(msg);
-         setSubmitError(msg);
-         return;
-       }
-     }
-
-  if (cart_max_total_items?.status === 1) {
-    const totalItems = contextCartItems?.length;
-    if (totalItems > Number(cart_max_total_items.value || 0)) {
-      const msg = `عدد المنتجات في السلة هو ${totalItems}، بينما الحد الأقصى المسموح هو ${cart_max_total_items.value}`;
-      Notification(msg);
-      setSubmitError(msg);
-      return;
+        Notification(msg);
+        setSubmitError(msg);
+        return;
+      }
     }
-  }
+
+    if (cart_max_total_items?.status == 1) {
+      const totalItems = contextCartItems?.length;
+      if (totalItems > Number(cart_max_total_items.value || 0)) {
+        const msg = `عدد المنتجات في السلة هو ${totalItems}، بينما الحد الأقصى المسموح هو ${cart_max_total_items.value}`;
+        Notification(msg);
+        setSubmitError(msg);
+        return;
+      }
+    }
 
     // manually collect all form values
     const data = getValues();
@@ -272,7 +272,7 @@ export const useCart = () => {
       const response = await api.post('/submit-checkout', checkoutData);
       // store checkout payload for other pages (keep parity with previous behavior)
       try {
-        sessionStorage.setItem('checkout_data', JSON.stringify({ currency:checkoutData.currency_name, cart: { ...totals,details: checkoutItems, products }, orderSummary: "", res: "", productData: "" }));
+        sessionStorage.setItem('checkout_data', JSON.stringify({ currency: checkoutData.currency_name, cart: { ...totals, details: checkoutItems, products }, orderSummary: "", res: "", productData: "" }));
       } catch (e) {
         // ignore storage errors
       }
@@ -296,7 +296,7 @@ export const useCart = () => {
   }, [contextCartItems, products, variantPrices, totals, validateVariants, storeOptions]);
 
 
-  
+
   // expose everything the component previously used, but now wired to CartContext and optimized
   return {
     // data
@@ -325,6 +325,6 @@ export const useCart = () => {
     // decreaseQuantity,
     handleVariantSelection,
     handleCheckout,
-    
+
   };
 };

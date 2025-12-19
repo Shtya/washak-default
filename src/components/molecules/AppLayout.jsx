@@ -14,7 +14,7 @@ export function AppLayout() {
     // pull out your addon CSS/JS
     const addon = storeOptions?.addon_content;
     const { additional_css, additional_js } = addon?.value || {};
-    const shouldInject = addon?.status === 1;
+    const shouldInject = addon?.status == 1;
 
     const appName = storeOptions?.shop_name?.value;
 
@@ -26,7 +26,7 @@ export function AppLayout() {
 
     return (
         <div className='min-h-[970px] flex flex-col'>
-            {storeOptions?.seo?.status === 1 && (
+            {storeOptions?.seo?.status == 1 && (
                 <Meta
                     title={seoData.title || appName}
                     twitterTitle={seoData.twitterTitle}
@@ -40,7 +40,7 @@ export function AppLayout() {
                 />
             )}
 
-            {shopDescStatus === 1 && (
+            {shopDescStatus == 1 && (
                 <script type="application/ld+json">
                     {JSON.stringify({
                         "@context": "https://schema.org",
@@ -65,7 +65,7 @@ export function AppLayout() {
             )}
 
             <Navbar />
-            <main className="flex-1">
+            <main className="main-layout flex-1">
                 <Outlet />
             </main>
             <Footer />
